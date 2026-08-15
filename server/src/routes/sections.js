@@ -4,6 +4,8 @@ import { Section } from '../models/Section.js';
 import { rbac, ROLES } from '../middleware/rbac.js';
 import { logAudit } from '../services/AuditLogger.js';
 import { HierarchyValidator } from '../services/validation/HierarchyValidator.js';
+import fs from 'fs';
+import path from 'path';
 
 const router = Router();
 
@@ -20,6 +22,26 @@ const createSchema = z.object({
 });
 
 const updateSchema = createSchema.partial();
+
+router.get('/candidates', (req, res) => {
+  try {
+    const csvPath = path.resolve(process.cwd(), '../ingestion/processed/sr_section_candidates.csv');
+    if (!fs.existsSync(csvPath)) return res.json({ data: [] });
+    
+    const csvData = fs.readFileSync(csvPath, 'utf-8').trim().split('\n');
+    const headers = csvData[0].split(',').map(h => h.trim());
+    const data = csvData.slice(1).map(line => {
+      const vals = line.split(',').map(v => v.trim());
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = vals[i]);
+      return obj;
+    });
+    
+    res.json({ data });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 router.get('/', async (req, res) => {
   try {

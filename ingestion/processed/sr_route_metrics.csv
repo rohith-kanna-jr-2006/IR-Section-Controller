@@ -1,0 +1,46 @@
+routeName,division,stationCount,edgeCount,origin,terminus,junctionCount,duplicateEdgeCount,missingDistanceEdgeCount,topologyStatus
+West Line (MAS-JTJ),CHENNAI,53,52,MAS,JTJ,3,0,52,VERIFIED
+North Line (MAS-GDR),CHENNAI,24,23,TNP,GDR,0,0,23,VERIFIED
+South Line (MS-VM),CHENNAI,39,38,MS,VV,2,0,38,VERIFIED
+MRTS (MSB-VLCY),CHENNAI,18,17,MSB,VLCY,0,0,17,VERIFIED
+Kanchipuram Line (AJJ-CGL),CHENNAI,12,11,AJJ,CGL,2,0,11,VERIFIED
+Arakkonam-Renigunta Border,CHENNAI,10,9,AJJ,PUDI,1,0,9,VERIFIED
+Main Line (JTJ-SA-ED-CBE),SALEM,41,40,JTJ,CBE,4,0,40,VERIFIED
+Salem-Namakkal-Karur-Dindigul,SALEM,12,11,SA,DG,2,0,11,VERIFIED
+Erode-Trichy via Karur,SALEM,23,22,ED,TPJ,3,0,22,VERIFIED
+Salem-Vridhachalam,SALEM,16,15,SA,VRI,2,0,15,VERIFIED
+Salem-KSR Bengaluru (via DPJ),SALEM,15,14,SA,SBC,5,0,0,VERIFIED
+Salem-SMVT Bengaluru (via DPJ),SALEM,13,12,SA,SMVB,4,0,0,VERIFIED
+Salem-Yesvantpur (via DPJ),SALEM,15,14,SA,YPR,5,0,0,VERIFIED
+Salem-Mettur Dam,SALEM,4,3,SA,MTDM,2,0,0,VERIFIED
+Coimbatore-Mettupalayam,SALEM,5,4,CBE,MTP,1,0,4,VERIFIED
+Nilgiri Mountain Railway,SALEM,8,7,MTP,UAM,0,0,7,VERIFIED
+Coimbatore - Palakkad,PALAKKAD,7,6,CBE,PGT,3,0,6,VERIFIED
+Palakkad - Irugur (Bypass via Podanur),PALAKKAD,7,6,PGT,IGU,3,0,6,VERIFIED
+Palakkad - Shoranur,PALAKKAD,6,5,PGT,SRR,2,0,5,VERIFIED
+Shoranur-Mangalore,PALAKKAD,56,55,SRR,JOKT,1,0,55,VERIFIED
+Palakkad-Pollachi,PALAKKAD,8,7,PGT,POY,1,0,7,VERIFIED
+Shoranur-Nilambur,PALAKKAD,12,11,SRR,NIL,1,0,11,VERIFIED
+Main Line (via Kottayam),TVC,62,61,SRR,TVC,4,0,61,VERIFIED
+Coastal Line (Alappuzha),TVC,19,18,ERS,KYJ,2,0,18,VERIFIED
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),TVC,16,15,TVC,CAPE,1,0,15,VERIFIED
+Tirunelveli (TEN) - Nagercoil (NCJ),TVC,11,10,TEN,NCJ,2,0,10,VERIFIED
+Kollam-Sengottai,TVC,17,16,QLN,SCT,1,0,16,VERIFIED
+Dindigul-Madurai-Tirunelveli,MDU,23,22,DG,TEN,4,0,22,VERIFIED
+Madurai-Rameswaram,MDU,17,16,MDU,RMM,2,0,16,VERIFIED
+Virudhunagar-Sengottai,MDU,11,10,VPT,SCT,2,0,10,VERIFIED
+Tirunelveli to Sengottai,MDU,17,16,TEN,SCT,2,0,16,VERIFIED
+Tirunelveli to Tiruchendur,MDU,12,11,TEN,TCN,1,0,11,VERIFIED
+Madurai Junction–Bodinayakanur,MDU,6,5,MDU,BDNK,1,0,5,VERIFIED
+Vanchi Maniyachchi Junction – Tuticorin,MDU,6,5,MEJ,TN,1,0,5,VERIFIED
+Manamadurai-Virudhunagar,MDU,5,4,MNM,VPT,2,0,4,VERIFIED
+Manamadurai-Trichy (via Karaikkudi),MDU,16,15,MNM,TPJ,3,0,15,VERIFIED
+Villupuram-Trichy Chord,TRICHY,25,24,VM,TPJ,4,0,24,VERIFIED
+Main Line (VM-MV-TPJ),TRICHY,39,38,VM,TPJ,6,0,38,VERIFIED
+Thanjavur-Karaikal-Velankanni,TRICHY,19,18,TJ,VLNK,4,0,18,VERIFIED
+Villupuram-Katpadi Branch,TRICHY,21,20,VM,KPD,2,0,20,VERIFIED
+Karaikkudi-Tiruvarur,TRICHY,18,17,KKDI,TVR,2,0,17,VERIFIED
+Villupuram-Puducherry,TRICHY,4,3,VM,PDY,1,0,3,VERIFIED
+Nidamangalam-Mannargudi,TRICHY,2,1,NMJ,MQ,1,0,1,VERIFIED
+Mayiladuthurai to Thiruvarur,TRICHY,5,4,MV,TVR,3,0,4,VERIFIED
+Peralam to Karaikal,TRICHY,6,5,PEM,KIK,2,0,5,VERIFIED

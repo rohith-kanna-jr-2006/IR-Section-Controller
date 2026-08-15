@@ -24,7 +24,9 @@ const createSchema = z.object({
   effectiveFrom: z.string().optional().transform(str => str ? new Date(str) : undefined),
   effectiveTo: z.string().optional().transform(str => str ? new Date(str) : undefined),
   sourceId: z.string().optional(),
-  dataVersionId: z.string().optional()
+  dataVersionId: z.string().optional(),
+  verificationStatus: z.enum(['VERIFIED', 'NOT VERIFIED', 'REVIEW_REQUIRED', 'CONFLICT']).optional(),
+  authorityLevel: z.enum(['PRIMARY', 'SECONDARY', 'INFERRED']).optional()
 });
 
 const updateSchema = createSchema.partial();
