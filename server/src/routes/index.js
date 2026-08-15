@@ -6,6 +6,8 @@ import stationRoutes from './stations.js';
 import sectionRoutes from './sections.js';
 import trainRoutes from './trains.js';
 import scheduleRoutes from './schedules.js';
+import operationRoutes from './operations.js';
+import simulationRoutes from './simulation.js';
 
 const router = Router();
 
@@ -16,5 +18,7 @@ router.use('/stations', stationRoutes);
 router.use('/sections', sectionRoutes);
 router.use('/trains', trainRoutes);
 router.use('/schedules', scheduleRoutes);
+router.use('/operations', operationRoutes);
+router.use('/simulation', simulationRoutes);
 
 export default router;

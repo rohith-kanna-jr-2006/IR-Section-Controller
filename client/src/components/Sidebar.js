@@ -7,7 +7,8 @@ const Sidebar = () => {
     { name: 'Zones', path: '/zones' },
     { name: 'Divisions', path: '/divisions' },
     { name: 'Stations', path: '/stations' },
-    { name: 'Trains', path: '/trains' }
+    { name: 'Trains', path: '/trains' },
+    { name: 'Operations', path: '/operations' }
   ];
 
   return React.createElement(

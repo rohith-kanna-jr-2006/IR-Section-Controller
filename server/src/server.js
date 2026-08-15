@@ -3,6 +3,7 @@ import http from 'http';
 import app from './app.js';
 import { connectMongo, connectRedis, redisClient } from './config/database.js';
 import mongoose from 'mongoose';
+import { initSocket } from './config/socket.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -17,6 +18,7 @@ const startServer = () => {
   connectRedis();
 
   const server = http.createServer(app);
+  initSocket(server);
 
   server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
