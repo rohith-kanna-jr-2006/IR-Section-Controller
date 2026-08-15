@@ -13,7 +13,8 @@ const schema = new mongoose.Schema({
   status: { type: String, enum: ['ACTIVE', 'PROPOSED', 'HISTORICAL'], default: 'ACTIVE' },
   sourceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Source' },
   dataVersionId: { type: mongoose.Schema.Types.ObjectId, ref: 'DataVersion' },
-  verificationStatus: { type: String, enum: ['UNVERIFIED', 'VERIFIED'], default: 'UNVERIFIED' }
+  verificationStatus: { type: String, enum: ['VERIFIED', 'NOT VERIFIED', 'REVIEW_REQUIRED', 'CONFLICT'], default: 'NOT VERIFIED' },
+  authorityLevel: { type: String, enum: ['PRIMARY', 'SECONDARY', 'INFERRED'] }
 }, { timestamps: true });
 
 export const TrainSchedule = mongoose.model('TrainSchedule', schema);

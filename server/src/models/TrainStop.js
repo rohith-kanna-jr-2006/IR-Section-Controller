@@ -9,6 +9,8 @@ const schema = new mongoose.Schema({
   // Internal strict validation format (HH:mm)
   arrival: { type: String },
   departure: { type: String },
+  absoluteMinutesArrival: { type: Number },
+  absoluteMinutesDeparture: { type: Number },
   
   // Timetable display/public variations if needed
   scheduledArrival: { type: String },

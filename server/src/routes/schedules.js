@@ -18,7 +18,11 @@ const scheduleSchema = z.object({
   operatingDays: z.array(z.enum(['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'])).optional(),
   validFrom: z.string().optional(), // Date strings
   validTo: z.string().optional(),
-  status: z.enum(['ACTIVE', 'PROPOSED', 'HISTORICAL']).optional()
+  status: z.enum(['ACTIVE', 'PROPOSED', 'HISTORICAL']).optional(),
+  sourceId: z.string().optional(),
+  dataVersionId: z.string().optional(),
+  verificationStatus: z.enum(['VERIFIED', 'NOT VERIFIED', 'REVIEW_REQUIRED', 'CONFLICT']).optional(),
+  authorityLevel: z.enum(['PRIMARY', 'SECONDARY', 'INFERRED']).optional()
 });
 
 const stopSchema = z.object({

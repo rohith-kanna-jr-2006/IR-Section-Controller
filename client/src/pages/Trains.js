@@ -38,6 +38,8 @@ export default function Trains() {
             React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Number'),
             React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Name'),
             React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Zone'),
+            React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Verification'),
+            React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Authority'),
             React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Status'),
             React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Actions')
           )
@@ -48,6 +50,12 @@ export default function Trains() {
               React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap font-medium text-gray-900' }, t.trainNumber),
               React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap text-gray-500' }, t.name),
               React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap text-gray-500' }, t.zoneId ? t.zoneId.code : '-'),
+              React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
+                React.createElement('span', { className: `px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${t.verificationStatus === 'VERIFIED' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}` }, t.verificationStatus || 'NOT VERIFIED')
+              ),
+              React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
+                React.createElement('span', { className: `px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${t.authorityLevel === 'PRIMARY' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}` }, t.authorityLevel || 'SECONDARY')
+              ),
               React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
                 React.createElement('span', { className: `px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${t.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}` }, t.status || 'ACTIVE')
               ),

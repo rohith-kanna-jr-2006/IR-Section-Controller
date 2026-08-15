@@ -10,7 +10,9 @@ const schema = new mongoose.Schema({
   zoneId: { type: mongoose.Schema.Types.ObjectId, ref: 'Zone', required: true },
   status: { type: String, enum: ['ACTIVE', 'PROPOSED', 'HISTORICAL'], default: 'ACTIVE' },
   sourceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Source' },
-  dataVersionId: { type: mongoose.Schema.Types.ObjectId, ref: 'DataVersion' }
+  dataVersionId: { type: mongoose.Schema.Types.ObjectId, ref: 'DataVersion' },
+  verificationStatus: { type: String, enum: ['VERIFIED', 'NOT VERIFIED', 'REVIEW_REQUIRED', 'CONFLICT'], default: 'NOT VERIFIED' },
+  authorityLevel: { type: String, enum: ['PRIMARY', 'SECONDARY', 'INFERRED'] }
 }, { timestamps: true });
 
 // Scoped uniqueness: Train number should be unique among ACTIVE trains

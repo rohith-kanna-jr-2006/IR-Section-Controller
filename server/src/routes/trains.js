@@ -14,7 +14,11 @@ const createSchema = z.object({
   serviceCategory: z.string().optional(),
   operator: z.string().optional(),
   zoneId: z.string().min(1),
-  status: z.enum(['ACTIVE', 'PROPOSED', 'HISTORICAL']).optional()
+  status: z.enum(['ACTIVE', 'PROPOSED', 'HISTORICAL']).optional(),
+  sourceId: z.string().optional(),
+  dataVersionId: z.string().optional(),
+  verificationStatus: z.enum(['VERIFIED', 'NOT VERIFIED', 'REVIEW_REQUIRED', 'CONFLICT']).optional(),
+  authorityLevel: z.enum(['PRIMARY', 'SECONDARY', 'INFERRED']).optional()
 });
 
 const updateSchema = createSchema.partial();
