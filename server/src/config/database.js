@@ -1,27 +1,48 @@
 import mongoose from 'mongoose';
 import Redis from 'ioredis';
 
-export const connectMongo = async () => {
-  try {
-    const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/ir-section-controller';
-    await mongoose.connect(uri);
+let isMongoConnecting = false;
+
+export const connectMongo = () => {
+  if (isMongoConnecting || mongoose.connection.readyState === 1) return;
+  isMongoConnecting = true;
+  
+  const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/ir-section-controller';
+  
+  mongoose.connect(uri, {
+    serverSelectionTimeoutMS: 5000 // Timeout after 5s instead of 30s
+  }).then(() => {
     console.log('MongoDB connected successfully');
-  } catch (error) {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
-  }
+    isMongoConnecting = false;
+  }).catch((error) => {
+    console.error('MongoDB initial connection error. Will retry on next request or let mongoose auto-reconnect if possible. Error:', error.message);
+    isMongoConnecting = false;
+  });
 };
 
 export const redisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
-  lazyConnect: true
+  lazyConnect: true,
+  maxRetriesPerRequest: 3,
+  retryStrategy: (times) => {
+    if (times > 5) {
+      console.error('Redis connection retries exceeded. Stopping retries.');
+      return null; // Stop retrying after 5 attempts
+    }
+    const delay = Math.min(times * 1000, 5000);
+    return delay;
+  }
 });
 
-export const connectRedis = async () => {
-  try {
-    await redisClient.connect();
-    console.log('Redis connected successfully');
-  } catch (error) {
-    console.error('Redis connection error:', error);
-    // Do not exit process for redis failure in phase 1, just log it.
-  }
+redisClient.on('error', (err) => {
+  console.error('Redis connection error:', err.message);
+});
+
+redisClient.on('connect', () => {
+  console.log('Redis connected successfully');
+});
+
+export const connectRedis = () => {
+  redisClient.connect().catch((error) => {
+    console.error('Redis initial connection error:', error.message);
+  });
 };

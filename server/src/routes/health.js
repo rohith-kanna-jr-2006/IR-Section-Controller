@@ -14,17 +14,25 @@ router.get('/health', (req, res) => {
 });
 
 router.get('/ready', async (req, res) => {
-  const mongoStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
-  const redisStatus = redisClient.status === 'ready' ? 'connected' : 'disconnected';
+  const mongoStatus = mongoose.connection.readyState === 1 ? 'available' : 'unavailable';
+  const redisStatus = redisClient.status === 'ready' ? 'available' : 'unavailable';
   
-  if (mongoStatus !== 'connected') {
-    return res.status(503).json({ status: 'error', reason: 'Database unavailable' });
+  if (mongoStatus !== 'available' || redisStatus !== 'available') {
+    return res.status(503).json({
+      status: 'not_ready',
+      dependencies: {
+        mongodb: mongoStatus,
+        redis: redisStatus
+      }
+    });
   }
 
   res.json({
     status: 'ready',
-    mongo: mongoStatus,
-    redis: redisStatus
+    dependencies: {
+      mongodb: mongoStatus,
+      redis: redisStatus
+    }
   });
 });
 
