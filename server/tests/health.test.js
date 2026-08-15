@@ -9,4 +9,9 @@ describe('Health Endpoints', () => {
     expect(res.body.status).toBe('ok');
     expect(res.body.service).toBe('ir-section-controller');
   });
+
+  it('GET /api/v1/ready should return 200 or 503', async () => {
+    const res = await request(app).get('/api/v1/ready');
+    expect([200, 503]).toContain(res.status);
+  });
 });
