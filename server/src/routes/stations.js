@@ -4,6 +4,7 @@ import { Station } from '../models/Station.js';
 import { rbac, ROLES } from '../middleware/rbac.js';
 import { logAudit } from '../services/AuditLogger.js';
 import { HierarchyValidator } from '../services/validation/HierarchyValidator.js';
+import { StationValidator } from '../services/validation/StationValidator.js';
 
 const router = Router();
 
@@ -19,7 +20,11 @@ const createSchema = z.object({
     coordinates: z.array(z.number()).length(2)
   }).optional(),
   stationType: z.string().optional(),
-  status: z.enum(['ACTIVE', 'PROPOSED', 'REORGANIZED', 'HISTORICAL', 'CORPORATION']).optional()
+  status: z.enum(['ACTIVE', 'PROPOSED', 'REORGANIZED', 'HISTORICAL', 'CORPORATION']).optional(),
+  effectiveFrom: z.string().optional().transform(str => str ? new Date(str) : undefined),
+  effectiveTo: z.string().optional().transform(str => str ? new Date(str) : undefined),
+  sourceId: z.string().optional(),
+  dataVersionId: z.string().optional()
 });
 
 const updateSchema = createSchema.partial();
@@ -33,6 +38,7 @@ router.get('/', async (req, res) => {
     if (filters.status) query.status = filters.status;
     if (filters.zoneId) query.zoneId = filters.zoneId;
     if (filters.divisionId) query.divisionId = filters.divisionId;
+    if (filters.stationType) query.stationType = filters.stationType;
     if (filters.stationCode) query.stationCode = new RegExp(`^${filters.stationCode}$`, 'i');
     if (filters.name) query.name = new RegExp(filters.name, 'i');
 
@@ -62,6 +68,9 @@ router.post('/', rbac(ROLES.ADMIN, ROLES.ZONE_ADMIN, ROLES.DIVISION_ADMIN, ROLES
   try {
     const validatedData = createSchema.parse(req.body);
     
+    // Normalize code
+    validatedData.stationCode = StationValidator.normalizeStationCode(validatedData.stationCode);
+    
     // Hierarchy validation
     const hierarchyCheck = await HierarchyValidator.validateStationHierarchy(validatedData.divisionId, validatedData.zoneId);
     if (!hierarchyCheck.valid) {
@@ -76,6 +85,18 @@ router.post('/', rbac(ROLES.ADMIN, ROLES.ZONE_ADMIN, ROLES.DIVISION_ADMIN, ROLES
       return res.status(403).json({ error: 'Out of division scope' });
     }
 
+    // Temporal overlap validation
+    if (validatedData.status === 'ACTIVE' || !validatedData.status) {
+      const temporalCheck = await StationValidator.validateTemporalIdentity(
+        validatedData.stationCode, 
+        validatedData.effectiveFrom, 
+        validatedData.effectiveTo
+      );
+      if (!temporalCheck.valid) {
+        return res.status(409).json({ error: temporalCheck.message });
+      }
+    }
+
     const newStation = new Station(validatedData);
     await newStation.save();
     
@@ -83,7 +104,6 @@ router.post('/', rbac(ROLES.ADMIN, ROLES.ZONE_ADMIN, ROLES.DIVISION_ADMIN, ROLES
     res.status(201).json(newStation);
   } catch (error) {
     if (error instanceof z.ZodError) return res.status(400).json({ error: 'Validation failed', details: error.errors });
-    if (error.code === 11000) return res.status(409).json({ error: 'Duplicate station code in ACTIVE state' });
     res.status(500).json({ error: error.message });
   }
 });
@@ -93,6 +113,11 @@ router.patch('/:id', rbac(ROLES.ADMIN, ROLES.ZONE_ADMIN, ROLES.DIVISION_ADMIN, R
     const validatedData = updateSchema.parse(req.body);
     const station = await Station.findById(req.params.id);
     if (!station) return res.status(404).json({ error: 'Station not found' });
+
+    // Normalize code if provided
+    if (validatedData.stationCode) {
+      validatedData.stationCode = StationValidator.normalizeStationCode(validatedData.stationCode);
+    }
 
     // Scope checks against existing
     if (req.user?.role === ROLES.ZONE_ADMIN && req.user.zoneId?.toString() !== station.zoneId.toString()) {
@@ -110,6 +135,24 @@ router.patch('/:id', rbac(ROLES.ADMIN, ROLES.ZONE_ADMIN, ROLES.DIVISION_ADMIN, R
       if (!hierarchyCheck.valid) return res.status(400).json({ error: hierarchyCheck.message });
     }
 
+    // Temporal overlap validation
+    const finalCode = validatedData.stationCode || station.stationCode;
+    const finalStatus = validatedData.status || station.status;
+    const finalFrom = validatedData.effectiveFrom !== undefined ? validatedData.effectiveFrom : station.effectiveFrom;
+    const finalTo = validatedData.effectiveTo !== undefined ? validatedData.effectiveTo : station.effectiveTo;
+
+    if (finalStatus === 'ACTIVE') {
+      const temporalCheck = await StationValidator.validateTemporalIdentity(
+        finalCode, 
+        finalFrom, 
+        finalTo,
+        station._id
+      );
+      if (!temporalCheck.valid) {
+        return res.status(409).json({ error: temporalCheck.message });
+      }
+    }
+
     Object.assign(station, validatedData);
     await station.save();
 
@@ -117,7 +160,6 @@ router.patch('/:id', rbac(ROLES.ADMIN, ROLES.ZONE_ADMIN, ROLES.DIVISION_ADMIN, R
     res.json(station);
   } catch (error) {
     if (error instanceof z.ZodError) return res.status(400).json({ error: 'Validation failed', details: error.errors });
-    if (error.code === 11000) return res.status(409).json({ error: 'Duplicate station code in ACTIVE state' });
     res.status(500).json({ error: error.message });
   }
 });

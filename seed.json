@@ -1,0 +1,664 @@
+{
+  "sources": [
+    {
+      "code": "SRC_HIST_2023",
+      "name": "Indian Railways Yearbook 2023",
+      "sourceType": "Publication",
+      "sourceDate": "2023-12-31T00:00:00Z",
+      "retrievedAt": "2026-08-15T00:00:00Z",
+      "notes": "Historical reference for pre-SCoR organizational structure"
+    },
+    {
+      "code": "SRC_CURR_2026",
+      "name": "Ministry of Railways Gazette Notification - SCoR Operationalization",
+      "sourceType": "Ministry",
+      "sourceDate": null,
+      "retrievedAt": "2026-08-15T00:00:00Z",
+      "notes": "Authoritative notification for SCoR creation. Exact publication date NOT VERIFIED."
+    }
+  ],
+  "dataVersions": [
+    {
+      "version": "v1.0-historical",
+      "sourceRef": "SRC_HIST_2023",
+      "verificationStatus": "VERIFIED"
+    },
+    {
+      "version": "v2.0-current",
+      "sourceRef": "SRC_CURR_2026",
+      "verificationStatus": "VERIFIED"
+    }
+  ],
+  "organizations": [
+    {
+      "code": "IR",
+      "name": "Indian Railways",
+      "status": "ACTIVE"
+    },
+    {
+      "code": "KRCL",
+      "name": "Konkan Railway Corporation Limited",
+      "headquarters": "Navi Mumbai / CBD Belapur",
+      "status": "CORPORATION",
+      "metadata": {
+        "organizationalType": "CORPORATION",
+        "divisionCount": 0
+      }
+    }
+  ],
+  "zones": [
+    {
+      "code": "CR",
+      "name": "Central Railway",
+      "headquarters": "Mumbai CSMT",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "BB",
+          "name": "Mumbai CR",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "BSL",
+          "name": "Bhusawal",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "PUNE",
+          "name": "Pune",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "SUR",
+          "name": "Solapur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "NGP",
+          "name": "Nagpur CR",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "ER",
+      "name": "Eastern Railway",
+      "headquarters": "Fairlie Place, Kolkata",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "HWH",
+          "name": "Howrah",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "SDAH",
+          "name": "Sealdah",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "ASN",
+          "name": "Asansol",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "MLDT",
+          "name": "Malda",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "ECR",
+      "name": "East Central Railway",
+      "headquarters": "Hajipur",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "DNR",
+          "name": "Danapur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "DHN",
+          "name": "Dhanbad",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "DDU",
+          "name": "Pt. Deen Dayal Upadhyaya",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "SPJ",
+          "name": "Samastipur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "SEE",
+          "name": "Sonpur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "ECoR",
+      "name": "East Coast Railway",
+      "headquarters": "Bhubaneswar",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "KUR",
+          "name": "Khurda Road",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "SBP",
+          "name": "Sambalpur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "RGDA",
+          "name": "Rayagada",
+          "status": "ACTIVE",
+          "effectiveFrom": "2026-06-01T00:00:00Z",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "WAT",
+          "name": "Waltair",
+          "status": "HISTORICAL",
+          "effectiveTo": "2026-05-31T23:59:59Z",
+          "dataVersionRef": "v1.0-historical"
+        }
+      ]
+    },
+    {
+      "code": "NR",
+      "name": "Northern Railway",
+      "headquarters": "Baroda House, New Delhi",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "DLI",
+          "name": "Delhi",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "UMB",
+          "name": "Ambala",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "FZR",
+          "name": "Firozpur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "LKO",
+          "name": "Lucknow NR",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "MB",
+          "name": "Moradabad",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "NCR",
+      "name": "North Central Railway",
+      "headquarters": "Prayagraj",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "PRYJ",
+          "name": "Prayagraj",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "AGC",
+          "name": "Agra",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "JHS",
+          "name": "Jhansi",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "NER",
+      "name": "North Eastern Railway",
+      "headquarters": "Gorakhpur",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "IZN",
+          "name": "Izzatnagar",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "LJN",
+          "name": "Lucknow NER",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "BSB",
+          "name": "Varanasi",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "NFR",
+      "name": "Northeast Frontier Railway",
+      "headquarters": "Maligaon, Guwahati",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "APDJ",
+          "name": "Alipurduar",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "KIR",
+          "name": "Katihar",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "RNY",
+          "name": "Rangiya",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "LMG",
+          "name": "Lumding",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "TSK",
+          "name": "Tinsukia",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "NWR",
+      "name": "North Western Railway",
+      "headquarters": "Jaipur",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "JP",
+          "name": "Jaipur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "AII",
+          "name": "Ajmer",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "BKN",
+          "name": "Bikaner",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "JU",
+          "name": "Jodhpur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "SR",
+      "name": "Southern Railway",
+      "headquarters": "Chennai Central",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "MAS",
+          "name": "Chennai",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "TPJ",
+          "name": "Tiruchirappalli",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "MDU",
+          "name": "Madurai",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "PGT",
+          "name": "Palakkad",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "SA",
+          "name": "Salem",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "TVC",
+          "name": "Thiruvananthapuram",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "SCR",
+      "name": "South Central Railway",
+      "headquarters": "Secunderabad",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "SC",
+          "name": "Secunderabad",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "HYB",
+          "name": "Hyderabad",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "NED",
+          "name": "Nanded",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "BZA",
+          "name": "Vijayawada",
+          "status": "HISTORICAL",
+          "effectiveTo": "2026-05-31T23:59:59Z",
+          "dataVersionRef": "v1.0-historical"
+        },
+        {
+          "code": "GTL",
+          "name": "Guntakal",
+          "status": "HISTORICAL",
+          "effectiveTo": "2026-05-31T23:59:59Z",
+          "dataVersionRef": "v1.0-historical"
+        },
+        {
+          "code": "GNT",
+          "name": "Guntur",
+          "status": "HISTORICAL",
+          "effectiveTo": "2026-05-31T23:59:59Z",
+          "dataVersionRef": "v1.0-historical"
+        }
+      ]
+    },
+    {
+      "code": "SCoR",
+      "name": "South Coast Railway",
+      "headquarters": "Visakhapatnam",
+      "status": "ACTIVE",
+      "effectiveFrom": "2026-06-01T00:00:00Z",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "VSKP",
+          "name": "Visakhapatnam",
+          "status": "ACTIVE",
+          "effectiveFrom": "2026-06-01T00:00:00Z",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "BZA",
+          "name": "Vijayawada",
+          "status": "ACTIVE",
+          "effectiveFrom": "2026-06-01T00:00:00Z",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "GNT",
+          "name": "Guntur",
+          "status": "ACTIVE",
+          "effectiveFrom": "2026-06-01T00:00:00Z",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "GTL",
+          "name": "Guntakal",
+          "status": "ACTIVE",
+          "effectiveFrom": "2026-06-01T00:00:00Z",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "SER",
+      "name": "South Eastern Railway",
+      "headquarters": "Garden Reach, Kolkata",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "ADRA",
+          "name": "Adra",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "CKP",
+          "name": "Chakradharpur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "KGP",
+          "name": "Kharagpur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "RNC",
+          "name": "Ranchi",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "SECR",
+      "name": "South East Central Railway",
+      "headquarters": "Bilaspur",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "BSP",
+          "name": "Bilaspur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "R",
+          "name": "Raipur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "NGP",
+          "name": "Nagpur SECR",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "SWR",
+      "name": "South Western Railway",
+      "headquarters": "Hubballi",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "UBL",
+          "name": "Hubballi",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "SBC",
+          "name": "Bengaluru",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "MYS",
+          "name": "Mysuru",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "WR",
+      "name": "Western Railway",
+      "headquarters": "Churchgate, Mumbai",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "BCT",
+          "name": "Mumbai WR",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "BRC",
+          "name": "Vadodara",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "ADI",
+          "name": "Ahmedabad",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "RTM",
+          "name": "Ratlam",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "RJT",
+          "name": "Rajkot",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "BVP",
+          "name": "Bhavnagar",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "WCR",
+      "name": "West Central Railway",
+      "headquarters": "Jabalpur",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "divisions": [
+        {
+          "code": "JBP",
+          "name": "Jabalpur",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "BPL",
+          "name": "Bhopal",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        },
+        {
+          "code": "KOTA",
+          "name": "Kota",
+          "status": "ACTIVE",
+          "dataVersionRef": "v2.0-current"
+        }
+      ]
+    },
+    {
+      "code": "METRO",
+      "name": "Metro Railway, Kolkata",
+      "headquarters": "Kolkata",
+      "status": "ACTIVE",
+      "dataVersionRef": "v2.0-current",
+      "metadata": {
+        "organizationalType": "METRO",
+        "divisionCount": 0
+      },
+      "divisions": []
+    }
+  ]
+}

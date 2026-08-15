@@ -22,7 +22,7 @@ const schema = new mongoose.Schema({
 // GeoJSON index
 schema.index({ location: '2dsphere' });
 
-// Scoped uniqueness: Station code should be unique among ACTIVE stations
-schema.index({ stationCode: 1 }, { unique: true, partialFilterExpression: { status: 'ACTIVE' } });
+// Non-unique index for fast lookup
+schema.index({ stationCode: 1 });
 
 export const Station = mongoose.model('Station', schema);
