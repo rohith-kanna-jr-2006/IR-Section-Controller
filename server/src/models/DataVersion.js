@@ -5,10 +5,12 @@ const schema = new mongoose.Schema({
   sourceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Source', required: true },
   verificationStatus: { 
     type: String, 
-    enum: ['PENDING', 'VERIFIED', 'REJECTED'], 
-    default: 'PENDING' 
+    enum: ['DRAFT', 'IMPORTED', 'VALIDATED', 'VERIFIED', 'PUBLISHED', 'REJECTED', 'SUPERSEDED'], 
+    default: 'DRAFT' 
   },
-  remarks: { type: String }
+  importedAt: { type: Date, default: Date.now },
+  remarks: { type: String },
+  notes: { type: String }
 }, { timestamps: true });
 
 export const DataVersion = mongoose.model('DataVersion', schema);

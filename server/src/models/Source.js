@@ -2,11 +2,15 @@ import mongoose from 'mongoose';
 
 const schema = new mongoose.Schema({
   name: { type: String, required: true },
-  type: { type: String, required: true },
-  documentReference: { type: String },
+  sourceType: { type: String, required: true }, // Ministry, Zonal, Publication, CRIS, Secondary
+  sourceTitle: { type: String },
+  sourceUrl: { type: String },
   sourceDate: { type: Date },
+  retrievedAt: { type: Date },
+  documentVersion: { type: String },
+  checksum: { type: String },
   importDate: { type: Date, default: Date.now },
-  description: { type: String }
+  notes: { type: String }
 }, { timestamps: true });
 
 export const Source = mongoose.model('Source', schema);
