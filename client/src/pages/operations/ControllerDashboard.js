@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import api from '../../services/api.js';
 import ErrorState from '../../components/ErrorState.js';
+import IntelligencePanel from '../../components/IntelligencePanel.js';
 
 export default function ControllerDashboard() {
   const [scenarios, setScenarios] = useState([]);
@@ -195,6 +196,7 @@ export default function ControllerDashboard() {
         )
       )
     ),
-    renderConflicts()
+    renderConflicts(),
+    React.createElement(IntelligencePanel, { scenarioId: selectedScenario })
   );
 }

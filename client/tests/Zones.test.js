@@ -10,7 +10,7 @@ vi.mock('../src/services/api.js');
 describe('Zones Page', () => {
   it('shows loading state initially', () => {
     api.get.mockResolvedValueOnce({ data: { data: [] } });
-    render(<Zones />);
+    render(React.createElement(Zones, null));
     expect(screen.getByText('Loading Zones...')).toBeInTheDocument();
   });
 
@@ -21,7 +21,7 @@ describe('Zones Page', () => {
     ];
     api.get.mockResolvedValueOnce({ data: { data: mockZones } });
     
-    render(<Zones />);
+    render(React.createElement(Zones, null));
     
     await waitFor(() => {
       expect(screen.getByText('Central Railway')).toBeInTheDocument();
@@ -32,7 +32,7 @@ describe('Zones Page', () => {
   it('renders error state on API failure', async () => {
     api.get.mockRejectedValueOnce({ response: { data: { error: 'Failed to fetch' } } });
     
-    render(<Zones />);
+    render(React.createElement(Zones, null));
     
     await waitFor(() => {
       expect(screen.getByText('Failed to fetch')).toBeInTheDocument();

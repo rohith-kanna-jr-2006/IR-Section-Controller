@@ -9,6 +9,7 @@ import scheduleRoutes from './schedules.js';
 import scenarioRoutes from './scenarios.js';
 import operationRoutes from './operations.js';
 import simulationRoutes from './simulation.js';
+import intelligenceRoutes from './intelligence.js';
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use('/schedules', scheduleRoutes);
 router.use('/scenarios', scenarioRoutes);
 router.use('/operations', operationRoutes);
 router.use('/simulation', simulationRoutes);
+router.use('/intelligence', intelligenceRoutes);
 
 export default router;

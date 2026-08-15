@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
-import api from '../../../services/api.js';
+import api from '../../services/api.js';
 
 export default function ScenarioReplay() {
   const [scenarios, setScenarios] = useState([]);
