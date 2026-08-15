@@ -13,7 +13,6 @@ export default function ControllerDashboard() {
   const [clock, setClock] = useState(null);
   const [trains, setTrains] = useState([]);
   const [conflicts, setConflicts] = useState([]);
-  const [sections, setSections] = useState([]);
   const [events, setEvents] = useState([]);
   
   const socketRef = useRef(null);
@@ -71,7 +70,6 @@ export default function ControllerDashboard() {
     if (socketRef.current) {
       socketRef.current.disconnect();
     }
-    const token = localStorage.getItem('token');
     const backendUrl = window.location.origin.replace('3000', '5000');
     const socket = io(backendUrl, {
       transports: ['websocket'],

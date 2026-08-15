@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import request from 'supertest';
 import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import app from '../src/app.js';
 import { Station } from '../src/models/Station.js';
 import { Zone } from '../src/models/Zone.js';
@@ -23,9 +24,12 @@ vi.mock('../src/middleware/rbac.js', async (importOriginal) => {
 describe('Station Master APIs', () => {
   let zoneId, divId, otherZoneId, otherDivId, historicalVersionId, currentVersionId;
   let adminToken = 'dummy';
+  let mongoServer;
 
   beforeAll(async () => {
-    await mongoose.connect('mongodb://localhost:27017/ir-section-controller-test');
+    mongoServer = await MongoMemoryServer.create();
+    const uri = mongoServer.getUri();
+    await mongoose.connect(uri);
     await Station.deleteMany({});
     await Division.deleteMany({});
     await Zone.deleteMany({});
@@ -51,10 +55,13 @@ describe('Station Master APIs', () => {
     otherZoneId = z2._id.toString();
     const d2 = await Division.create({ zoneId: otherZoneId, code: 'BCT', name: 'Mumbai WR' });
     otherDivId = d2._id.toString();
-  });
+  }, 120000); // Allow time for mongodb binary download
 
   afterAll(async () => {
     await mongoose.connection.close();
+    if (mongoServer) {
+      await mongoServer.stop();
+    }
   });
 
   it('should create a valid station', async () => {

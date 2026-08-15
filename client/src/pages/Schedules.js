@@ -41,7 +41,7 @@ export default function Schedules() {
       setSelectedSchedule(scheduleId);
       const res = await api.get(`/schedules/${scheduleId}/stops`);
       setStops(res.data.data || []);
-    } catch (err) {
+    } catch {
       alert('Failed to load stops');
     } finally {
       setStopsLoading(false);

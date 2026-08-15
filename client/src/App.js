@@ -12,6 +12,7 @@ import ControllerDashboard from './pages/operations/ControllerDashboard.js';
 import ScenarioBuilder from './pages/operations/ScenarioBuilder.js';
 import ScenarioReplay from './pages/operations/ScenarioReplay.js';
 import ScenarioComparison from './pages/operations/ScenarioComparison.js';
+import SimulationControlRoom from './pages/operations/SimulationControlRoom.js';
 
 export default function App() {
   return React.createElement(BrowserRouter, null,
@@ -27,7 +28,8 @@ export default function App() {
         React.createElement(Route, { path: 'operations', element: React.createElement(ControllerDashboard, null) }),
         React.createElement(Route, { path: 'operations/scenarios/new', element: React.createElement(ScenarioBuilder, null) }),
         React.createElement(Route, { path: 'operations/scenarios/replay', element: React.createElement(ScenarioReplay, null) }),
-        React.createElement(Route, { path: 'operations/scenarios/compare', element: React.createElement(ScenarioComparison, null) })
+        React.createElement(Route, { path: 'operations/scenarios/compare', element: React.createElement(ScenarioComparison, null) }),
+        React.createElement(Route, { path: 'operations/scenarios/:scenarioId/chart', element: React.createElement(SimulationControlRoom, null) })
       )
     )
   );

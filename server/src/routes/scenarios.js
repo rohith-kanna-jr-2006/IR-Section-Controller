@@ -4,6 +4,9 @@ import { ScenarioValidator } from '../services/operations/ScenarioValidator.js';
 import { SimulationScenario } from '../models/operations/SimulationScenario.js';
 import { ScenarioKPI } from '../models/operations/ScenarioKPI.js';
 import { rbac, ROLES } from '../middleware/rbac.js';
+import { ReplayEngine } from '../services/operations/ReplayEngine.js';
+
+const replays = new Map();
 
 const router = Router();
 
@@ -48,6 +51,36 @@ router.get('/:id/kpis', rbac(ROLES.ADMIN, ROLES.CONTROLLER, ROLES.ZONE_ADMIN), a
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// POST Replay play
+router.post('/:id/replay/play', rbac(ROLES.ADMIN, ROLES.CONTROLLER), async (req, res) => {
+  try {
+    let engine = replays.get(req.params.id);
+    if (!engine) {
+      engine = new ReplayEngine(req.params.id);
+      await engine.init();
+      replays.set(req.params.id, engine);
+    }
+    await engine.play();
+    res.json({ status: 'playing' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// POST Replay stop
+router.post('/:id/replay/stop', rbac(ROLES.ADMIN, ROLES.CONTROLLER), (req, res) => {
+  const engine = replays.get(req.params.id);
+  if (engine) engine.stop();
+  res.json({ status: 'stopped' });
+});
+
+// POST Replay seek
+router.post('/:id/replay/seek', rbac(ROLES.ADMIN, ROLES.CONTROLLER), (req, res) => {
+  const engine = replays.get(req.params.id);
+  if (engine) engine.seek(req.body.index || 0);
+  res.json({ status: 'seeked' });
 });
 
 export default router;
