@@ -1,0 +1,46 @@
+division,route_line,origin_code,origin_station,terminus_code,terminus_station,station_count,track_length_km,distance_data_complete,service_type,operational_status
+CHENNAI,West Line (MAS-JTJ),MAS,MGR Chennai Central,JTJ,Jolarpettai Junction,53,,False,Not specified in source,Not specified in source
+CHENNAI,North Line (MAS-GDR),TNP,Tondiarpet,GDR,Gudur Junction,24,,False,Not specified in source,Not specified in source
+CHENNAI,South Line (MS-VM),MS,Chennai Egmore,VV,Vikravandi,39,,False,Not specified in source,Not specified in source
+CHENNAI,MRTS (MSB-VLCY),MSB,Chennai Beach,VLCY,Velachery,18,,False,Not specified in source,Not specified in source
+CHENNAI,Kanchipuram Line (AJJ-CGL),AJJ,Arakkonam Junction,CGL,Chengalpattu Junction,12,,False,Not specified in source,Not specified in source
+CHENNAI,Arakkonam-Renigunta Border,AJJ,Arakkonam Junction,PUDI,Pudi,10,,False,Not specified in source,Not specified in source
+SALEM,Main Line (JTJ-SA-ED-CBE),JTJ,Jolarpettai Junction,CBE,Coimbatore Junction,41,,False,Not specified in source,Not specified in source
+SALEM,Salem-Namakkal-Karur-Dindigul,SA,Salem Junction,DG,Dindigul Junction,12,,False,Not specified in source,Not specified in source
+SALEM,Erode-Trichy via Karur,ED,Erode Junction,TPJ,Tiruchirappalli Junction,23,,False,Not specified in source,Not specified in source
+SALEM,Salem-Vridhachalam,SA,Salem Junction,VRI,Vridhachalam Junction,16,,False,Not specified in source,Not specified in source
+SALEM,Salem-KSR Bengaluru (via DPJ),SA,Salem Junction,SBC,KSR Bengaluru City,15,209.0,True,Not specified in source,Not specified in source
+SALEM,Salem-SMVT Bengaluru (via DPJ),SA,Salem Junction,SMVB,SMVT Bengaluru,13,211.0,True,Not specified in source,Not specified in source
+SALEM,Salem-Yesvantpur (via DPJ),SA,Salem Junction,YPR,Yesvantpur Junction,15,215.0,True,Not specified in source,Not specified in source
+SALEM,Salem-Mettur Dam,SA,Salem Junction,MTDM,Mettur Dam,4,40.0,True,Not specified in source,Not specified in source
+SALEM,Coimbatore-Mettupalayam,CBE,Coimbatore Junction,MTP,Mettupalayam,5,,False,Not specified in source,Not specified in source
+SALEM,Nilgiri Mountain Railway,MTP,Mettupalayam,UAM,Udagamandalam,8,,False,Not specified in source,Not specified in source
+PALAKKAD,Coimbatore - Palakkad,CBE,Coimbatore Junction,PGT,Palakkad Junction,7,,False,Not specified in source,Not specified in source
+PALAKKAD,Palakkad - Irugur (Bypass via Podanur),PGT,Palakkad Junction,IGU,Irugur Junction,7,,False,Not specified in source,Not specified in source
+PALAKKAD,Palakkad - Shoranur,PGT,Palakkad Junction,SRR,Shoranur Junction,6,,False,Not specified in source,Not specified in source
+PALAKKAD,Shoranur-Mangalore,SRR,Shoranur Junction,JOKT,Jokatte,56,,False,Not specified in source,Not specified in source
+PALAKKAD,Palakkad-Pollachi,PGT,Palakkad Junction,POY,Pollachi Junction,8,,False,Not specified in source,Not specified in source
+PALAKKAD,Shoranur-Nilambur,SRR,Shoranur Junction,NIL,Nilambur Road,12,,False,Not specified in source,Not specified in source
+TVC,Main Line (via Kottayam),SRR,Shoranur Junction,TVC,Thiruvananthapuram Central,62,,False,Not specified in source,Not specified in source
+TVC,Coastal Line (Alappuzha),ERS,Ernakulam Junction,KYJ,Kayamkulam Junction,19,,False,Not specified in source,Not specified in source
+TVC,Thiruvananthapuram (TVC) - Kanyakumari (CAPE),TVC,Thiruvananthapuram Central,CAPE,Kanyakumari,16,,False,Not specified in source,Not specified in source
+TVC,Tirunelveli (TEN) - Nagercoil (NCJ),TEN,Tirunelveli Junction,NCJ,Nagercoil Junction,11,,False,Not specified in source,Not specified in source
+TVC,Kollam-Sengottai,QLN,Kollam Junction,SCT,Sengottai,17,,False,Not specified in source,Not specified in source
+MDU,Dindigul-Madurai-Tirunelveli,DG,Dindigul Junction,TEN,Tirunelveli Junction,23,,False,Not specified in source,Not specified in source
+MDU,Madurai-Rameswaram,MDU,Madurai Junction,RMM,Rameswaram,17,,False,Not specified in source,Not specified in source
+MDU,Virudhunagar-Sengottai,VPT,Virudhunagar Junction,SCT,Sengottai,11,,False,Not specified in source,Not specified in source
+MDU,Tirunelveli to Sengottai,TEN,Tirunelveli Junction,SCT,Sengottai,17,,False,Not specified in source,Not specified in source
+MDU,Tirunelveli to Tiruchendur,TEN,Tirunelveli Junction,TCN,Tiruchendur,12,,False,Not specified in source,Not specified in source
+MDU,Madurai Junction–Bodinayakanur,MDU,Madurai Junction,BDNK,Bodinayakanur,6,,False,Not specified in source,Not specified in source
+MDU,Vanchi Maniyachchi Junction – Tuticorin,MEJ,Vanchi Maniyachchi Junction,TN,Tuticorin,6,,False,Not specified in source,Not specified in source
+MDU,Manamadurai-Virudhunagar,MNM,Manamadurai Junction,VPT,Virudhunagar Junction,5,,False,Not specified in source,Not specified in source
+MDU,Manamadurai-Trichy (via Karaikkudi),MNM,Manamadurai Junction,TPJ,Tiruchirappalli Junction,16,,False,Not specified in source,Not specified in source
+TRICHY,Villupuram-Trichy Chord,VM,Villupuram Junction,TPJ,Tiruchirappalli Junction,25,,False,Not specified in source,Not specified in source
+TRICHY,Main Line (VM-MV-TPJ),VM,Villupuram Junction,TPJ,Tiruchirappalli Junction,39,,False,Not specified in source,Not specified in source
+TRICHY,Thanjavur-Karaikal-Velankanni,TJ,Thanjavur Junction,VLNK,Velankanni,19,,False,Not specified in source,Not specified in source
+TRICHY,Villupuram-Katpadi Branch,VM,Villupuram Junction,KPD,Katpadi Junction,21,,False,Not specified in source,Not specified in source
+TRICHY,Karaikkudi-Tiruvarur,KKDI,Karaikkudi Junction,TVR,Thiruvarur Junction,18,,False,Not specified in source,Not specified in source
+TRICHY,Villupuram-Puducherry,VM,Villupuram Junction,PDY,Puducherry,4,,False,Not specified in source,Not specified in source
+TRICHY,Nidamangalam-Mannargudi,NMJ,Nidamangalam Junction,MQ,Mannargudi,2,,False,Not specified in source,Not specified in source
+TRICHY,Mayiladuthurai to Thiruvarur,MV,Mayiladuturai Junction,TVR,Thiruvarur Junction,5,,False,Not specified in source,Not specified in source
+TRICHY,Peralam to Karaikal,PEM,Peralam Junction,KIK,Karaikal,6,,False,Not specified in source,Not specified in source

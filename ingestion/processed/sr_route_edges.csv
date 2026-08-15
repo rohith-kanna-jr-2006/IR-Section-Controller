@@ -1,0 +1,737 @@
+route_line,from_station,to_station,sequence
+West Line (MAS-JTJ),MAS,BBQ,2
+West Line (MAS-JTJ),BBQ,VJM,3
+West Line (MAS-JTJ),VJM,PER,4
+West Line (MAS-JTJ),PER,PCW,5
+West Line (MAS-JTJ),PCW,PEW,6
+West Line (MAS-JTJ),PEW,VLK,7
+West Line (MAS-JTJ),VLK,KOTR,8
+West Line (MAS-JTJ),KOTR,PVM,9
+West Line (MAS-JTJ),PVM,ABU,10
+West Line (MAS-JTJ),ABU,TMVL,11
+West Line (MAS-JTJ),TMVL,ANNR,12
+West Line (MAS-JTJ),ANNR,AVD,13
+West Line (MAS-JTJ),AVD,HC,14
+West Line (MAS-JTJ),HC,PAB,15
+West Line (MAS-JTJ),PAB,PTMS,16
+West Line (MAS-JTJ),PTMS,NEC,17
+West Line (MAS-JTJ),NEC,TI,18
+West Line (MAS-JTJ),TI,VEU,19
+West Line (MAS-JTJ),VEU,SVR,20
+West Line (MAS-JTJ),SVR,PTLR,21
+West Line (MAS-JTJ),PTLR,TRL,22
+West Line (MAS-JTJ),TRL,EGT,23
+West Line (MAS-JTJ),EGT,KBT,24
+West Line (MAS-JTJ),KBT,SPAM,25
+West Line (MAS-JTJ),SPAM,MAF,26
+West Line (MAS-JTJ),MAF,TO,27
+West Line (MAS-JTJ),TO,MSU,28
+West Line (MAS-JTJ),MSU,PLMG,29
+West Line (MAS-JTJ),PLMG,AJJ,30
+West Line (MAS-JTJ),AJJ,CTRE,31
+West Line (MAS-JTJ),CTRE,AVN,32
+West Line (MAS-JTJ),AVN,MDVE,33
+West Line (MAS-JTJ),MDVE,SHU,34
+West Line (MAS-JTJ),SHU,TUG,35
+West Line (MAS-JTJ),TUG,WJR,36
+West Line (MAS-JTJ),WJR,MCN,37
+West Line (MAS-JTJ),MCN,THL,38
+West Line (MAS-JTJ),THL,SVUR,39
+West Line (MAS-JTJ),SVUR,KPD,40
+West Line (MAS-JTJ),KPD,LTI,41
+West Line (MAS-JTJ),LTI,VJ,42
+West Line (MAS-JTJ),VJ,KVN,43
+West Line (MAS-JTJ),KVN,GYM,44
+West Line (MAS-JTJ),GYM,MEH,45
+West Line (MAS-JTJ),MEH,VLT,46
+West Line (MAS-JTJ),VLT,MPI,47
+West Line (MAS-JTJ),MPI,PCV,48
+West Line (MAS-JTJ),PCV,AB,49
+West Line (MAS-JTJ),AB,VGM,50
+West Line (MAS-JTJ),VGM,VN,51
+West Line (MAS-JTJ),VN,KDY,52
+West Line (MAS-JTJ),KDY,JTJ,53
+North Line (MAS-GDR),TNP,KOK,2
+North Line (MAS-GDR),KOK,TVT,3
+North Line (MAS-GDR),TVT,WCN,4
+North Line (MAS-GDR),WCN,KAVM,5
+North Line (MAS-GDR),KAVM,ENR,6
+North Line (MAS-GDR),ENR,AIP,7
+North Line (MAS-GDR),AIP,AIPP,8
+North Line (MAS-GDR),AIPP,NPKM,9
+North Line (MAS-GDR),NPKM,MJR,10
+North Line (MAS-GDR),MJR,APB,11
+North Line (MAS-GDR),APB,PON,12
+North Line (MAS-GDR),PON,KVP,13
+North Line (MAS-GDR),KVP,GPD,14
+North Line (MAS-GDR),GPD,ELR,15
+North Line (MAS-GDR),ELR,AKM,16
+North Line (MAS-GDR),AKM,TADA,17
+North Line (MAS-GDR),TADA,SPE,18
+North Line (MAS-GDR),SPE,PEL,19
+North Line (MAS-GDR),PEL,DVR,20
+North Line (MAS-GDR),DVR,NYP,21
+North Line (MAS-GDR),NYP,PYA,22
+North Line (MAS-GDR),PYA,ODUR,23
+North Line (MAS-GDR),ODUR,GDR,24
+South Line (MS-VM),MS,MSC,2
+South Line (MS-VM),MSC,NBK,3
+South Line (MS-VM),NBK,MKK,4
+South Line (MS-VM),MKK,MBM,5
+South Line (MS-VM),MBM,SP,6
+South Line (MS-VM),SP,GDY,7
+South Line (MS-VM),GDY,STM,8
+South Line (MS-VM),STM,PZA,9
+South Line (MS-VM),PZA,MN,10
+South Line (MS-VM),MN,TLM,11
+South Line (MS-VM),TLM,PV,12
+South Line (MS-VM),PV,CMP,13
+South Line (MS-VM),CMP,TBMS,14
+South Line (MS-VM),TBMS,TBM,15
+South Line (MS-VM),TBM,PRGL,16
+South Line (MS-VM),PRGL,VDR,17
+South Line (MS-VM),VDR,UPM,18
+South Line (MS-VM),UPM,GI,19
+South Line (MS-VM),GI,POTI,20
+South Line (MS-VM),POTI,CTM,21
+South Line (MS-VM),CTM,MMNK,22
+South Line (MS-VM),MMNK,SKL,23
+South Line (MS-VM),SKL,PWU,24
+South Line (MS-VM),PWU,CGL,25
+South Line (MS-VM),CGL,TRM,26
+South Line (MS-VM),TRM,OV,27
+South Line (MS-VM),OV,PTM,28
+South Line (MS-VM),PTM,KGZ,29
+South Line (MS-VM),KGZ,MMK,30
+South Line (MS-VM),MMK,PAK,31
+South Line (MS-VM),PAK,MLMR,32
+South Line (MS-VM),MLMR,ACK,33
+South Line (MS-VM),ACK,TZD,34
+South Line (MS-VM),TZD,OLA,35
+South Line (MS-VM),OLA,TMV,36
+South Line (MS-VM),TMV,MTL,37
+South Line (MS-VM),MTL,PEI,38
+South Line (MS-VM),PEI,VV,39
+MRTS (MSB-VLCY),MSB,MSF,2
+MRTS (MSB-VLCY),MSF,MPK,3
+MRTS (MSB-VLCY),MPK,MCPT,4
+MRTS (MSB-VLCY),MCPT,MCPK,5
+MRTS (MSB-VLCY),MCPK,MTCN,6
+MRTS (MSB-VLCY),MTCN,MLHS,7
+MRTS (MSB-VLCY),MLHS,MKAK,8
+MRTS (MSB-VLCY),MKAK,MTMY,9
+MRTS (MSB-VLCY),MTMY,MNDY,10
+MRTS (MSB-VLCY),MNDY,GWYR,11
+MRTS (MSB-VLCY),GWYR,KTPM,12
+MRTS (MSB-VLCY),KTPM,KTBR,13
+MRTS (MSB-VLCY),KTBR,INDR,14
+MRTS (MSB-VLCY),INDR,TYMR,15
+MRTS (MSB-VLCY),TYMR,TRMN,16
+MRTS (MSB-VLCY),TRMN,PRGD,17
+MRTS (MSB-VLCY),PRGD,VLCY,18
+Kanchipuram Line (AJJ-CGL),AJJ,TKO,2
+Kanchipuram Line (AJJ-CGL),TKO,TMLP,3
+Kanchipuram Line (AJJ-CGL),TMLP,CJ,4
+Kanchipuram Line (AJJ-CGL),CJ,CJE,5
+Kanchipuram Line (AJJ-CGL),CJE,NTT,6
+Kanchipuram Line (AJJ-CGL),NTT,WJ,7
+Kanchipuram Line (AJJ-CGL),WJ,PYV,8
+Kanchipuram Line (AJJ-CGL),PYV,PALR,9
+Kanchipuram Line (AJJ-CGL),PALR,VB,10
+Kanchipuram Line (AJJ-CGL),VB,RDY,11
+Kanchipuram Line (AJJ-CGL),RDY,CGL,12
+Arakkonam-Renigunta Border,AJJ,TRT,2
+Arakkonam-Renigunta Border,TRT,POI,3
+Arakkonam-Renigunta Border,POI,VKZ,4
+Arakkonam-Renigunta Border,VKZ,NG,5
+Arakkonam-Renigunta Border,NG,EKM,6
+Arakkonam-Renigunta Border,EKM,VGA,7
+Arakkonam-Renigunta Border,VGA,PUT,8
+Arakkonam-Renigunta Border,PUT,TDK,9
+Arakkonam-Renigunta Border,TDK,PUDI,10
+Main Line (JTJ-SA-ED-CBE),JTJ,TPT,2
+Main Line (JTJ-SA-ED-CBE),TPT,MOLK,3
+Main Line (JTJ-SA-ED-CBE),MOLK,KEY,4
+Main Line (JTJ-SA-ED-CBE),KEY,KNNT,5
+Main Line (JTJ-SA-ED-CBE),KNNT,SLY,6
+Main Line (JTJ-SA-ED-CBE),SLY,DST,7
+Main Line (JTJ-SA-ED-CBE),DST,DPI,8
+Main Line (JTJ-SA-ED-CBE),DPI,MAP,9
+Main Line (JTJ-SA-ED-CBE),MAP,TNGR,10
+Main Line (JTJ-SA-ED-CBE),TNGR,BDY,11
+Main Line (JTJ-SA-ED-CBE),BDY,BQI,12
+Main Line (JTJ-SA-ED-CBE),BQI,LCR,13
+Main Line (JTJ-SA-ED-CBE),LCR,DSPT,14
+Main Line (JTJ-SA-ED-CBE),DSPT,TNT,15
+Main Line (JTJ-SA-ED-CBE),TNT,KPPR,16
+Main Line (JTJ-SA-ED-CBE),KPPR,MGSJ,17
+Main Line (JTJ-SA-ED-CBE),MGSJ,SA,18
+Main Line (JTJ-SA-ED-CBE),SA,NEA,19
+Main Line (JTJ-SA-ED-CBE),NEA,VRPD,20
+Main Line (JTJ-SA-ED-CBE),VRPD,DC,21
+Main Line (JTJ-SA-ED-CBE),DC,MVPM,22
+Main Line (JTJ-SA-ED-CBE),MVPM,SGE,23
+Main Line (JTJ-SA-ED-CBE),SGE,ANU,24
+Main Line (JTJ-SA-ED-CBE),ANU,CV,25
+Main Line (JTJ-SA-ED-CBE),CV,ED,26
+Main Line (JTJ-SA-ED-CBE),ED,TPM,27
+Main Line (JTJ-SA-ED-CBE),TPM,PY,28
+Main Line (JTJ-SA-ED-CBE),PY,IGR,29
+Main Line (JTJ-SA-ED-CBE),IGR,VZ,30
+Main Line (JTJ-SA-ED-CBE),VZ,UKL,31
+Main Line (JTJ-SA-ED-CBE),UKL,KUY,32
+Main Line (JTJ-SA-ED-CBE),KUY,TUP,33
+Main Line (JTJ-SA-ED-CBE),TUP,VNJ,34
+Main Line (JTJ-SA-ED-CBE),VNJ,SNO,35
+Main Line (JTJ-SA-ED-CBE),SNO,SUU,36
+Main Line (JTJ-SA-ED-CBE),SUU,IGU,37
+Main Line (JTJ-SA-ED-CBE),IGU,SIH,38
+Main Line (JTJ-SA-ED-CBE),SIH,PLMD,39
+Main Line (JTJ-SA-ED-CBE),PLMD,CBF,40
+Main Line (JTJ-SA-ED-CBE),CBF,CBE,41
+Salem-Namakkal-Karur-Dindigul,SA,MALR,2
+Salem-Namakkal-Karur-Dindigul,MALR,RASP,3
+Salem-Namakkal-Karur-Dindigul,RASP,KLGN,4
+Salem-Namakkal-Karur-Dindigul,KLGN,NMKL,5
+Salem-Namakkal-Karur-Dindigul,NMKL,MONR,6
+Salem-Namakkal-Karur-Dindigul,MONR,VNGL,7
+Salem-Namakkal-Karur-Dindigul,VNGL,KRR,8
+Salem-Namakkal-Karur-Dindigul,KRR,VEI,9
+Salem-Namakkal-Karur-Dindigul,VEI,PALM,10
+Salem-Namakkal-Karur-Dindigul,PALM,ERI,11
+Salem-Namakkal-Karur-Dindigul,ERI,DG,12
+Erode-Trichy via Karur,ED,CVD,2
+Erode-Trichy via Karur,CVD,PAS,3
+Erode-Trichy via Karur,PAS,URL,4
+Erode-Trichy via Karur,URL,KMD,5
+Erode-Trichy via Karur,KMD,PGR,6
+Erode-Trichy via Karur,PGR,MPLM,7
+Erode-Trichy via Karur,MPLM,KRR,8
+Erode-Trichy via Karur,KRR,VRQ,9
+Erode-Trichy via Karur,VRQ,MYU,10
+Erode-Trichy via Karur,MYU,SEV,11
+Erode-Trichy via Karur,SEV,MMH,12
+Erode-Trichy via Karur,MMH,LP,13
+Erode-Trichy via Karur,LP,TIC,14
+Erode-Trichy via Karur,TIC,KLT,15
+Erode-Trichy via Karur,KLT,PLI,16
+Erode-Trichy via Karur,PLI,PGN,17
+Erode-Trichy via Karur,PGN,EL,18
+Erode-Trichy via Karur,EL,JPM,19
+Erode-Trichy via Karur,JPM,MTNL,20
+Erode-Trichy via Karur,MTNL,TP,21
+Erode-Trichy via Karur,TP,TPE,22
+Erode-Trichy via Karur,TPE,TPJ,23
+Salem-Vridhachalam,SA,SXT,2
+Salem-Vridhachalam,SXT,APN,3
+Salem-Vridhachalam,APN,MPL,4
+Salem-Vridhachalam,MPL,VGE,5
+Salem-Vridhachalam,VGE,ETP,6
+Salem-Vridhachalam,ETP,PDKM,7
+Salem-Vridhachalam,PDKM,ATU,8
+Salem-Vridhachalam,ATU,TVS,9
+Salem-Vridhachalam,TVS,MLYR,10
+Salem-Vridhachalam,MLYR,CHSM,11
+Salem-Vridhachalam,CHSM,SRVT,12
+Salem-Vridhachalam,SRVT,PRV,13
+Salem-Vridhachalam,PRV,KKTI,14
+Salem-Vridhachalam,KKTI,MKSP,15
+Salem-Vridhachalam,MKSP,VRI,16
+Salem-KSR Bengaluru (via DPJ),SA,OML,2
+Salem-KSR Bengaluru (via DPJ),OML,TGN,3
+Salem-KSR Bengaluru (via DPJ),TGN,TOP,4
+Salem-KSR Bengaluru (via DPJ),TOP,DPJ,5
+Salem-KSR Bengaluru (via DPJ),DPJ,PCV,6
+Salem-KSR Bengaluru (via DPJ),PCV,RYC,7
+Salem-KSR Bengaluru (via DPJ),RYC,HSRA,8
+Salem-KSR Bengaluru (via DPJ),HSRA,AQL,9
+Salem-KSR Bengaluru (via DPJ),AQL,HLE,10
+Salem-KSR Bengaluru (via DPJ),HLE,CRLM,11
+Salem-KSR Bengaluru (via DPJ),CRLM,BYPL,12
+Salem-KSR Bengaluru (via DPJ),BYPL,BNCE,13
+Salem-KSR Bengaluru (via DPJ),BNCE,BNC,14
+Salem-KSR Bengaluru (via DPJ),BNC,SBC,15
+Salem-SMVT Bengaluru (via DPJ),SA,OML,2
+Salem-SMVT Bengaluru (via DPJ),OML,TGN,3
+Salem-SMVT Bengaluru (via DPJ),TGN,TOP,4
+Salem-SMVT Bengaluru (via DPJ),TOP,DPJ,5
+Salem-SMVT Bengaluru (via DPJ),DPJ,PCV,6
+Salem-SMVT Bengaluru (via DPJ),PCV,RYC,7
+Salem-SMVT Bengaluru (via DPJ),RYC,HSRA,8
+Salem-SMVT Bengaluru (via DPJ),HSRA,AQL,9
+Salem-SMVT Bengaluru (via DPJ),AQL,HLE,10
+Salem-SMVT Bengaluru (via DPJ),HLE,CRLM,11
+Salem-SMVT Bengaluru (via DPJ),CRLM,BYPL,12
+Salem-SMVT Bengaluru (via DPJ),BYPL,SMVB,13
+Salem-Yesvantpur (via DPJ),SA,OML,2
+Salem-Yesvantpur (via DPJ),OML,TGN,3
+Salem-Yesvantpur (via DPJ),TGN,TOP,4
+Salem-Yesvantpur (via DPJ),TOP,DPJ,5
+Salem-Yesvantpur (via DPJ),DPJ,PCV,6
+Salem-Yesvantpur (via DPJ),PCV,RYC,7
+Salem-Yesvantpur (via DPJ),RYC,HSRA,8
+Salem-Yesvantpur (via DPJ),HSRA,AQL,9
+Salem-Yesvantpur (via DPJ),AQL,HLE,10
+Salem-Yesvantpur (via DPJ),HLE,CRLM,11
+Salem-Yesvantpur (via DPJ),CRLM,BYPL,12
+Salem-Yesvantpur (via DPJ),BYPL,BNCE,13
+Salem-Yesvantpur (via DPJ),BNCE,BNC,14
+Salem-Yesvantpur (via DPJ),BNC,YPR,15
+Salem-Mettur Dam,SA,OML,2
+Salem-Mettur Dam,OML,MCRD,3
+Salem-Mettur Dam,MCRD,MTDM,4
+Coimbatore-Mettupalayam,CBE,TDE,2
+Coimbatore-Mettupalayam,TDE,PKD,3
+Coimbatore-Mettupalayam,PKD,KAY,4
+Coimbatore-Mettupalayam,KAY,MTP,5
+Nilgiri Mountain Railway,MTP,HLG,2
+Nilgiri Mountain Railway,HLG,ONR,3
+Nilgiri Mountain Railway,ONR,WEL,4
+Nilgiri Mountain Railway,WEL,AVK,5
+Nilgiri Mountain Railway,AVK,KXT,6
+Nilgiri Mountain Railway,KXT,LOV,7
+Nilgiri Mountain Railway,LOV,UAM,8
+Coimbatore - Palakkad,CBE,PTJ,2
+Coimbatore - Palakkad,PTJ,MDKI,3
+Coimbatore - Palakkad,MDKI,ETMD,4
+Coimbatore - Palakkad,ETMD,WRA,5
+Coimbatore - Palakkad,WRA,KJKD,6
+Coimbatore - Palakkad,KJKD,PGT,7
+Palakkad - Irugur (Bypass via Podanur),PGT,KJKD,2
+Palakkad - Irugur (Bypass via Podanur),KJKD,WRA,3
+Palakkad - Irugur (Bypass via Podanur),WRA,ETMD,4
+Palakkad - Irugur (Bypass via Podanur),ETMD,MDKI,5
+Palakkad - Irugur (Bypass via Podanur),MDKI,PTJ,6
+Palakkad - Irugur (Bypass via Podanur),PTJ,IGU,7
+Palakkad - Shoranur,PGT,PLL,2
+Palakkad - Shoranur,PLL,LDY,3
+Palakkad - Shoranur,LDY,OTP,4
+Palakkad - Shoranur,OTP,MNUR,5
+Palakkad - Shoranur,MNUR,SRR,6
+Shoranur-Mangalore,SRR,PTB,2
+Shoranur-Mangalore,PTB,KODN,3
+Shoranur-Mangalore,KODN,PUM,4
+Shoranur-Mangalore,PUM,KTU,5
+Shoranur-Mangalore,KTU,TUA,6
+Shoranur-Mangalore,TUA,TIR,7
+Shoranur-Mangalore,TIR,TA,8
+Shoranur-Mangalore,TA,PGI,9
+Shoranur-Mangalore,PGI,VLI,10
+Shoranur-Mangalore,VLI,KN,11
+Shoranur-Mangalore,KN,FK,12
+Shoranur-Mangalore,FK,KUL,13
+Shoranur-Mangalore,KUL,CLT,14
+Shoranur-Mangalore,CLT,VLL,15
+Shoranur-Mangalore,VLL,WH,16
+Shoranur-Mangalore,WH,ETR,17
+Shoranur-Mangalore,ETR,CMC,18
+Shoranur-Mangalore,CMC,QLD,19
+Shoranur-Mangalore,QLD,VEK,20
+Shoranur-Mangalore,VEK,TKT,21
+Shoranur-Mangalore,TKT,PYQR,22
+Shoranur-Mangalore,PYQR,IGL,23
+Shoranur-Mangalore,IGL,BDJ,24
+Shoranur-Mangalore,BDJ,NAU,25
+Shoranur-Mangalore,NAU,MUKE,26
+Shoranur-Mangalore,MUKE,MAHE,27
+Shoranur-Mangalore,MAHE,JGE,28
+Shoranur-Mangalore,JGE,TLY,29
+Shoranur-Mangalore,TLY,DMD,30
+Shoranur-Mangalore,DMD,ETK,31
+Shoranur-Mangalore,ETK,CS,32
+Shoranur-Mangalore,CS,CAN,33
+Shoranur-Mangalore,CAN,VAPM,34
+Shoranur-Mangalore,VAPM,PPNS,35
+Shoranur-Mangalore,PPNS,KPQ,36
+Shoranur-Mangalore,KPQ,PAZ,37
+Shoranur-Mangalore,PAZ,ELM,38
+Shoranur-Mangalore,ELM,PAY,39
+Shoranur-Mangalore,PAY,TKQ,40
+Shoranur-Mangalore,TKQ,CHV,41
+Shoranur-Mangalore,CHV,NLE,42
+Shoranur-Mangalore,NLE,KZE,43
+Shoranur-Mangalore,KZE,BFR,44
+Shoranur-Mangalore,BFR,KQK,45
+Shoranur-Mangalore,KQK,KLAD,46
+Shoranur-Mangalore,KLAD,KGQ,47
+Shoranur-Mangalore,KGQ,KMQ,48
+Shoranur-Mangalore,KMQ,UAA,49
+Shoranur-Mangalore,UAA,MJS,50
+Shoranur-Mangalore,MJS,ULL,51
+Shoranur-Mangalore,ULL,MAQ,52
+Shoranur-Mangalore,MAQ,MAJN,53
+Shoranur-Mangalore,MAJN,PNMB,54
+Shoranur-Mangalore,PNMB,TOK,55
+Shoranur-Mangalore,TOK,JOKT,56
+Palakkad-Pollachi,PGT,PGTN,2
+Palakkad-Pollachi,PGTN,PDGM,3
+Palakkad-Pollachi,PDGM,VDK,4
+Palakkad-Pollachi,VDK,KLGD,5
+Palakkad-Pollachi,KLGD,MMDA,6
+Palakkad-Pollachi,MMDA,MXM,7
+Palakkad-Pollachi,MXM,POY,8
+Shoranur-Nilambur,SRR,VDKS,2
+Shoranur-Nilambur,VDKS,VPZ,3
+Shoranur-Nilambur,VPZ,KZC,4
+Shoranur-Nilambur,KZC,CQA,5
+Shoranur-Nilambur,CQA,AAM,6
+Shoranur-Nilambur,AAM,PKQ,7
+Shoranur-Nilambur,PKQ,MLTR,8
+Shoranur-Nilambur,MLTR,TUV,9
+Shoranur-Nilambur,TUV,TDPM,10
+Shoranur-Nilambur,TDPM,VNB,11
+Shoranur-Nilambur,VNB,NIL,12
+Main Line (via Kottayam),SRR,VTK,2
+Main Line (via Kottayam),VTK,MUC,3
+Main Line (via Kottayam),MUC,WKI,4
+Main Line (via Kottayam),WKI,MGK,5
+Main Line (via Kottayam),MGK,PNQ,6
+Main Line (via Kottayam),PNQ,TCR,7
+Main Line (via Kottayam),TCR,OLR,8
+Main Line (via Kottayam),OLR,PUK,9
+Main Line (via Kottayam),PUK,NYI,10
+Main Line (via Kottayam),NYI,IJK,11
+Main Line (via Kottayam),IJK,CKI,12
+Main Line (via Kottayam),CKI,DINR,13
+Main Line (via Kottayam),DINR,KRAN,14
+Main Line (via Kottayam),KRAN,KUC,15
+Main Line (via Kottayam),KUC,AFK,16
+Main Line (via Kottayam),AFK,CWR,17
+Main Line (via Kottayam),CWR,AWY,18
+Main Line (via Kottayam),AWY,KLMR,19
+Main Line (via Kottayam),KLMR,IPL,20
+Main Line (via Kottayam),IPL,ERN,21
+Main Line (via Kottayam),ERN,ERS,22
+Main Line (via Kottayam),ERS,TRTR,23
+Main Line (via Kottayam),TRTR,KFE,24
+Main Line (via Kottayam),KFE,MNTT,25
+Main Line (via Kottayam),MNTT,KPTM,26
+Main Line (via Kottayam),KPTM,PVRD,27
+Main Line (via Kottayam),PVRD,VARD,28
+Main Line (via Kottayam),VARD,KDTY,29
+Main Line (via Kottayam),KDTY,KRPP,30
+Main Line (via Kottayam),KRPP,ETM,31
+Main Line (via Kottayam),ETM,KFQ,32
+Main Line (via Kottayam),KFQ,KTYM,33
+Main Line (via Kottayam),KTYM,CGY,34
+Main Line (via Kottayam),CGY,TRVL,35
+Main Line (via Kottayam),TRVL,CNGR,36
+Main Line (via Kottayam),CNGR,CYN,37
+Main Line (via Kottayam),CYN,MVLK,38
+Main Line (via Kottayam),MVLK,KYJ,39
+Main Line (via Kottayam),KYJ,OCR,40
+Main Line (via Kottayam),OCR,KPY,41
+Main Line (via Kottayam),KPY,STKT,42
+Main Line (via Kottayam),STKT,MQO,43
+Main Line (via Kottayam),MQO,PRND,44
+Main Line (via Kottayam),PRND,QLN,45
+Main Line (via Kottayam),QLN,IRP,46
+Main Line (via Kottayam),IRP,MYY,47
+Main Line (via Kottayam),MYY,PVU,48
+Main Line (via Kottayam),PVU,KFI,49
+Main Line (via Kottayam),KFI,EVA,50
+Main Line (via Kottayam),EVA,VAK,51
+Main Line (via Kottayam),VAK,AMY,52
+Main Line (via Kottayam),AMY,KVU,53
+Main Line (via Kottayam),KVU,CRY,54
+Main Line (via Kottayam),CRY,PGZ,55
+Main Line (via Kottayam),PGZ,MQU,56
+Main Line (via Kottayam),MQU,KXP,57
+Main Line (via Kottayam),KXP,KZK,58
+Main Line (via Kottayam),KZK,VELI,59
+Main Line (via Kottayam),VELI,KCVL,60
+Main Line (via Kottayam),KCVL,TVP,61
+Main Line (via Kottayam),TVP,TVC,62
+Coastal Line (Alappuzha),ERS,KUMM,2
+Coastal Line (Alappuzha),KUMM,AROR,3
+Coastal Line (Alappuzha),AROR,EZP,4
+Coastal Line (Alappuzha),EZP,TUVR,5
+Coastal Line (Alappuzha),TUVR,VAY,6
+Coastal Line (Alappuzha),VAY,SRTL,7
+Coastal Line (Alappuzha),SRTL,TRVZ,8
+Coastal Line (Alappuzha),TRVZ,MAKM,9
+Coastal Line (Alappuzha),MAKM,KAVR,10
+Coastal Line (Alappuzha),KAVR,TMPY,11
+Coastal Line (Alappuzha),TMPY,ALLP,12
+Coastal Line (Alappuzha),ALLP,PNPR,13
+Coastal Line (Alappuzha),PNPR,AMPA,14
+Coastal Line (Alappuzha),AMPA,TZHI,15
+Coastal Line (Alappuzha),TZHI,KVTA,16
+Coastal Line (Alappuzha),KVTA,HAD,17
+Coastal Line (Alappuzha),HAD,CHPD,18
+Coastal Line (Alappuzha),CHPD,KYJ,19
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),TVC,NEM,2
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),NEM,BRAM,3
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),BRAM,NYY,4
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),NYY,AMVA,5
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),AMVA,DAVM,6
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),DAVM,PASA,7
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),PASA,KZTW,8
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),KZTW,KZT,9
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),KZT,PYD,10
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),PYD,ERL,11
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),ERL,VRLR,12
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),VRLR,NJT,13
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),NJT,NCJ,14
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),NCJ,SUCH,15
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),SUCH,CAPE,16
+Tirunelveli (TEN) - Nagercoil (NCJ),TEN,MP,2
+Tirunelveli (TEN) - Nagercoil (NCJ),MP,SGLM,3
+Tirunelveli (TEN) - Nagercoil (NCJ),SGLM,NNN,4
+Tirunelveli (TEN) - Nagercoil (NCJ),NNN,DYS,5
+Tirunelveli (TEN) - Nagercoil (NCJ),DYS,VLY,6
+Tirunelveli (TEN) - Nagercoil (NCJ),VLY,NPK,7
+Tirunelveli (TEN) - Nagercoil (NCJ),NPK,KVLK,8
+Tirunelveli (TEN) - Nagercoil (NCJ),KVLK,AAY,9
+Tirunelveli (TEN) - Nagercoil (NCJ),AAY,THX,10
+Tirunelveli (TEN) - Nagercoil (NCJ),THX,NCJ,11
+Kollam-Sengottai,QLN,KLQ,2
+Kollam-Sengottai,KLQ,CTPE,3
+Kollam-Sengottai,CTPE,KFV,4
+Kollam-Sengottai,KFV,KUV,5
+Kollam-Sengottai,KUV,EKN,6
+Kollam-Sengottai,EKN,KKZ,7
+Kollam-Sengottai,KKZ,KIF,8
+Kollam-Sengottai,KIF,AVS,9
+Kollam-Sengottai,AVS,PUU,10
+Kollam-Sengottai,PUU,EDN,11
+Kollam-Sengottai,EDN,OKL,12
+Kollam-Sengottai,OKL,TML,13
+Kollam-Sengottai,TML,KRA,14
+Kollam-Sengottai,KRA,AYV,15
+Kollam-Sengottai,AYV,BJM,16
+Kollam-Sengottai,BJM,SCT,17
+Dindigul-Madurai-Tirunelveli,DG,ABI,2
+Dindigul-Madurai-Tirunelveli,ABI,KQN,3
+Dindigul-Madurai-Tirunelveli,KQN,VDP,4
+Dindigul-Madurai-Tirunelveli,VDP,SDN,5
+Dindigul-Madurai-Tirunelveli,SDN,SER,6
+Dindigul-Madurai-Tirunelveli,SER,KON,7
+Dindigul-Madurai-Tirunelveli,KON,MDU,8
+Dindigul-Madurai-Tirunelveli,MDU,TDN,9
+Dindigul-Madurai-Tirunelveli,TDN,TMQ,10
+Dindigul-Madurai-Tirunelveli,TMQ,KGD,11
+Dindigul-Madurai-Tirunelveli,KGD,VPT,12
+Dindigul-Madurai-Tirunelveli,VPT,TY,13
+Dindigul-Madurai-Tirunelveli,TY,SRT,14
+Dindigul-Madurai-Tirunelveli,SRT,NLL,15
+Dindigul-Madurai-Tirunelveli,NLL,CVP,16
+Dindigul-Madurai-Tirunelveli,CVP,KDU,17
+Dindigul-Madurai-Tirunelveli,KDU,IVL,18
+Dindigul-Madurai-Tirunelveli,IVL,MEJ,19
+Dindigul-Madurai-Tirunelveli,MEJ,NRK,20
+Dindigul-Madurai-Tirunelveli,NRK,GDN,21
+Dindigul-Madurai-Tirunelveli,GDN,TAY,22
+Dindigul-Madurai-Tirunelveli,TAY,TEN,23
+Madurai-Rameswaram,MDU,MES,2
+Madurai-Rameswaram,MES,ILA,3
+Madurai-Rameswaram,ILA,TVN,4
+Madurai-Rameswaram,TVN,TPC,5
+Madurai-Rameswaram,TPC,RAGM,6
+Madurai-Rameswaram,RAGM,MNM,7
+Madurai-Rameswaram,MNM,SUX,8
+Madurai-Rameswaram,SUX,PMK,9
+Madurai-Rameswaram,PMK,SQD,10
+Madurai-Rameswaram,SQD,RMD,11
+Madurai-Rameswaram,RMD,VTV,12
+Madurai-Rameswaram,VTV,UCP,13
+Madurai-Rameswaram,UCP,MC,14
+Madurai-Rameswaram,MC,MMM,15
+Madurai-Rameswaram,MMM,PBM,16
+Madurai-Rameswaram,PBM,RMM,17
+Virudhunagar-Sengottai,VPT,TTL,2
+Virudhunagar-Sengottai,TTL,SVKS,3
+Virudhunagar-Sengottai,SVKS,SVPR,4
+Virudhunagar-Sengottai,SVPR,RJPM,5
+Virudhunagar-Sengottai,RJPM,CPM,6
+Virudhunagar-Sengottai,CPM,SNKL,7
+Virudhunagar-Sengottai,SNKL,PBKS,8
+Virudhunagar-Sengottai,PBKS,KDNL,9
+Virudhunagar-Sengottai,KDNL,TSI,10
+Virudhunagar-Sengottai,TSI,SCT,11
+Tirunelveli to Sengottai,TEN,TYT,2
+Tirunelveli to Sengottai,TYT,PEA,3
+Tirunelveli to Sengottai,PEA,SMD,4
+Tirunelveli to Sengottai,SMD,KARK,5
+Tirunelveli to Sengottai,KARK,VVR,6
+Tirunelveli to Sengottai,VVR,KIC,7
+Tirunelveli to Sengottai,KIC,ASD,8
+Tirunelveli to Sengottai,ASD,KIB,9
+Tirunelveli to Sengottai,KIB,AZK,10
+Tirunelveli to Sengottai,AZK,RVS,11
+Tirunelveli to Sengottai,RVS,KKY,12
+Tirunelveli to Sengottai,KKY,MTE,13
+Tirunelveli to Sengottai,MTE,PCM,14
+Tirunelveli to Sengottai,PCM,KYZ,15
+Tirunelveli to Sengottai,KYZ,TSI,16
+Tirunelveli to Sengottai,TSI,SCT,17
+Tirunelveli to Tiruchendur,TEN,PCO,2
+Tirunelveli to Tiruchendur,PCO,SDNR,3
+Tirunelveli to Tiruchendur,SDNR,TTQ,4
+Tirunelveli to Tiruchendur,TTQ,SVV,5
+Tirunelveli to Tiruchendur,SVV,AWT,6
+Tirunelveli to Tiruchendur,AWT,NZT,7
+Tirunelveli to Tiruchendur,NZT,KCHV,8
+Tirunelveli to Tiruchendur,KCHV,KZB,9
+Tirunelveli to Tiruchendur,KZB,ANY,10
+Tirunelveli to Tiruchendur,ANY,KZY,11
+Tirunelveli to Tiruchendur,KZY,TCN,12
+Madurai Junction–Bodinayakanur,MDU,VAJ,2
+Madurai Junction–Bodinayakanur,VAJ,USLP,3
+Madurai Junction–Bodinayakanur,USLP,ADPT,4
+Madurai Junction–Bodinayakanur,ADPT,TENI,5
+Madurai Junction–Bodinayakanur,TENI,BDNK,6
+Vanchi Maniyachchi Junction – Tuticorin,MEJ,KLPM,2
+Vanchi Maniyachchi Junction – Tuticorin,KLPM,TIP,3
+Vanchi Maniyachchi Junction – Tuticorin,TIP,MVN,4
+Vanchi Maniyachchi Junction – Tuticorin,MVN,TME,5
+Vanchi Maniyachchi Junction – Tuticorin,TME,TN,6
+Manamadurai-Virudhunagar,MNM,NKK,2
+Manamadurai-Virudhunagar,NKK,TCH,3
+Manamadurai-Virudhunagar,TCH,APK,4
+Manamadurai-Virudhunagar,APK,VPT,5
+Manamadurai-Trichy (via Karaikkudi),MNM,MEKM,2
+Manamadurai-Trichy (via Karaikkudi),MEKM,SVGA,3
+Manamadurai-Trichy (via Karaikkudi),SVGA,PNGI,4
+Manamadurai-Trichy (via Karaikkudi),PNGI,KAL,5
+Manamadurai-Trichy (via Karaikkudi),KAL,DKO,6
+Manamadurai-Trichy (via Karaikkudi),DKO,KKDI,7
+Manamadurai-Trichy (via Karaikkudi),KKDI,KTYR,8
+Manamadurai-Trichy (via Karaikkudi),KTYR,CTND,9
+Manamadurai-Trichy (via Karaikkudi),CTND,TYM,10
+Manamadurai-Trichy (via Karaikkudi),TYM,NMN,11
+Manamadurai-Trichy (via Karaikkudi),NMN,PDKT,12
+Manamadurai-Trichy (via Karaikkudi),PDKT,VEL,13
+Manamadurai-Trichy (via Karaikkudi),VEL,KRUR,14
+Manamadurai-Trichy (via Karaikkudi),KRUR,KRMG,15
+Manamadurai-Trichy (via Karaikkudi),KRMG,TPJ,16
+Villupuram-Trichy Chord,VM,TVNL,2
+Villupuram-Trichy Chord,TVNL,PRT,3
+Villupuram-Trichy Chord,PRT,ULU,4
+Villupuram-Trichy Chord,ULU,PVN,5
+Villupuram-Trichy Chord,PVN,VRI,6
+Villupuram-Trichy Chord,VRI,VRT,7
+Villupuram-Trichy Chord,VRT,PNDM,8
+Villupuram-Trichy Chord,PNDM,ICG,9
+Villupuram-Trichy Chord,ICG,MTUR,10
+Villupuram-Trichy Chord,MTUR,SNDI,11
+Villupuram-Trichy Chord,SNDI,ALU,12
+Villupuram-Trichy Chord,ALU,SLTH,13
+Villupuram-Trichy Chord,SLTH,KLGM,14
+Villupuram-Trichy Chord,KLGM,KKPM,15
+Villupuram-Trichy Chord,KKPM,PMB,16
+Villupuram-Trichy Chord,PMB,KTTR,17
+Villupuram-Trichy Chord,KTTR,LLI,18
+Villupuram-Trichy Chord,LLI,VLDE,19
+Villupuram-Trichy Chord,VLDE,BXS,20
+Villupuram-Trichy Chord,BXS,UKV,21
+Villupuram-Trichy Chord,UKV,SRGM,22
+Villupuram-Trichy Chord,SRGM,TPTN,23
+Villupuram-Trichy Chord,TPTN,GOC,24
+Villupuram-Trichy Chord,GOC,TPJ,25
+Main Line (VM-MV-TPJ),VM,VRA,2
+Main Line (VM-MV-TPJ),VRA,TDPR,3
+Main Line (VM-MV-TPJ),TDPR,CUPJ,4
+Main Line (VM-MV-TPJ),CUPJ,ALP,5
+Main Line (VM-MV-TPJ),ALP,PO,6
+Main Line (VM-MV-TPJ),PO,KII,7
+Main Line (VM-MV-TPJ),KII,CDM,8
+Main Line (VM-MV-TPJ),CDM,VMP,9
+Main Line (VM-MV-TPJ),VMP,CLN,10
+Main Line (VM-MV-TPJ),CLN,SY,11
+Main Line (VM-MV-TPJ),SY,VDL,12
+Main Line (VM-MV-TPJ),VDL,ANP,13
+Main Line (VM-MV-TPJ),ANP,NID,14
+Main Line (VM-MV-TPJ),NID,MV,15
+Main Line (VM-MV-TPJ),MV,KTM,16
+Main Line (VM-MV-TPJ),KTM,NPT,17
+Main Line (VM-MV-TPJ),NPT,ADT,18
+Main Line (VM-MV-TPJ),ADT,TRM,19
+Main Line (VM-MV-TPJ),TRM,TRR,20
+Main Line (VM-MV-TPJ),TRR,KMU,21
+Main Line (VM-MV-TPJ),KMU,DSM,22
+Main Line (VM-MV-TPJ),DSM,SWI,23
+Main Line (VM-MV-TPJ),SWI,SPL,24
+Main Line (VM-MV-TPJ),SPL,PML,25
+Main Line (VM-MV-TPJ),PML,PDV,26
+Main Line (VM-MV-TPJ),PDV,AZP,27
+Main Line (VM-MV-TPJ),AZP,PVL,28
+Main Line (VM-MV-TPJ),PVL,TT,29
+Main Line (VM-MV-TPJ),TT,TJ,30
+Main Line (VM-MV-TPJ),TJ,ALK,31
+Main Line (VM-MV-TPJ),ALK,BAL,32
+Main Line (VM-MV-TPJ),BAL,AYN,33
+Main Line (VM-MV-TPJ),AYN,SGM,34
+Main Line (VM-MV-TPJ),SGM,TOM,35
+Main Line (VM-MV-TPJ),TOM,TRB,36
+Main Line (VM-MV-TPJ),TRB,MCJ,37
+Main Line (VM-MV-TPJ),MCJ,GOC,38
+Main Line (VM-MV-TPJ),GOC,TPJ,39
+Thanjavur-Karaikal-Velankanni,TJ,KXO,2
+Thanjavur-Karaikal-Velankanni,KXO,SMM,3
+Thanjavur-Karaikal-Velankanni,SMM,AMT,4
+Thanjavur-Karaikal-Velankanni,AMT,KYV,5
+Thanjavur-Karaikal-Velankanni,KYV,NMJ,6
+Thanjavur-Karaikal-Velankanni,NMJ,KDE,7
+Thanjavur-Karaikal-Velankanni,KDE,TMU,8
+Thanjavur-Karaikal-Velankanni,TMU,KU,9
+Thanjavur-Karaikal-Velankanni,KU,TVR,10
+Thanjavur-Karaikal-Velankanni,TVR,AYM,11
+Thanjavur-Karaikal-Velankanni,AYM,KOQ,12
+Thanjavur-Karaikal-Velankanni,KOQ,SKK,13
+Thanjavur-Karaikal-Velankanni,SKK,NGT,14
+Thanjavur-Karaikal-Velankanni,NGT,APE,15
+Thanjavur-Karaikal-Velankanni,APE,NCR,16
+Thanjavur-Karaikal-Velankanni,NCR,TMPT,17
+Thanjavur-Karaikal-Velankanni,TMPT,KIK,18
+Thanjavur-Karaikal-Velankanni,KIK,VLNK,19
+Villupuram-Katpadi Branch,VM,VKM,2
+Villupuram-Katpadi Branch,VKM,MMP,3
+Villupuram-Katpadi Branch,MMP,AYD,4
+Villupuram-Katpadi Branch,AYD,TRK,5
+Villupuram-Katpadi Branch,TRK,ACN,6
+Villupuram-Katpadi Branch,ACN,AND,7
+Villupuram-Katpadi Branch,AND,TNI,8
+Villupuram-Katpadi Branch,TNI,TNM,9
+Villupuram-Katpadi Branch,TNM,TJM,10
+Villupuram-Katpadi Branch,TJM,AGM,11
+Villupuram-Katpadi Branch,AGM,PRL,12
+Villupuram-Katpadi Branch,PRL,ARV,13
+Villupuram-Katpadi Branch,ARV,MCL,14
+Villupuram-Katpadi Branch,MCL,SDPT,15
+Villupuram-Katpadi Branch,SDPT,OPM,16
+Villupuram-Katpadi Branch,OPM,KMM,17
+Villupuram-Katpadi Branch,KMM,KNB,18
+Villupuram-Katpadi Branch,KNB,PNTR,19
+Villupuram-Katpadi Branch,PNTR,VLR,20
+Villupuram-Katpadi Branch,VLR,KPD,21
+Karaikkudi-Tiruvarur,KKDI,KNPL,2
+Karaikkudi-Tiruvarur,KNPL,VMM,3
+Karaikkudi-Tiruvarur,VMM,ATQ,4
+Karaikkudi-Tiruvarur,ATQ,AYI,5
+Karaikkudi-Tiruvarur,AYI,PVI,6
+Karaikkudi-Tiruvarur,PVI,PKT,7
+Karaikkudi-Tiruvarur,PKT,AMM,8
+Karaikkudi-Tiruvarur,AMM,MTT,9
+Karaikkudi-Tiruvarur,MTT,TAM,10
+Karaikkudi-Tiruvarur,TAM,TTP,11
+Karaikkudi-Tiruvarur,TTP,ATB,12
+Karaikkudi-Tiruvarur,ATB,MNLI,13
+Karaikkudi-Tiruvarur,MNLI,AMNR,14
+Karaikkudi-Tiruvarur,AMNR,TNK,15
+Karaikkudi-Tiruvarur,TNK,MARD,16
+Karaikkudi-Tiruvarur,MARD,MAX,17
+Karaikkudi-Tiruvarur,MAX,TVR,18
+Villupuram-Puducherry,VM,CBU,2
+Villupuram-Puducherry,CBU,VI,3
+Villupuram-Puducherry,VI,PDY,4
+Nidamangalam-Mannargudi,NMJ,MQ,2
+Mayiladuthurai to Thiruvarur,MV,PEM,2
+Mayiladuthurai to Thiruvarur,PEM,POM,3
+Mayiladuthurai to Thiruvarur,POM,NNM,4
+Mayiladuthurai to Thiruvarur,NNM,TVR,5
+Peralam to Karaikal,PEM,ABT,2
+Peralam to Karaikal,ABT,PCD,3
+Peralam to Karaikal,PCD,TXR,4
+Peralam to Karaikal,TXR,KVPT,5
+Peralam to Karaikal,KVPT,KIK,6

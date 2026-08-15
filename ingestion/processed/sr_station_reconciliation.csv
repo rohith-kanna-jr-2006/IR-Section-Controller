@@ -1,0 +1,692 @@
+station_code,station_name,division,classification
+MAS,MGR Chennai Central,CHENNAI,NEW
+BBQ,Basin Bridge Junction,CHENNAI,NEW
+VJM,Vyasarpadi Jeeva,CHENNAI,NEW
+PER,Perambur,CHENNAI,NEW
+PCW,Perambur Carriage Works,CHENNAI,NEW
+PEW,Perambur Loco Works,CHENNAI,NEW
+VLK,Villivakkam,CHENNAI,NEW
+KOTR,Korattur,CHENNAI,NEW
+PVM,Pataravakkam,CHENNAI,NEW
+ABU,Ambattur,CHENNAI,NEW
+TMVL,Tirumullaivayil,CHENNAI,NEW
+ANNR,Annanur,CHENNAI,NEW
+AVD,Avadi,CHENNAI,NEW
+HC,Hindu College,CHENNAI,NEW
+PAB,Patabiram,CHENNAI,NEW
+PTMS,Patabiram Military Siding,CHENNAI,NEW
+NEC,Nemilichery,CHENNAI,NEW
+TI,Tiruninravur,CHENNAI,NEW
+VEU,Veppampattu,CHENNAI,NEW
+SVR,Sevvpet Road,CHENNAI,NEW
+PTLR,Putlur,CHENNAI,NEW
+TRL,Tiruvallur,CHENNAI,NEW
+EGT,Egattur,CHENNAI,NEW
+KBT,Kadambattur,CHENNAI,NEW
+SPAM,Senji Panambakkam,CHENNAI,NEW
+MAF,Manavur,CHENNAI,NEW
+TO,Tiruvalangadu,CHENNAI,NEW
+MSU,Mosur,CHENNAI,NEW
+PLMG,Puliyamangalam,CHENNAI,NEW
+AJJ,Arakkonam Junction,CHENNAI,NEW
+CTRE,Chiteri,CHENNAI,NEW
+AVN,Anavardikhanpet,CHENNAI,NEW
+MDVE,Mahendravadi,CHENNAI,NEW
+SHU,Sholinghur,CHENNAI,NEW
+TUG,Thalangai,CHENNAI,NEW
+WJR,Walajah Road Junction,CHENNAI,NEW
+MCN,Mukundarayapuram,CHENNAI,NEW
+THL,Tiruvalam,CHENNAI,NEW
+SVUR,Sevur,CHENNAI,NEW
+KPD,Katpadi Junction,CHENNAI,NEW
+LTI,Lateri,CHENNAI,NEW
+VJ,Virinchipuram,CHENNAI,NEW
+KVN,Kavanur,CHENNAI,NEW
+GYM,Gudiyatam,CHENNAI,NEW
+MEH,Melalathur,CHENNAI,NEW
+VLT,Valathoor,CHENNAI,NEW
+MPI,Melpati,CHENNAI,NEW
+PCV,Pachakuppam,CHENNAI,CONFLICT
+AB,Ambur,CHENNAI,NEW
+VGM,Vinnamangalam,CHENNAI,NEW
+VN,Vaniyambadi,CHENNAI,NEW
+KDY,Ketandapatti,CHENNAI,NEW
+JTJ,Jolarpettai Junction,CHENNAI,NEW
+TNP,Tondiarpet,CHENNAI,NEW
+KOK,Korukkupet,CHENNAI,NEW
+TVT,Tiruvottiyur,CHENNAI,NEW
+WCN,Wimco Nagar,CHENNAI,NEW
+KAVM,Kathivakkam,CHENNAI,NEW
+ENR,Ennore,CHENNAI,NEW
+AIP,Atipattu,CHENNAI,NEW
+AIPP,Atipattu Pudu Nagar,CHENNAI,NEW
+NPKM,Nandiambakkam,CHENNAI,NEW
+MJR,Minjur,CHENNAI,NEW
+APB,Anuppampattu,CHENNAI,NEW
+PON,Ponneri,CHENNAI,NEW
+KVP,Kavaraipettai,CHENNAI,NEW
+GPD,Gummidipundi,CHENNAI,NEW
+ELR,Elavur,CHENNAI,NEW
+AKM,Arambakkam,CHENNAI,NEW
+TADA,Tada,CHENNAI,NEW
+SPE,Sullurupeta,CHENNAI,NEW
+PEL,Polireddipalem,CHENNAI,NEW
+DVR,Doravari Chatram,CHENNAI,NEW
+NYP,Nayudupeta,CHENNAI,NEW
+PYA,Pedapariya,CHENNAI,NEW
+ODUR,Odur,CHENNAI,NEW
+GDR,Gudur Junction,CHENNAI,NEW
+MS,Chennai Egmore,CHENNAI,NEW
+MSC,Chetpet,CHENNAI,NEW
+NBK,Nungambakkam,CHENNAI,NEW
+MKK,Kodambakkam,CHENNAI,NEW
+MBM,Mambalam,CHENNAI,NEW
+SP,Saidapet,CHENNAI,NEW
+GDY,Guindy,CHENNAI,NEW
+STM,St Thomas Mount,CHENNAI,NEW
+PZA,Palavanthangal,CHENNAI,NEW
+MN,Minambakkam,CHENNAI,NEW
+TLM,Tirusulam,CHENNAI,NEW
+PV,Pallavaram,CHENNAI,NEW
+CMP,Chromepet,CHENNAI,NEW
+TBMS,Tambaram Sanatorium,CHENNAI,NEW
+TBM,Tambaram,CHENNAI,NEW
+PRGL,Perungalathur,CHENNAI,NEW
+VDR,Vandalur,CHENNAI,NEW
+UPM,Urappakkam,CHENNAI,NEW
+GI,Guduvancheri,CHENNAI,NEW
+POTI,Potheri,CHENNAI,NEW
+CTM,Katangulattur,CHENNAI,NEW
+MMNK,Maraimalai Nagar Kamarajar,CHENNAI,NEW
+SKL,Singaperumal Koil,CHENNAI,NEW
+PWU,Paranur,CHENNAI,NEW
+CGL,Chengalpattu Junction,CHENNAI,NEW
+TRM,Tirumani,CHENNAI,CONFLICT
+OV,Otivakkam,CHENNAI,NEW
+PTM,Padalam,CHENNAI,NEW
+KGZ,Karunguzhi,CHENNAI,NEW
+MMK,Madurantakam,CHENNAI,NEW
+PAK,Pakkam,CHENNAI,NEW
+MLMR,Melmaruvathur,CHENNAI,NEW
+ACK,Acharapakkam,CHENNAI,NEW
+TZD,Tozhuppu,CHENNAI,NEW
+OLA,Olakkur,CHENNAI,NEW
+TMV,Tindivanam,CHENNAI,NEW
+MTL,Mailam,CHENNAI,NEW
+PEI,Perani,CHENNAI,NEW
+VV,Vikravandi,CHENNAI,NEW
+MSB,Chennai Beach,CHENNAI,NEW
+MSF,Chennai Fort,CHENNAI,NEW
+MPK,Chennai Park Town,CHENNAI,NEW
+MCPT,Chintadripet,CHENNAI,NEW
+MCPK,Chepauk,CHENNAI,NEW
+MTCN,Tirullikeni,CHENNAI,NEW
+MLHS,Light House,CHENNAI,NEW
+MKAK,Mundakakanni Amman Koil,CHENNAI,NEW
+MTMY,Thirumayilai,CHENNAI,NEW
+MNDY,Mandaveli,CHENNAI,NEW
+GWYR,Greenways Road,CHENNAI,NEW
+KTPM,Kotturpuram,CHENNAI,NEW
+KTBR,Kasturibai Nagar,CHENNAI,NEW
+INDR,Indira Nagar,CHENNAI,NEW
+TYMR,Tiruvanmiyur,CHENNAI,NEW
+TRMN,Taramani,CHENNAI,NEW
+PRGD,Perungudi,CHENNAI,NEW
+VLCY,Velachery,CHENNAI,NEW
+TKO,Takkolam,CHENNAI,NEW
+TMLP,Tirumalpur,CHENNAI,NEW
+CJ,Kanchipuram,CHENNAI,NEW
+CJE,Kanchipuram East,CHENNAI,NEW
+NTT,Nathapettai,CHENNAI,NEW
+WJ,Walajabad,CHENNAI,NEW
+PYV,Pazhaya Seevaram,CHENNAI,NEW
+PALR,Palur,CHENNAI,NEW
+VB,Villiyambakkam,CHENNAI,NEW
+RDY,Reddipalaiyam,CHENNAI,NEW
+TRT,Tiruttani,CHENNAI,NEW
+POI,Ponpadi,CHENNAI,NEW
+VKZ,Venkatanarasimharajuvaripeta,CHENNAI,NEW
+NG,Nagari,CHENNAI,NEW
+EKM,Ekambarakuppam,CHENNAI,NEW
+VGA,Vepagunta,CHENNAI,NEW
+PUT,Puttur,CHENNAI,NEW
+TDK,Taduku,CHENNAI,NEW
+PUDI,Pudi,CHENNAI,NEW
+TPT,Tirupattur,SALEM,NEW
+MOLK,Molakarampatti,SALEM,NEW
+KEY,Kagankarai,SALEM,NEW
+KNNT,Kunnathur,SALEM,NEW
+SLY,Samalpatti,SALEM,NEW
+DST,Dasampatti,SALEM,NEW
+DPI,Doddampatti,SALEM,NEW
+MAP,Morappur,SALEM,NEW
+TNGR,Thonganur,SALEM,NEW
+BDY,Buddireddipatti,SALEM,NEW
+BQI,Bommidi,SALEM,NEW
+LCR,Lokur,SALEM,NEW
+DSPT,Danishpet,SALEM,NEW
+TNT,Tinnappatti,SALEM,NEW
+KPPR,Karuppur,SALEM,NEW
+MGSJ,Magnesite Junction,SALEM,NEW
+SA,Salem Junction,SALEM,NEW
+NEA,Neykkarapatti,SALEM,NEW
+VRPD,Virapandy Road,SALEM,NEW
+DC,Magudanchavadi,SALEM,NEW
+MVPM,Mavelipalayam,SALEM,NEW
+SGE,Sankaridurg,SALEM,NEW
+ANU,Anangur,SALEM,NEW
+CV,Cauvery,SALEM,NEW
+ED,Erode Junction,SALEM,NEW
+TPM,Totiyapalayam,SALEM,NEW
+PY,Perundurai,SALEM,NEW
+IGR,Ingur,SALEM,NEW
+VZ,Vijayamangalam,SALEM,NEW
+UKL,Uttukuli,SALEM,NEW
+KUY,Kulipalayam,SALEM,NEW
+TUP,Tiruppur,SALEM,NEW
+VNJ,Vanjipalayam,SALEM,NEW
+SNO,Somanur,SALEM,NEW
+SUU,Sulur Road,SALEM,NEW
+IGU,Irugur Junction,SALEM,NEW
+SIH,Singanallur,SALEM,NEW
+PLMD,Pilamedu,SALEM,NEW
+CBF,Coimbatore North Junction,SALEM,NEW
+CBE,Coimbatore Junction,SALEM,NEW
+MALR,Mallur,SALEM,NEW
+RASP,Rasipuram,SALEM,NEW
+KLGN,Kalangani,SALEM,NEW
+NMKL,Namakkal,SALEM,NEW
+MONR,Mohanur,SALEM,NEW
+VNGL,Vangal,SALEM,NEW
+KRR,Karur Junction,SALEM,NEW
+VEI,Velliyanai,SALEM,NEW
+PALM,Palaiyam,SALEM,NEW
+ERI,Eriodu,SALEM,NEW
+DG,Dindigul Junction,SALEM,NEW
+CVD,Chavadipalaiyam,SALEM,NEW
+PAS,Pasur,SALEM,NEW
+URL,Unjalur,SALEM,NEW
+KMD,Kodumudi,SALEM,NEW
+PGR,Pugalur,SALEM,NEW
+MPLM,Murthipalayam,SALEM,NEW
+VRQ,Virarakkiyam,SALEM,NEW
+MYU,Mayanoor,SALEM,NEW
+SEV,Sithalavai,SALEM,NEW
+MMH,Mahadanapuram,SALEM,NEW
+LP,Lalapet,SALEM,NEW
+TIC,Timmachipuram,SALEM,NEW
+KLT,Kulitalai,SALEM,NEW
+PLI,Pettaivaytalai,SALEM,NEW
+PGN,Perugamani,SALEM,NEW
+EL,Elamanur,SALEM,NEW
+JPM,Jiyapuram,SALEM,NEW
+MTNL,Muttarasanallur,SALEM,NEW
+TP,Tiruchirappalli Fort,SALEM,NEW
+TPE,Tiruchchirappalli Palakkarai,SALEM,NEW
+TPJ,Tiruchirappalli Junction,SALEM,NEW
+SXT,Salem Town,SALEM,NEW
+APN,Ayodhyapattanam,SALEM,NEW
+MPL,Minnampalli,SALEM,NEW
+VGE,Valappadi Gate,SALEM,NEW
+ETP,Ettapur Road,SALEM,NEW
+PDKM,Pedanayakanpalayam,SALEM,NEW
+ATU,Attur,SALEM,NEW
+TVS,Talaivasal,SALEM,NEW
+MLYR,Melnariyappanur,SALEM,NEW
+CHSM,Chinna Salem,SALEM,NEW
+SRVT,Siruvattur,SALEM,NEW
+PRV,Pukkiravari,SALEM,NEW
+KKTI,Kuttakudi,SALEM,NEW
+MKSP,Mukhasaparur,SALEM,NEW
+VRI,Vridhachalam Junction,SALEM,NEW
+OML,Omalur Junction,SALEM,NEW
+TGN,Tholasampatti,SALEM,NEW
+TOP,Toppur,SALEM,NEW
+DPJ,Dharmappuri,SALEM,NEW
+RYC,Rayakottai,SALEM,NEW
+HSRA,Hosur,SALEM,NEW
+AQL,Anekal Road,SALEM,NEW
+HLE,Heelalige,SALEM,NEW
+CRLM,Carmelaram,SALEM,NEW
+BYPL,Baiyappanahalli,SALEM,NEW
+BNCE,Bengaluru East,SALEM,NEW
+BNC,Bengaluru Cantt.,SALEM,NEW
+SBC,KSR Bengaluru City,SALEM,NEW
+SMVB,SMVT Bengaluru,SALEM,NEW
+YPR,Yesvantpur Junction,SALEM,NEW
+MCRD,Mecheri Road,SALEM,NEW
+MTDM,Mettur Dam,SALEM,NEW
+TDE,Thudiyalur,SALEM,NEW
+PKD,Periyanaickenpalayam,SALEM,NEW
+KAY,Karaimadai,SALEM,NEW
+MTP,Mettupalayam,SALEM,NEW
+HLG,Hillgrove,SALEM,NEW
+ONR,Coonoor,SALEM,NEW
+WEL,Wellington,SALEM,NEW
+AVK,Aravankadu,SALEM,NEW
+KXT,Ketti,SALEM,NEW
+LOV,Lovedale,SALEM,NEW
+UAM,Udagamandalam,SALEM,NEW
+PTJ,Podanur Junction,PALAKKAD,NEW
+MDKI,Madukarai,PALAKKAD,NEW
+ETMD,Ettimadai,PALAKKAD,NEW
+WRA,Walayar,PALAKKAD,NEW
+KJKD,Kanjikode,PALAKKAD,NEW
+PGT,Palakkad Junction,PALAKKAD,NEW
+PLL,Parli,PALAKKAD,NEW
+LDY,Lakkiti,PALAKKAD,NEW
+OTP,Ottappalam,PALAKKAD,NEW
+MNUR,Mannanur,PALAKKAD,NEW
+SRR,Shoranur Junction,PALAKKAD,NEW
+PTB,Pattambi,PALAKKAD,NEW
+KODN,Kodumunda,PALAKKAD,NEW
+PUM,Pallippuram,PALAKKAD,NEW
+KTU,Kuttippuram,PALAKKAD,NEW
+TUA,Tirunnavaya,PALAKKAD,NEW
+TIR,Tirur,PALAKKAD,NEW
+TA,Tanur,PALAKKAD,NEW
+PGI,Parappanangadi,PALAKKAD,NEW
+VLI,Vallikunnu,PALAKKAD,NEW
+KN,Kadalundi,PALAKKAD,NEW
+FK,Ferok,PALAKKAD,NEW
+KUL,Kallayi,PALAKKAD,NEW
+CLT,Kozhikode,PALAKKAD,NEW
+VLL,Vellayil,PALAKKAD,NEW
+WH,West Hill,PALAKKAD,NEW
+ETR,Elattur,PALAKKAD,NEW
+CMC,Chemancheri,PALAKKAD,NEW
+QLD,Quilandi,PALAKKAD,NEW
+VEK,Vellarakkad,PALAKKAD,NEW
+TKT,Tikkotti,PALAKKAD,NEW
+PYQR,Payyoli,PALAKKAD,NEW
+IGL,Iringal,PALAKKAD,NEW
+BDJ,Vadakara,PALAKKAD,NEW
+NAU,Nadapuramold,PALAKKAD,NEW
+MUKE,Mukkali,PALAKKAD,NEW
+MAHE,Mahe,PALAKKAD,NEW
+JGE,Jagannath Temple Gate,PALAKKAD,NEW
+TLY,Thalassery,PALAKKAD,NEW
+DMD,Dharmadam,PALAKKAD,NEW
+ETK,Etakkot,PALAKKAD,NEW
+CS,Kannur South,PALAKKAD,NEW
+CAN,Kannur,PALAKKAD,NEW
+VAPM,Valapattanam,PALAKKAD,NEW
+PPNS,Pappinisseri,PALAKKAD,NEW
+KPQ,Kannapuram,PALAKKAD,NEW
+PAZ,Payangadi,PALAKKAD,NEW
+ELM,Ezhimala,PALAKKAD,NEW
+PAY,Payyanur,PALAKKAD,NEW
+TKQ,Trikarpur,PALAKKAD,NEW
+CHV,Charvattur,PALAKKAD,NEW
+NLE,Nileshwar,PALAKKAD,NEW
+KZE,Kanhangad,PALAKKAD,NEW
+BFR,Bekal Fort,PALAKKAD,NEW
+KQK,Kotikulam,PALAKKAD,NEW
+KLAD,Kalanad,PALAKKAD,NEW
+KGQ,Kasaragod,PALAKKAD,NEW
+KMQ,Kumbala,PALAKKAD,NEW
+UAA,Uppala,PALAKKAD,NEW
+MJS,Manjeshwar,PALAKKAD,NEW
+ULL,Ullal,PALAKKAD,NEW
+MAQ,Mangalore Central,PALAKKAD,NEW
+MAJN,Mangalore Junction,PALAKKAD,NEW
+PNMB,Panambur,PALAKKAD,NEW
+TOK,Thokur,PALAKKAD,NEW
+JOKT,Jokatte,PALAKKAD,NEW
+PGTN,Palakkad Town,PALAKKAD,NEW
+PDGM,Pudunagaram,PALAKKAD,NEW
+VDK,Vadakannikapuram,PALAKKAD,NEW
+KLGD,Kollengode,PALAKKAD,NEW
+MMDA,Muthalamada,PALAKKAD,NEW
+MXM,Minatchipuram,PALAKKAD,NEW
+POY,Pollachi Junction,PALAKKAD,NEW
+VDKS,Vadanamkurushi,PALAKKAD,NEW
+VPZ,Vallapuzha,PALAKKAD,NEW
+KZC,Kulukkallur,PALAKKAD,NEW
+CQA,Cherukara,PALAKKAD,NEW
+AAM,Angadipuram,PALAKKAD,NEW
+PKQ,Pattikkad,PALAKKAD,NEW
+MLTR,Melattur,PALAKKAD,NEW
+TUV,Tuvvur,PALAKKAD,NEW
+TDPM,Todiyapulam,PALAKKAD,NEW
+VNB,Vaniyambalam,PALAKKAD,NEW
+NIL,Nilambur Road,PALAKKAD,NEW
+VTK,Vallathol Nagar,TVC,NEW
+MUC,Mullurkara,TVC,NEW
+WKI,Wadakancheri,TVC,NEW
+MGK,Mulagunnathukavu,TVC,NEW
+PNQ,Punkunnam,TVC,NEW
+TCR,Thrissur,TVC,NEW
+OLR,Ollur,TVC,NEW
+PUK,Pudukkad,TVC,NEW
+NYI,Nellayi,TVC,NEW
+IJK,Irinjalakuda,TVC,NEW
+CKI,Chalakudi,TVC,NEW
+DINR,Divine Nagar,TVC,NEW
+KRAN,Koratti Angadi,TVC,NEW
+KUC,Karukkutty,TVC,NEW
+AFK,Angamaly,TVC,NEW
+CWR,Chovvara,TVC,NEW
+AWY,Aluva,TVC,NEW
+KLMR,Kalamassery,TVC,NEW
+IPL,Idappally,TVC,NEW
+ERN,Ernakulam Town,TVC,NEW
+ERS,Ernakulam Junction,TVC,NEW
+TRTR,Thrippunithura,TVC,NEW
+KFE,Chottanikkara Road,TVC,NEW
+MNTT,Mulanturutti,TVC,NEW
+KPTM,Kanjiramittam,TVC,NEW
+PVRD,Piravom Road,TVC,NEW
+VARD,Vaikom Road,TVC,NEW
+KDTY,Kaduturutty,TVC,NEW
+KRPP,Kuruppanthara,TVC,NEW
+ETM,Ettumanur,TVC,NEW
+KFQ,Kumaranallur,TVC,NEW
+KTYM,Kottayam,TVC,NEW
+CGY,Changanassery,TVC,NEW
+TRVL,Tiruvalla,TVC,NEW
+CNGR,Chengannur,TVC,NEW
+CYN,Cheriyanad,TVC,NEW
+MVLK,Mavelikara,TVC,NEW
+KYJ,Kayamkulam Junction,TVC,NEW
+OCR,Ochira,TVC,NEW
+KPY,Karunagappally,TVC,NEW
+STKT,Sasthankotta,TVC,NEW
+MQO,Munroturuttu,TVC,NEW
+PRND,Perinad,TVC,NEW
+QLN,Kollam Junction,TVC,NEW
+IRP,Eravipuram,TVC,NEW
+MYY,Mayyanad,TVC,NEW
+PVU,Paravur,TVC,NEW
+KFI,Kappil,TVC,NEW
+EVA,Edavai,TVC,NEW
+VAK,Varkala Sivagiri,TVC,NEW
+AMY,Akathumuri,TVC,NEW
+KVU,Kadakavur,TVC,NEW
+CRY,Chirayinkeezhu,TVC,NEW
+PGZ,Perunguzhi,TVC,NEW
+MQU,Murukkampuzha,TVC,NEW
+KXP,Kaniyapuram,TVC,NEW
+KZK,Kazhakuttam,TVC,NEW
+VELI,Veli,TVC,NEW
+KCVL,Kochuveli,TVC,NEW
+TVP,Trivandrum Pettah,TVC,NEW
+TVC,Thiruvananthapuram Central,TVC,NEW
+KUMM,Kumbalam,TVC,NEW
+AROR,Aroor Halt,TVC,NEW
+EZP,Ezhupunna,TVC,NEW
+TUVR,Turavur,TVC,NEW
+VAY,Vayalar,TVC,NEW
+SRTL,Cherthala,TVC,NEW
+TRVZ,Tiruvizha,TVC,NEW
+MAKM,Mararikulam,TVC,NEW
+KAVR,Kalavur Halt,TVC,NEW
+TMPY,Tumboli,TVC,NEW
+ALLP,Alappuzha,TVC,NEW
+PNPR,Punnapra,TVC,NEW
+AMPA,Ambalappuzha,TVC,NEW
+TZHI,Takazhi,TVC,NEW
+KVTA,Karuvatta Halt,TVC,NEW
+HAD,Haripad,TVC,NEW
+CHPD,Cheppad,TVC,NEW
+NEM,Nemom,TVC,NEW
+BRAM,Balaramapuram,TVC,NEW
+NYY,Neyyattinkara,TVC,NEW
+AMVA,Amaravila,TVC,NEW
+DAVM,Dhanuvachapuram,TVC,NEW
+PASA,Parassala,TVC,NEW
+KZTW,Kulitturai West,TVC,NEW
+KZT,Kulitturai,TVC,NEW
+PYD,Palliyadi,TVC,NEW
+ERL,Eraniel,TVC,NEW
+VRLR,Virani Alur,TVC,NEW
+NJT,Nagercoil Town,TVC,NEW
+NCJ,Nagercoil Junction,TVC,NEW
+SUCH,Suchindram,TVC,NEW
+CAPE,Kanyakumari,TVC,NEW
+TEN,Tirunelveli Junction,TVC,NEW
+MP,Melappalaiyam,TVC,NEW
+SGLM,Sengulam,TVC,NEW
+NNN,Nanguneri,TVC,NEW
+DYS,Dalapathy Samudram,TVC,NEW
+VLY,Valliyur,TVC,NEW
+NPK,North Panakudi,TVC,NEW
+KVLK,Kavalkinaru,TVC,NEW
+AAY,Aralvaymozhi,TVC,NEW
+THX,Tovalai,TVC,NEW
+KLQ,Kilikollur,TVC,NEW
+CTPE,Chandanatop,TVC,NEW
+KFV,Kundara East,TVC,NEW
+KUV,Kundara,TVC,NEW
+EKN,Ezhukone,TVC,NEW
+KKZ,Kottarakara,TVC,NEW
+KIF,Kuri,TVC,NEW
+AVS,Auvaneeswaram,TVC,NEW
+PUU,Punalur,TVC,NEW
+EDN,Edamann,TVC,NEW
+OKL,Ottakkal,TVC,NEW
+TML,Tenmalai,TVC,NEW
+KRA,Kazhuthuruthy,TVC,NEW
+AYV,Aryankavu,TVC,NEW
+BJM,Bhagavathipuram,TVC,NEW
+SCT,Sengottai,TVC,NEW
+ABI,Ambaturai,MDU,NEW
+KQN,Kodaikanal Road,MDU,NEW
+VDP,Vadippatti,MDU,NEW
+SDN,Sholavandan,MDU,NEW
+SER,Samayanallur,MDU,NEW
+KON,Kudalnagar,MDU,NEW
+MDU,Madurai Junction,MDU,NEW
+TDN,Tirupparankundram,MDU,NEW
+TMQ,Tirumangalam,MDU,NEW
+KGD,Kalligudi,MDU,NEW
+VPT,Virudhunagar Junction,MDU,NEW
+TY,Tulukapati,MDU,NEW
+SRT,Sattur,MDU,NEW
+NLL,Nalli,MDU,NEW
+CVP,Kovilpatti,MDU,NEW
+KDU,Kadambur,MDU,NEW
+IVL,Ilavelangal,MDU,NEW
+MEJ,Vanchi Maniyachchi,MDU,CONFLICT
+NRK,Naraikkinaru,MDU,NEW
+GDN,Gangaikondan,MDU,NEW
+TAY,Talaiyuthu,MDU,NEW
+MES,Madurai East,MDU,NEW
+ILA,Silaiman,MDU,NEW
+TVN,Tiruppuvanam,MDU,NEW
+TPC,Tiruppachetti,MDU,NEW
+RAGM,Rajagambiram,MDU,NEW
+MNM,Manamadurai Junction,MDU,NEW
+SUX,Sudiyur,MDU,NEW
+PMK,Paramakudi,MDU,NEW
+SQD,Sattirakkudi,MDU,NEW
+RMD,Ramanathapuram,MDU,NEW
+VTV,Valantaravai,MDU,NEW
+UCP,Uchippuli,MDU,NEW
+MC,Mandapam Camp,MDU,NEW
+MMM,Mandapam,MDU,NEW
+PBM,Pamban Junction,MDU,NEW
+RMM,Rameswaram,MDU,NEW
+TTL,Tiruttangal,MDU,NEW
+SVKS,Sivakasi,MDU,NEW
+SVPR,Srivilliputtur,MDU,NEW
+RJPM,Rajapalayam,MDU,NEW
+CPM,Cholapuram,MDU,NEW
+SNKL,Sankarankovil,MDU,NEW
+PBKS,Pamba Kovil Shandy,MDU,NEW
+KDNL,Kadayanallur,MDU,NEW
+TSI,Tenkasi Junction,MDU,NEW
+TYT,Tirunelveli Town,MDU,NEW
+PEA,Pettai,MDU,NEW
+SMD,Cheranmahadevi,MDU,NEW
+KARK,Karaikkurichi,MDU,NEW
+VVR,Viravanallur,MDU,NEW
+KIC,Kallidaikurichi,MDU,NEW
+ASD,Ambasamudram,MDU,NEW
+KIB,Kizha Ambur,MDU,NEW
+AZK,Alwarkurichi,MDU,NEW
+RVS,Ravanasamudram,MDU,NEW
+KKY,Kizhakadayam,MDU,NEW
+MTE,Mettur,MDU,NEW
+PCM,Pavurchatram,MDU,NEW
+KYZ,Kizha Puliyur,MDU,NEW
+PCO,Palayamkottai,MDU,NEW
+SDNR,Seydunganallur,MDU,NEW
+TTQ,Thathankulam,MDU,NEW
+SVV,Srivaikuntam,MDU,NEW
+AWT,Alwar Tirunagri,MDU,NEW
+NZT,Nazareth,MDU,NEW
+KCHV,Kachchanvilai,MDU,NEW
+KZB,Kurumbur,MDU,NEW
+ANY,Arumuganeri,MDU,NEW
+KZY,Kayalpattinam,MDU,NEW
+TCN,Tiruchendur,MDU,NEW
+VAJ,Vadapalanji,MDU,NEW
+USLP,Usilampatti,MDU,NEW
+ADPT,Andipatti,MDU,NEW
+TENI,Theni,MDU,NEW
+BDNK,Bodinayakanur,MDU,NEW
+KLPM,Kailasapuram,MDU,NEW
+TIP,Tattapparai,MDU,NEW
+MVN,Milavittan,MDU,NEW
+TME,Tuti Melur,MDU,NEW
+TN,Tuticorin,MDU,NEW
+NKK,Narikkudi,MDU,NEW
+TCH,Tiruchchuli,MDU,NEW
+APK,Aruppukkottai,MDU,NEW
+MEKM,Melakkonnakkulam,MDU,NEW
+SVGA,Sivaganga,MDU,NEW
+PNGI,Panangudi,MDU,NEW
+KAL,Kallal,MDU,NEW
+DKO,Devakottai Road,MDU,NEW
+KKDI,Karaikkudi Junction,MDU,NEW
+KTYR,Kottaiyur,MDU,NEW
+CTND,Chettinad,MDU,NEW
+TYM,Tirumayam,MDU,NEW
+NMN,Namanasamudram,MDU,NEW
+PDKT,Pudukkottai,MDU,NEW
+VEL,Vellanur,MDU,NEW
+KRUR,Keeranur,MDU,NEW
+KRMG,Kumaramangalam,MDU,NEW
+VM,Villupuram Junction,TRICHY,NEW
+TVNL,Tiruvennainallur,TRICHY,NEW
+PRT,Panruti,TRICHY,NEW
+ULU,Ulundurpet,TRICHY,NEW
+PVN,Puvanur,TRICHY,NEW
+VRT,Vriddhachalam Town,TRICHY,NEW
+PNDM,Pennadam,TRICHY,NEW
+ICG,Ichchangadu,TRICHY,NEW
+MTUR,Mathur,TRICHY,NEW
+SNDI,Sendurai,TRICHY,NEW
+ALU,Ariyalur,TRICHY,NEW
+SLTH,Sillakkudi,TRICHY,NEW
+KLGM,Kallagam,TRICHY,NEW
+KKPM,Kallakkudi Palanganatham,TRICHY,NEW
+PMB,Pullambadi,TRICHY,NEW
+KTTR,Kattur,TRICHY,NEW
+LLI,Lalgudi,TRICHY,NEW
+VLDE,Valadi,TRICHY,NEW
+BXS,Pichchandarkovil,TRICHY,NEW
+UKV,Gullivaram,TRICHY,NEW
+SRGM,Srirangam,TRICHY,NEW
+TPTN,Tiruchchirappalli Town,TRICHY,NEW
+GOC,Ponmalai,TRICHY,NEW
+VRA,Valavanur,TRICHY,NEW
+TDPR,Tirupadripulyur,TRICHY,NEW
+CUPJ,Cuddalore Port Junction,TRICHY,NEW
+ALP,Alapakam,TRICHY,NEW
+PO,Parangipettai,TRICHY,NEW
+KII,Kille,TRICHY,NEW
+CDM,Chidambaram,TRICHY,NEW
+VMP,Vallampadugai,TRICHY,NEW
+CLN,Kollidam,TRICHY,NEW
+SY,Sirkazhi,TRICHY,NEW
+VDL,Vaithisvarankoil,TRICHY,NEW
+ANP,Anandatandavapuram,TRICHY,NEW
+NID,Nidur,TRICHY,NEW
+MV,Mayiladuthurai Junction,TRICHY,CONFLICT
+KTM,Kutralam,TRICHY,NEW
+NPT,Narasingampettai,TRICHY,NEW
+ADT,Aduturai,TRICHY,NEW
+TRR,Tirunagesvaram,TRICHY,NEW
+KMU,Kumbakonam,TRICHY,NEW
+DSM,Darasuram,TRICHY,NEW
+SWI,Swamimalai,TRICHY,NEW
+SPL,Sundaraperumal Kovil,TRICHY,NEW
+PML,Papanasam,TRICHY,NEW
+PDV,Pandaravadai,TRICHY,NEW
+AZP,Ayyampet,TRICHY,NEW
+PVL,Pasupatikovil,TRICHY,NEW
+TT,Titte,TRICHY,NEW
+TJ,Thanjavur Junction,TRICHY,NEW
+ALK,Alakkudi,TRICHY,NEW
+BAL,Budalur,TRICHY,NEW
+AYN,Aiyanapuram,TRICHY,NEW
+SGM,Solagampatti,TRICHY,NEW
+TOM,Tondamanpatti,TRICHY,NEW
+TRB,Tiruverumbur,TRICHY,NEW
+MCJ,Manjattidal,TRICHY,NEW
+KXO,Kudikadu,TRICHY,NEW
+SMM,Saliyamangalam,TRICHY,NEW
+AMT,Ammapet,TRICHY,NEW
+KYV,Koyilvenni,TRICHY,NEW
+NMJ,Nidamangalam Junction,TRICHY,NEW
+KDE,Koradacheri,TRICHY,NEW
+TMU,Tirumanthikunam,TRICHY,NEW
+KU,Kulikarai,TRICHY,NEW
+TVR,Thiruvarur Junction,TRICHY,NEW
+AYM,Adiyakkamangalam,TRICHY,NEW
+KOQ,Kuthur,TRICHY,NEW
+SKK,Sikkal,TRICHY,NEW
+NGT,Nagapattinam,TRICHY,NEW
+APE,Andanappettai,TRICHY,NEW
+NCR,Nagore,TRICHY,NEW
+TMPT,Tirumalairayanpattinam,TRICHY,NEW
+KIK,Karaikal,TRICHY,NEW
+VLNK,Velankanni,TRICHY,NEW
+VKM,Venkatesapuram,TRICHY,NEW
+MMP,Mambalappattu,TRICHY,NEW
+AYD,Ayandur,TRICHY,NEW
+TRK,Tirukkovilur,TRICHY,NEW
+ACN,Adhichchanur,TRICHY,NEW
+AND,Andampalayam,TRICHY,NEW
+TNI,Tandarai,TRICHY,NEW
+TNM,Tiruvannamalai,TRICHY,NEW
+TJM,Turinjapuram,TRICHY,NEW
+AGM,Agaram Sibbandi,TRICHY,NEW
+PRL,Polur,TRICHY,NEW
+ARV,Arni Road,TRICHY,NEW
+MCL,Madimangalam,TRICHY,NEW
+SDPT,Sedarappattu,TRICHY,NEW
+OPM,Onnupuram,TRICHY,NEW
+KMM,Kannamangalam,TRICHY,NEW
+KNB,Kaniyambadi,TRICHY,NEW
+PNTR,Pennathur,TRICHY,NEW
+VLR,Vellore Cantt,TRICHY,NEW
+KNPL,Kandanur Puduvayal,TRICHY,NEW
+VMM,Valaramanikkam,TRICHY,NEW
+ATQ,Arantangi,TRICHY,NEW
+AYI,Ayingudi,TRICHY,NEW
+PVI,Peravurani,TRICHY,NEW
+PKT,Pattukottai,TRICHY,NEW
+AMM,Adirampattinam,TRICHY,NEW
+MTT,Mutupet,TRICHY,NEW
+TAM,Tillaivilagam,TRICHY,NEW
+TTP,Tiruturaipundi Junction,TRICHY,NEW
+ATB,Alattambadi,TRICHY,NEW
+MNLI,Manali Halt,TRICHY,NEW
+AMNR,Ammanur,TRICHY,NEW
+TNK,Tirunellikaval,TRICHY,NEW
+MARD,Mavur Road,TRICHY,NEW
+MAX,Mangudi,TRICHY,NEW
+CBU,Chinna Babu Samudram,TRICHY,NEW
+VI,Villianur,TRICHY,NEW
+PDY,Puducherry,TRICHY,NEW
+MQ,Mannargudi,TRICHY,NEW
+PEM,Peralam Junction,TRICHY,NEW
+POM,Punthottam,TRICHY,NEW
+NNM,Nannilam,TRICHY,NEW
+ABT,Ambagarattur,TRICHY,NEW
+PCD,Pattakudi (Pathakudy),TRICHY,NEW
+TXR,Thirunallar,TRICHY,NEW
+KVPT,Karai Kovilpathu,TRICHY,NEW

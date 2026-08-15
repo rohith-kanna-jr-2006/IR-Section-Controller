@@ -15,6 +15,8 @@ const schema = new mongoose.Schema({
   status: { type: String, enum: ['ACTIVE', 'PROPOSED', 'REORGANIZED', 'HISTORICAL', 'CORPORATION'], default: 'ACTIVE' },
   sourceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Source' },
   dataVersionId: { type: mongoose.Schema.Types.ObjectId, ref: 'DataVersion' },
+  verificationStatus: { type: String, enum: ['VERIFIED', 'NOT VERIFIED', 'REVIEW_REQUIRED', 'CONFLICT'], default: 'NOT VERIFIED' },
+  authorityLevel: { type: String, enum: ['PRIMARY', 'SECONDARY', 'INFERRED'] },
   effectiveFrom: { type: Date },
   effectiveTo: { type: Date }
 }, { timestamps: true });

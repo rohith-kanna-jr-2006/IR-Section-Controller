@@ -1,0 +1,46 @@
+route_name,division,origin,terminus,station_count,first_sequence,last_sequence,distance_status
+West Line (MAS-JTJ),CHENNAI,MAS,JTJ,53,1,53,NOT_AVAILABLE
+North Line (MAS-GDR),CHENNAI,TNP,GDR,24,1,24,NOT_AVAILABLE
+South Line (MS-VM),CHENNAI,MS,VV,39,1,39,NOT_AVAILABLE
+MRTS (MSB-VLCY),CHENNAI,MSB,VLCY,18,1,18,NOT_AVAILABLE
+Kanchipuram Line (AJJ-CGL),CHENNAI,AJJ,CGL,12,1,12,NOT_AVAILABLE
+Arakkonam-Renigunta Border,CHENNAI,AJJ,PUDI,10,1,10,NOT_AVAILABLE
+Main Line (JTJ-SA-ED-CBE),SALEM,JTJ,CBE,41,1,41,NOT_AVAILABLE
+Salem-Namakkal-Karur-Dindigul,SALEM,SA,DG,12,1,12,NOT_AVAILABLE
+Erode-Trichy via Karur,SALEM,ED,TPJ,23,1,23,NOT_AVAILABLE
+Salem-Vridhachalam,SALEM,SA,VRI,16,1,16,NOT_AVAILABLE
+Salem-KSR Bengaluru (via DPJ),SALEM,SA,SBC,15,1,15,FULLY_AVAILABLE
+Salem-SMVT Bengaluru (via DPJ),SALEM,SA,SMVB,13,1,13,FULLY_AVAILABLE
+Salem-Yesvantpur (via DPJ),SALEM,SA,YPR,15,1,15,FULLY_AVAILABLE
+Salem-Mettur Dam,SALEM,SA,MTDM,4,1,4,FULLY_AVAILABLE
+Coimbatore-Mettupalayam,SALEM,CBE,MTP,5,1,5,NOT_AVAILABLE
+Nilgiri Mountain Railway,SALEM,MTP,UAM,8,1,8,NOT_AVAILABLE
+Coimbatore - Palakkad,PALAKKAD,CBE,PGT,7,1,7,NOT_AVAILABLE
+Palakkad - Irugur (Bypass via Podanur),PALAKKAD,PGT,IGU,7,1,7,NOT_AVAILABLE
+Palakkad - Shoranur,PALAKKAD,PGT,SRR,6,1,6,NOT_AVAILABLE
+Shoranur-Mangalore,PALAKKAD,SRR,JOKT,56,1,56,NOT_AVAILABLE
+Palakkad-Pollachi,PALAKKAD,PGT,POY,8,1,8,NOT_AVAILABLE
+Shoranur-Nilambur,PALAKKAD,SRR,NIL,12,1,12,NOT_AVAILABLE
+Main Line (via Kottayam),TVC,SRR,TVC,62,1,62,NOT_AVAILABLE
+Coastal Line (Alappuzha),TVC,ERS,KYJ,19,1,19,NOT_AVAILABLE
+Thiruvananthapuram (TVC) - Kanyakumari (CAPE),TVC,TVC,CAPE,16,1,16,NOT_AVAILABLE
+Tirunelveli (TEN) - Nagercoil (NCJ),TVC,TEN,NCJ,11,1,11,NOT_AVAILABLE
+Kollam-Sengottai,TVC,QLN,SCT,17,1,17,NOT_AVAILABLE
+Dindigul-Madurai-Tirunelveli,MDU,DG,TEN,23,1,23,NOT_AVAILABLE
+Madurai-Rameswaram,MDU,MDU,RMM,17,1,17,NOT_AVAILABLE
+Virudhunagar-Sengottai,MDU,VPT,SCT,11,1,11,NOT_AVAILABLE
+Tirunelveli to Sengottai,MDU,TEN,SCT,17,1,17,NOT_AVAILABLE
+Tirunelveli to Tiruchendur,MDU,TEN,TCN,12,1,12,NOT_AVAILABLE
+Madurai Junction–Bodinayakanur,MDU,MDU,BDNK,6,1,6,NOT_AVAILABLE
+Vanchi Maniyachchi Junction – Tuticorin,MDU,MEJ,TN,6,1,6,NOT_AVAILABLE
+Manamadurai-Virudhunagar,MDU,MNM,VPT,5,1,5,NOT_AVAILABLE
+Manamadurai-Trichy (via Karaikkudi),MDU,MNM,TPJ,16,1,16,NOT_AVAILABLE
+Villupuram-Trichy Chord,TRICHY,VM,TPJ,25,1,25,NOT_AVAILABLE
+Main Line (VM-MV-TPJ),TRICHY,VM,TPJ,39,1,39,NOT_AVAILABLE
+Thanjavur-Karaikal-Velankanni,TRICHY,TJ,VLNK,19,1,19,NOT_AVAILABLE
+Villupuram-Katpadi Branch,TRICHY,VM,KPD,21,1,21,NOT_AVAILABLE
+Karaikkudi-Tiruvarur,TRICHY,KKDI,TVR,18,1,18,NOT_AVAILABLE
+Villupuram-Puducherry,TRICHY,VM,PDY,4,1,4,NOT_AVAILABLE
+Nidamangalam-Mannargudi,TRICHY,NMJ,MQ,2,1,2,NOT_AVAILABLE
+Mayiladuthurai to Thiruvarur,TRICHY,MV,TVR,5,1,5,NOT_AVAILABLE
+Peralam to Karaikal,TRICHY,PEM,KIK,6,1,6,NOT_AVAILABLE

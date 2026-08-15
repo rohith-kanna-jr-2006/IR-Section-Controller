@@ -1,0 +1,5 @@
+station_code,source_station_names,routes,divisions,sequence_positions,record_count,normalized_names,classification
+PCV,Pachakuppam | Palakkodu,Salem-SMVT Bengaluru (via DPJ) | Salem-Yesvantpur (via DPJ) | West Line (MAS-JTJ) | Salem-KSR Bengaluru (via DPJ),SALEM | CHENNAI,48 | 6 | 6 | 6,4,palakkodu | pachakuppam,REVIEW_REQUIRED
+TRM,Tiruvidaimarudur | Tirumani,South Line (MS-VM) | Main Line (VM-MV-TPJ),CHENNAI | TRICHY,26 | 19,2,tirumani | tiruvidaimarudur,REVIEW_REQUIRED
+MEJ,Vanchi Maniyachchi Junction | Vanchi Maniyachchi,Vanchi Maniyachchi Junction – Tuticorin | Dindigul-Madurai-Tirunelveli,MDU,19 | 1,2,vanchi maniyachchi junction | vanchi maniyachchi,REVIEW_REQUIRED
+MV,Mayiladuthurai Junction | Mayiladuturai Junction,Main Line (VM-MV-TPJ) | Mayiladuthurai to Thiruvarur,TRICHY,15 | 1,2,mayiladuthurai junction | mayiladuturai junction,REVIEW_REQUIRED

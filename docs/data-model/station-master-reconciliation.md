@@ -1,19 +1,32 @@
-# Station Master Reconciliation
+# Southern Railway Dataset Reconciliation
 
-> [!WARNING]
-> Dataset analysis = NOT VERIFIED  
-> Route reconciliation = BLOCKED  
-> Station import preview = BLOCKED  
+Dataset: `sr_cleaned_route_stops.csv`
+Dataset access: VERIFIED
 
-The Southern Railway dataset was not provided in the workspace. As a result, the read-only analysis and reconciliation against the authoritative Station Master cannot be performed at this time.
+## Metrics
+- **Total records**: 781
+- **Unique routes**: 45
+- **Unique stations**: 691
+- **Divisions**: 6 (TVC, PALAKKAD, CHENNAI, SALEM, MDU, TRICHY)
+- **Junction stations**: 55
 
-## Objective (Pending Dataset)
-To compare the Southern Railway station dataset against the newly established Station Master framework and classify records into:
-- `MATCHED`: Code and name match existing active identity.
-- `NEW`: Completely new station (requires mapping to Zone/Division).
-- `DUPLICATE`: Multiple entries in the dataset for the same station code.
-- `CONFLICT`: Station code matches but details (like name) diverge significantly.
-- `UNKNOWN`: Malformed or missing station code.
-- `REVIEW_REQUIRED`: Unresolved mappings or invalid statuses.
+## Anomalies & Issues
+- **Duplicate records**: 0
+- **Duplicate route names**: 0 (Routes are considered unique by name in this analysis)
+- **Duplicate station codes within route**: 0
+- **Station codes with multiple names**: 4
+- **Missing sequence values**: 0
+- **Missing distance values**: 734
+- **Missing station codes**: 0
 
-Once the dataset is provided, run the `analyze_southern_railway.js` pipeline to generate the results.
+## Data Availability
+- **Coordinates**: NOT AVAILABLE
+- **Frequency**: NOT AVAILABLE
+- **Operational status**: NOT AVAILABLE
+- **GIS mapping**: NOT POSSIBLE FROM SOURCE
+- **Schematic mapping**: VERIFIED (can be generated via script)
+
+## Status
+- **Database writes**: 0
+- **Station import**: NOT STARTED
+- **Section import**: NOT STARTED

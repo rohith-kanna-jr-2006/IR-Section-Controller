@@ -9,6 +9,10 @@ const schema = new mongoose.Schema({
   retrievedAt: { type: Date },
   documentVersion: { type: String },
   checksum: { type: String },
+  sourceAuthority: { type: String },
+  authorityLevel: { type: String, enum: ['PRIMARY', 'SECONDARY', 'INFERRED'] },
+  licenseStatus: { type: String },
+  verificationStatus: { type: String, enum: ['VERIFIED', 'NOT VERIFIED', 'PARTIAL'] },
   importDate: { type: Date, default: Date.now },
   notes: { type: String }
 }, { timestamps: true });
