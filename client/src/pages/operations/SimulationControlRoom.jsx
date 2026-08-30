@@ -129,7 +129,7 @@ export default function SimulationControlRoom() {
     });
   }, [allDivisions, selectedZoneId]);
 
-  // 4. Dependent Sections & Routes based on Selected Division
+  // 4. Dependent Sections & Routes based on Selected Division and Selected Route
   const { filteredSections, filteredRoutes } = useMemo(() => {
     let divCode = selectedDivisionId;
     if (divCode && divCode !== 'ALL_DIVISION') {
@@ -144,50 +144,76 @@ export default function SimulationControlRoom() {
       divisionCode: s.divisionCode,
       fromStation: s.fromStationName,
       toStation: s.toStationName,
-      stations: s.stations
+      stations: s.stations || []
     }));
 
+    // Find the currently active route to extract its constituent block sections
+    let constituentSections = [];
+    const activeRoute = routesList.find(r => r.id === selectedRouteId || r.routeName === selectedRouteId);
+
+    if (activeRoute && activeRoute.stations && activeRoute.stations.length > 1) {
+      const stns = activeRoute.stations;
+      for (let i = 0; i < stns.length - 1; i++) {
+        const fromStn = stns[i];
+        const toStn = stns[i + 1];
+        constituentSections.push({
+          _id: `sec_${fromStn.stationCode}_${toStn.stationCode}`,
+          id: `sec_${fromStn.stationCode}_${toStn.stationCode}`,
+          sectionCode: `${fromStn.stationCode}-${toStn.stationCode}`,
+          fromStationCode: fromStn.stationCode,
+          toStationCode: toStn.stationCode,
+          routeName: activeRoute.routeName,
+          divisionCode: activeRoute.divisionCode,
+          isCandidate: false,
+          sourceType: 'OFFICIAL_PRIMARY'
+        });
+      }
+    } else {
+      constituentSections = divisionSections;
+    }
+
     return {
-      filteredSections: divisionSections,
+      filteredSections: constituentSections,
       filteredRoutes: routesList
     };
-  }, [srNetworkData, selectedDivisionId, allDivisions]);
+  }, [srNetworkData, selectedDivisionId, selectedRouteId, allDivisions]);
 
   // 5. Sync state to URL Query Params
   const syncQueryParams = useCallback((newScope) => {
     const nextParams = new URLSearchParams();
     if (newScope.zone) nextParams.set('zone', newScope.zone);
     if (newScope.division) nextParams.set('division', newScope.division);
-    if (newScope.section) nextParams.set('section', newScope.section);
     if (newScope.route) nextParams.set('route', newScope.route);
+    if (newScope.section) nextParams.set('section', newScope.section);
     if (newScope.date) nextParams.set('date', newScope.date);
     if (newScope.scenario) nextParams.set('scenario', newScope.scenario);
     if (newScope.loaded) nextParams.set('loaded', 'true');
     setSearchParams(nextParams, { replace: true });
   }, [setSearchParams]);
 
-  // 6. Handle Territory Changes (Hierarchy propagation)
+  // 6. Handle Territory Changes (Strict Hierarchy propagation: Zone -> Division -> Route -> Section -> Day -> Scenario)
   const handleZoneChange = (zoneId) => {
     setSelectedZoneId(zoneId);
     setSelectedDivisionId('');
-    setSelectedSectionId('');
     setSelectedRouteId('');
+    setSelectedSectionId('');
     setIsChartLoaded(false);
   };
 
   const handleDivisionChange = (divId) => {
     setSelectedDivisionId(divId);
-    setSelectedSectionId('');
     setSelectedRouteId('');
+    setSelectedSectionId('');
     setIsChartLoaded(false);
-  };
-
-  const handleSectionChange = (secId) => {
-    setSelectedSectionId(secId);
   };
 
   const handleRouteChange = (routeId) => {
     setSelectedRouteId(routeId);
+    setSelectedSectionId('');
+  };
+
+  const handleSectionChange = (secId) => {
+    setSelectedSectionId(secId);
   };
 
   const handleServiceDateChange = (dateStr) => {

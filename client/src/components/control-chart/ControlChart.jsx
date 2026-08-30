@@ -304,31 +304,10 @@ export const ControlChart = ({
 
       {/* 3. MAIN WORKSPACE */}
       <div className="flex-1 flex overflow-hidden relative">
-        {/* Left Filter & Scope Control Panel */}
+        {/* Left Filter & Layer Control Panel */}
         <LeftControlPanel
           isOpen={isLeftPanelOpen}
           onToggle={() => setIsLeftPanelOpen(!isLeftPanelOpen)}
-          zones={zones}
-          divisions={divisions}
-          sections={sections}
-          routes={routes}
-          scenarios={scenarios}
-          selectedZoneId={selectedZoneId}
-          selectedDivisionId={selectedDivisionId}
-          selectedSectionId={selectedSectionId}
-          selectedRouteId={selectedRouteId}
-          serviceDate={serviceDate}
-          selectedScenarioId={selectedScenarioId}
-          isChartLoaded={isChartLoaded}
-          isLoading={isLoading}
-          onZoneChange={onZoneChange}
-          onDivisionChange={onDivisionChange}
-          onSectionChange={onSectionChange}
-          onRouteChange={onRouteChange}
-          onServiceDateChange={onServiceDateChange}
-          onScenarioChange={onScenarioChange}
-          onLoadMasterChart={onLoadMasterChart}
-          onResetScope={onResetScope}
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           selectedCategory={selectedCategory}
@@ -343,6 +322,7 @@ export const ControlChart = ({
           onToggleLabels={setShowLabels}
           showScheduled={showScheduled}
           onToggleScheduled={setShowScheduled}
+          showActual={true}
           showOccupancies={showOccupancies}
           onToggleOccupancies={setShowOccupancies}
           showConflicts={showConflicts}

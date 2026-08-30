@@ -12,7 +12,7 @@ import ScopeBreadcrumb from './ScopeBreadcrumb';
  * 
  * Top-level control bar displayed above the Master Chart workspace.
  * Enforces the strict Indian Railways operational hierarchy:
- * ZONE → DIVISION → SECTION / ROUTE → SERVICE DAY → SCENARIO → LOAD MASTER CHART
+ * ZONE → DIVISION → ROUTE / CORRIDOR → SECTION → SERVICE DAY → SCENARIO → LOAD MASTER CHART
  */
 export default function ControllerScopeBar({
   zones = [],
@@ -22,16 +22,16 @@ export default function ControllerScopeBar({
   scenarios = [],
   selectedZoneId = '',
   selectedDivisionId = '',
-  selectedSectionId = '',
   selectedRouteId = '',
+  selectedSectionId = '',
   serviceDate = '2026-08-30',
   selectedScenarioId = '',
   isChartLoaded = false,
   isLoading = false,
   onZoneChange,
   onDivisionChange,
-  onSectionChange,
   onRouteChange,
+  onSectionChange,
   onServiceDateChange,
   onScenarioChange,
   onLoadMasterChart,
@@ -44,14 +44,20 @@ export default function ControllerScopeBar({
   // Announce selection changes for accessibility
   const handleZoneChange = (zoneId) => {
     const zoneObj = zones.find(z => (z._id || z.id || z.code) === zoneId);
-    setAnnouncement(`Zone selected: ${zoneObj ? zoneObj.name : 'All India'}. Division and section scope reset.`);
+    setAnnouncement(`Zone selected: ${zoneObj ? zoneObj.name : 'All India'}. Division, route and section scope reset.`);
     onZoneChange && onZoneChange(zoneId);
   };
 
   const handleDivisionChange = (divId) => {
     const divObj = divisions.find(d => (d._id || d.id || d.code) === divId);
-    setAnnouncement(`Division selected: ${divObj ? divObj.name : 'All Divisions'}. Section scope updated.`);
+    setAnnouncement(`Division selected: ${divObj ? divObj.name : 'All Divisions'}. Route and section scope reset.`);
     onDivisionChange && onDivisionChange(divId);
+  };
+
+  const handleRouteChange = (routeId) => {
+    const routeObj = routes.find(r => (r.id || r.routeName || r.routeCode) === routeId);
+    setAnnouncement(`Route corridor selected: ${routeObj ? routeObj.routeName : 'Default Route'}. Section scope updated.`);
+    onRouteChange && onRouteChange(routeId);
   };
 
   const handleSectionChange = (secId) => {
@@ -60,21 +66,18 @@ export default function ControllerScopeBar({
     onSectionChange && onSectionChange(secId);
   };
 
-  const handleRouteChange = (routeId) => {
-    const routeObj = routes.find(r => (r.id || r.routeName || r.routeCode) === routeId);
-    setAnnouncement(`Route corridor selected: ${routeObj ? routeObj.routeName : 'Default Route'}`);
-    onRouteChange && onRouteChange(routeId);
-  };
-
-  // Find active entity names for the breadcrumb
+  // Find active entity names for the canonical breadcrumb
   const currentZone = zones.find(z => (z._id || z.id || z.code) === selectedZoneId);
   const currentDiv = divisions.find(d => (d._id || d.id || d.code) === selectedDivisionId);
-  const currentSec = sections.find(s => (s._id || s.id || s.sectionCode || s.routeName) === selectedSectionId);
   const currentRoute = routes.find(r => (r.id || r.routeName || r.routeCode) === selectedRouteId);
+  const currentSec = sections.find(s => (s._id || s.id || s.sectionCode || s.routeName) === selectedSectionId);
+  const currentScen = scenarios.find(s => (s._id || s.id || s.scenarioId) === selectedScenarioId);
 
-  const zoneName = currentZone ? `${currentZone.code} - ${currentZone.name}` : (selectedZoneId === 'ALL_INDIA' ? 'ALL INDIA' : '');
-  const divisionName = currentDiv ? `${currentDiv.code} - ${currentDiv.name}` : (selectedDivisionId === 'ALL_DIVISION' ? 'ALL DIVISIONS' : '');
-  const sectionOrRouteName = currentRoute?.routeName || currentSec?.sectionCode || currentSec?.routeName || selectedRouteId || selectedSectionId || '';
+  const zoneName = currentZone ? `${currentZone.code} - ${currentZone.name}` : (selectedZoneId ? selectedZoneId : '');
+  const divisionName = currentDiv ? `${currentDiv.code} - ${currentDiv.name}` : (selectedDivisionId ? selectedDivisionId : '');
+  const routeName = currentRoute?.routeName || selectedRouteId || '';
+  const sectionName = currentSec ? (currentSec.sectionCode || currentSec.routeName) : (selectedSectionId && selectedSectionId !== 'ALL_SECTIONS' ? selectedSectionId : '');
+  const scenarioName = currentScen ? currentScen.name || currentScen.scenarioId : selectedScenarioId;
 
   return (
     <div className="bg-slate-900 border-b border-slate-700 shadow-lg text-slate-100 font-mono select-none z-30 transition-all">
@@ -111,7 +114,7 @@ export default function ControllerScopeBar({
               id="reset-scope-btn"
               onClick={onResetScope}
               className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-600 rounded text-xs font-semibold flex items-center space-x-1"
-              title="Clear Zone/Division/Section selection and unload chart"
+              title="Clear Zone/Division/Route/Section selection and unload chart"
             >
               <span>↺</span>
               <span>RESET SCOPE</span>
@@ -128,9 +131,9 @@ export default function ControllerScopeBar({
           </div>
         </div>
 
-        {/* 6-Step Selection Grid */}
+        {/* 6-Step Selection Grid: Strict Indian Railways Hierarchy */}
         {isExpanded && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-1 pb-2 items-end">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2.5 pt-1.5 pb-2.5 items-stretch">
             {/* Step 1: Zone */}
             <ZoneSelector
               zones={zones}
@@ -148,21 +151,22 @@ export default function ControllerScopeBar({
               isLoading={isLoading}
             />
 
-            {/* Step 3: Section */}
-            <SectionSelector
-              sections={sections}
-              selectedSectionId={selectedSectionId}
-              selectedDivisionId={selectedDivisionId}
-              onChange={handleSectionChange}
-              isLoading={isLoading}
-            />
-
-            {/* Step 4: Route */}
+            {/* Step 3: Route / Corridor */}
             <RouteSelector
               routes={routes}
               selectedRouteId={selectedRouteId}
               selectedDivisionId={selectedDivisionId}
               onChange={handleRouteChange}
+              isLoading={isLoading}
+            />
+
+            {/* Step 4: Section */}
+            <SectionSelector
+              sections={sections}
+              selectedSectionId={selectedSectionId}
+              selectedDivisionId={selectedDivisionId}
+              selectedRouteId={selectedRouteId}
+              onChange={handleSectionChange}
               isLoading={isLoading}
             />
 
@@ -172,15 +176,13 @@ export default function ControllerScopeBar({
               onChange={onServiceDateChange}
             />
 
-            {/* Step 6: Scenario & Load Button */}
-            <div className="flex flex-col space-y-1">
-              <ScenarioSelector
-                scenarios={scenarios}
-                selectedScenarioId={selectedScenarioId}
-                onChange={onScenarioChange}
-                isLoading={isLoading}
-              />
-            </div>
+            {/* Step 6: Scenario */}
+            <ScenarioSelector
+              scenarios={scenarios}
+              selectedScenarioId={selectedScenarioId}
+              onChange={onScenarioChange}
+              isLoading={isLoading}
+            />
           </div>
         )}
 
@@ -189,8 +191,10 @@ export default function ControllerScopeBar({
           <ScopeBreadcrumb
             zoneName={zoneName}
             divisionName={divisionName}
-            sectionOrRouteName={sectionOrRouteName}
+            routeName={routeName}
+            sectionName={sectionName}
             serviceDate={serviceDate}
+            scenarioName={scenarioName}
             isLoaded={isChartLoaded}
           />
 

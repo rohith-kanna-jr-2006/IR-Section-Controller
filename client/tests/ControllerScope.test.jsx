@@ -226,15 +226,10 @@ describe('Phase 6.2 — Master Chart Controller Scope & Operational Hierarchy', 
     expect(handleResetView).toHaveBeenCalledTimes(1);
   });
 
-  it('10. LeftControlPanel separates Control Scope, Train Filters, and Display Toggles', () => {
+  it('10. LeftControlPanel focuses strictly on Train Filters, Display Layers, and Chart Controls', () => {
     render(
       <LeftControlPanel
         isOpen={true}
-        selectedZoneId="SR"
-        selectedDivisionId="MAS"
-        selectedRouteId="West Line (MAS-JTJ)"
-        serviceDate="2026-08-30"
-        isChartLoaded={true}
         totalTrains={20}
         visibleTrains={15}
         searchTerm=""
@@ -242,9 +237,9 @@ describe('Phase 6.2 — Master Chart Controller Scope & Operational Hierarchy', 
       />
     );
 
-    expect(screen.getByText(/A\. CONTROL SCOPE/i)).toBeDefined();
-    expect(screen.getByText(/B\. TRAIN FILTERS/i)).toBeDefined();
-    expect(screen.getByText(/C\. DISPLAY TOGGLES/i)).toBeDefined();
+    expect(screen.getByText(/TRAIN FILTERS/i)).toBeDefined();
+    expect(screen.getByText(/DISPLAY LAYERS/i)).toBeDefined();
+    expect(screen.getByText(/CHART CONTROLS/i)).toBeDefined();
     expect(screen.getByText(/Showing/i)).toBeDefined();
   });
 
@@ -290,5 +285,27 @@ describe('Phase 6.2 — Master Chart Controller Scope & Operational Hierarchy', 
     );
 
     expect(screen.getByText(/No divisions are available for this zone\./i)).toBeDefined();
+  });
+
+  it('13. ScopeBreadcrumb includes Scenario and formatted Service Day in canonical sequence', () => {
+    const { container } = render(
+      <ScopeBreadcrumb
+        zoneName="Southern Railway (SR)"
+        divisionName="Chennai Division (MAS)"
+        routeName="West Line (MAS-JTJ)"
+        sectionName="AJJ-KPD"
+        serviceDate="2026-08-30"
+        scenarioName="Peak Morning Corridor"
+        isLoaded={true}
+      />
+    );
+
+    expect(container.textContent).toContain('INDIAN RAILWAYS');
+    expect(container.textContent).toContain('SOUTHERN RAILWAY (SR)');
+    expect(container.textContent).toContain('CHENNAI DIVISION (MAS)');
+    expect(container.textContent).toContain('WEST LINE (MAS-JTJ)');
+    expect(container.textContent).toContain('AJJ-KPD');
+    expect(container.textContent).toContain('PEAK MORNING CORRIDOR');
+    expect(container.textContent).toContain('ACTIVE SCOPE');
   });
 });

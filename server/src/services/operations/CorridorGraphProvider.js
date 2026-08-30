@@ -1,6 +1,4 @@
 import { SR_DIVISIONS_MAP, parseSectionStations } from '../../config/srSectionsData.js';
-import { Station } from '../../models/Station.js';
-import { Section } from '../../models/Section.js';
 
 // Station coordinate and junction metadata
 const JUNCTION_CODES = new Set([
@@ -33,7 +31,6 @@ export class CorridorGraphProvider {
       // Find route across all divisions
       for (const [dCode, dData] of Object.entries(SR_DIVISIONS_MAP)) {
         if (dData.sections[routeName]) {
-          divData = dData;
           rawText = dData.sections[routeName];
           divisionCode = dCode;
           break;
