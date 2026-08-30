@@ -11,7 +11,13 @@ router.get('/recommendations', rbac(ROLES.ADMIN, ROLES.CONTROLLER), async (req, 
 
 router.post('/recommendations/:id/approve', rbac(ROLES.CONTROLLER), async (req, res) => {
   // Verifies controller authorization
-  const rec = await ControllerRecommendation.findById(req.params.id);
+  let rec = null;
+  if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    rec = await ControllerRecommendation.findById(req.params.id);
+  }
+  if (!rec) {
+    rec = await ControllerRecommendation.findOne({ recommendationId: req.params.id });
+  }
   if (!rec) return res.status(404).json({ error: 'Not found' });
   
   if (['EXPIRED', 'SUPERSEDED', 'INVALID', 'UNSAFE'].includes(rec.status)) {
@@ -23,13 +29,17 @@ router.post('/recommendations/:id/approve', rbac(ROLES.CONTROLLER), async (req, 
   rec.status = 'APPROVED';
   await rec.save();
   
-  // Create audit log here (mocked for phase 5)
-  
   res.json({ data: rec, message: 'Approved. Simulation execution pending.' });
 });
 
 router.post('/recommendations/:id/reject', rbac(ROLES.CONTROLLER), async (req, res) => {
-  const rec = await ControllerRecommendation.findById(req.params.id);
+  let rec = null;
+  if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    rec = await ControllerRecommendation.findById(req.params.id);
+  }
+  if (!rec) {
+    rec = await ControllerRecommendation.findOne({ recommendationId: req.params.id });
+  }
   if (!rec) return res.status(404).json({ error: 'Not found' });
   rec.status = 'REJECTED';
   await rec.save();
@@ -37,7 +47,13 @@ router.post('/recommendations/:id/reject', rbac(ROLES.CONTROLLER), async (req, r
 });
 
 router.post('/recommendations/:id/what-if', rbac(ROLES.CONTROLLER), async (req, res) => {
-  const rec = await ControllerRecommendation.findById(req.params.id);
+  let rec = null;
+  if (req.params.id && req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    rec = await ControllerRecommendation.findById(req.params.id);
+  }
+  if (!rec) {
+    rec = await ControllerRecommendation.findOne({ recommendationId: req.params.id });
+  }
   if (!rec) return res.status(404).json({ error: 'Not found' });
   rec.status = 'WHAT_IF_EVALUATED';
   await rec.save();

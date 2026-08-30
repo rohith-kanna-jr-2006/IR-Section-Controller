@@ -17,6 +17,15 @@ import SimulationControlRoom from './pages/operations/SimulationControlRoom.jsx'
 export default function App() {
   return React.createElement(BrowserRouter, null,
     React.createElement(Routes, null,
+      // Full screen dedicated Master Chart routes
+      React.createElement(Route, { path: '/chart', element: React.createElement(SimulationControlRoom, null) }),
+      React.createElement(Route, { path: '/master-chart', element: React.createElement(SimulationControlRoom, null) }),
+      React.createElement(Route, { path: '/operations/chart', element: React.createElement(SimulationControlRoom, null) }),
+      React.createElement(Route, { path: '/operations/scenarios/:scenarioId/chart', element: React.createElement(SimulationControlRoom, null) }),
+      React.createElement(Route, { path: '/operations/simulation/:scenarioId', element: React.createElement(SimulationControlRoom, null) }),
+      React.createElement(Route, { path: '/operations/simulation/:scenarioId/chart', element: React.createElement(SimulationControlRoom, null) }),
+
+      // Standard App Shell routes
       React.createElement(Route, { path: '/', element: React.createElement(MainLayout, null) },
         React.createElement(Route, { index: true, element: React.createElement(Dashboard, null) }),
         React.createElement(Route, { path: 'zones', element: React.createElement(Zones, null) }),
@@ -28,8 +37,7 @@ export default function App() {
         React.createElement(Route, { path: 'operations', element: React.createElement(ControllerDashboard, null) }),
         React.createElement(Route, { path: 'operations/scenarios/new', element: React.createElement(ScenarioBuilder, null) }),
         React.createElement(Route, { path: 'operations/scenarios/replay', element: React.createElement(ScenarioReplay, null) }),
-        React.createElement(Route, { path: 'operations/scenarios/compare', element: React.createElement(ScenarioComparison, null) }),
-        React.createElement(Route, { path: 'operations/scenarios/:scenarioId/chart', element: React.createElement(SimulationControlRoom, null) })
+        React.createElement(Route, { path: 'operations/scenarios/compare', element: React.createElement(ScenarioComparison, null) })
       )
     )
   );

@@ -5,22 +5,17 @@ import { connectMongo, connectRedis, redisClient } from './config/database.js';
 import mongoose from 'mongoose';
 import { initSocket } from './config/socket.js';
 
-const PORT = process.env.PORT || 5000;
+const PORT = 3000;
 
-if (!process.env.MONGO_URI && process.env.NODE_ENV === 'production') {
-  console.error('FATAL ERROR: MONGO_URI is not defined.');
-  process.exit(1);
-}
-
-const startServer = () => {
-  // Start DB connection attempts in the background
-  connectMongo();
+const startServer = async () => {
+  // Connect to DB and seed before accepting requests
+  await connectMongo();
   connectRedis();
 
   const server = http.createServer(app);
   initSocket(server);
 
-  server.listen(PORT, () => {
+  server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
   });
 

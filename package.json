@@ -7,13 +7,16 @@
     "server"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
+    "dev": "node server/src/server.js",
+    "build": "npm run build --workspace=client",
+    "start": "node server/src/server.js",
+    "test": "vitest run",
     "lint": "npm run lint --workspaces --if-present"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.8.1"
+    "@vitejs/plugin-react": "^6.1.1",
+    "eslint": "^10.8.1",
+    "vitest": "^4.1.11"
   }
 }

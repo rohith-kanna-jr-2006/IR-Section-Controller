@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import api from '../services/api.js';
 import ErrorState from '../components/ErrorState.js';
+import { getAllSRStations, SR_DIVISIONS_MAP } from '../data/srSectionsData.js';
 
 export default function Stations() {
   const [stations, setStations] = useState([]);
@@ -8,53 +9,56 @@ export default function Stations() {
   const [error, setError] = useState(null);
   const [searchCode, setSearchCode] = useState('');
   const [searchName, setSearchName] = useState('');
-  const [filterZone, setFilterZone] = useState('');
-  const [filterDiv, setFilterDiv] = useState('');
+  const [filterDivisionCode, setFilterDivisionCode] = useState('ALL');
   const [filterStatus, setFilterStatus] = useState('');
   const [selectedStation, setSelectedStation] = useState(null);
-  
-  const [zones, setZones] = useState([]);
-  const [divisions, setDivisions] = useState([]);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+
+  // Client-side fallback SR stations index
+  const srStationCatalog = useMemo(() => getAllSRStations(), []);
 
   useEffect(() => {
-    fetchOptions();
-  }, []);
-
-  useEffect(() => {
-    const delay = setTimeout(() => {
-      fetchStations();
-    }, 300);
-    return () => clearTimeout(delay);
-  }, [searchCode, searchName, filterZone, filterDiv, filterStatus]);
-
-  const fetchOptions = async () => {
-    try {
-      const [zRes, dRes] = await Promise.all([
-        api.get('/zones', { params: { limit: 100 } }),
-        api.get('/divisions', { params: { limit: 200 } })
-      ]);
-      setZones(zRes.data.data || []);
-      setDivisions(dRes.data.data || []);
-    } catch (e) {
-      console.error('Error fetching options', e);
-    }
-  };
+    fetchStations();
+  }, [searchCode, searchName, filterDivisionCode, filterStatus, page]);
 
   const fetchStations = async () => {
     try {
       setLoading(true);
-      const params = {};
-      if (searchCode) params.stationCode = searchCode;
-      if (searchName) params.name = searchName;
-      if (filterZone) params.zoneId = filterZone;
-      if (filterDiv) params.divisionId = filterDiv;
+      const params = { page, limit: 30 };
+      if (searchCode) params.stationCode = searchCode.trim();
+      if (searchName) params.name = searchName.trim();
       if (filterStatus) params.status = filterStatus;
 
       const res = await api.get('/stations', { params });
-      setStations(res.data.data || []);
+      let fetched = res.data.data || [];
+
+      // Filter by division code if selected
+      if (filterDivisionCode !== 'ALL') {
+        fetched = fetched.filter(st => {
+          const divCode = st.divisionId?.code || '';
+          return divCode.toUpperCase() === filterDivisionCode.toUpperCase();
+        });
+      }
+
+      setStations(fetched);
+      setTotal(res.data.meta?.total || fetched.length);
       setError(null);
     } catch (err) {
-      setError(err.response?.data?.error || err.message);
+      // If backend error, fallback gracefully to client SR catalog
+      console.warn('API error, falling back to local SR station catalog:', err);
+      let localList = srStationCatalog;
+      if (filterDivisionCode !== 'ALL') {
+        localList = localList.filter(s => s.divisionCode === filterDivisionCode);
+      }
+      if (searchCode) {
+        localList = localList.filter(s => s.stationCode.toLowerCase().includes(searchCode.toLowerCase()));
+      }
+      if (searchName) {
+        localList = localList.filter(s => s.name.toLowerCase().includes(searchName.toLowerCase()));
+      }
+      setStations(localList.slice((page - 1) * 30, page * 30));
+      setTotal(localList.length);
     } finally {
       setLoading(false);
     }
@@ -63,108 +67,216 @@ export default function Stations() {
   const renderDetailsModal = () => {
     if (!selectedStation) return null;
     const st = selectedStation;
-    return React.createElement('div', { className: 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50' },
-      React.createElement('div', { className: 'bg-white rounded-lg shadow-xl max-w-2xl w-full p-6' },
-        React.createElement('div', { className: 'flex justify-between items-center mb-4' },
-          React.createElement('h2', { className: 'text-2xl font-bold' }, `Station Details: ${st.stationCode}`),
-          React.createElement('button', { onClick: () => setSelectedStation(null), className: 'text-gray-500 hover:text-gray-700 font-bold text-xl' }, '×')
-        ),
-        React.createElement('div', { className: 'grid grid-cols-2 gap-4' },
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Code'), React.createElement('p', { className: 'font-medium' }, st.stationCode)),
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Official Name'), React.createElement('p', { className: 'font-medium' }, st.officialName || st.name)),
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Zone'), React.createElement('p', { className: 'font-medium' }, st.zoneId?.name || st.zoneId?.code || '-')),
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Division'), React.createElement('p', { className: 'font-medium' }, st.divisionId?.name || st.divisionId?.code || '-')),
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Station Type'), React.createElement('p', { className: 'font-medium' }, st.stationType || '-')),
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Status'), React.createElement('p', { className: 'font-medium' }, st.status)),
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Effective From'), React.createElement('p', { className: 'font-medium' }, st.effectiveFrom ? new Date(st.effectiveFrom).toLocaleDateString() : '-')),
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Effective To'), React.createElement('p', { className: 'font-medium' }, st.effectiveTo ? new Date(st.effectiveTo).toLocaleDateString() : '-')),
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Coordinates'), React.createElement('p', { className: 'font-medium' }, st.location?.coordinates ? `[${st.location.coordinates[0]}, ${st.location.coordinates[1]}]` : '-')),
-          React.createElement('div', null, React.createElement('p', { className: 'text-sm text-gray-500' }, 'Source / Data Version'), React.createElement('p', { className: 'font-medium' }, `${st.sourceId || '-'} / ${st.dataVersionId || '-'}`))
-        ),
-        React.createElement('div', { className: 'mt-6 flex justify-end' },
-          React.createElement('button', { onClick: () => setSelectedStation(null), className: 'px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700' }, 'Close')
-        )
-      )
+    return (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+        <div className="bg-white rounded-lg shadow-xl max-w-xl w-full p-6 space-y-4">
+          <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
+                Station Master Node
+              </span>
+              <h2 className="text-xl font-bold text-gray-900 mt-1">
+                {st.stationCode} - {st.officialName || st.name}
+              </h2>
+            </div>
+            <button
+              onClick={() => setSelectedStation(null)}
+              className="text-gray-400 hover:text-gray-700 font-bold text-2xl"
+            >
+              ×
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <p className="text-xs text-gray-500 font-medium">Station Code</p>
+              <p className="font-semibold text-gray-900">{st.stationCode}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 font-medium">Official Name</p>
+              <p className="font-semibold text-gray-900">{st.officialName || st.name}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 font-medium">Division</p>
+              <p className="font-semibold text-gray-900">{st.divisionId?.name || st.divisionCode || '-'}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 font-medium">Zone</p>
+              <p className="font-semibold text-gray-900">{st.zoneId?.code || 'Southern Railway (SR)'}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 font-medium">Operational Status</p>
+              <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                {st.status || 'ACTIVE'}
+              </span>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 font-medium">Verification Status</p>
+              <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                {st.verificationStatus || 'VERIFIED'}
+              </span>
+            </div>
+          </div>
+
+          {st.routes && st.routes.length > 0 && (
+            <div className="border-t border-gray-100 pt-3">
+              <p className="text-xs text-gray-500 font-medium mb-1.5">Associated SR Corridors:</p>
+              <div className="flex flex-wrap gap-1.5">
+                {st.routes.map((r, i) => (
+                  <span key={i} className="text-xs px-2 py-0.5 bg-gray-100 text-gray-800 rounded font-medium">
+                    {r}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="flex justify-end pt-4 border-t border-gray-100">
+            <button
+              onClick={() => setSelectedStation(null)}
+              className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-semibold hover:bg-gray-800"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
     );
   };
 
-  const renderContent = () => {
-    if (loading && stations.length === 0) return React.createElement('div', { className: 'p-8 text-center text-gray-500' }, 'Loading Stations...');
-    if (error) return React.createElement(ErrorState, { message: error, onRetry: fetchStations });
-    if (stations.length === 0) return React.createElement('div', { className: 'p-8 text-center text-gray-500 bg-white rounded shadow' }, 'No stations found.');
+  return (
+    <div id="sr-stations-container" className="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-gray-200 pb-5">
+        <div>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-gray-900">Station Master Directory</h1>
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+              {srStationCatalog.length}+ SR Stations
+            </span>
+          </div>
+          <p className="text-sm text-gray-500 mt-1">
+            Southern Railway comprehensive station database across all six operating divisions.
+          </p>
+        </div>
+      </div>
 
-    return React.createElement('div', { className: 'bg-white rounded shadow overflow-hidden' },
-      React.createElement('table', { className: 'min-w-full divide-y divide-gray-200' },
-        React.createElement('thead', { className: 'bg-gray-50' },
-          React.createElement('tr', null,
-            React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer' }, 'Code'),
-            React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Name'),
-            React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Zone'),
-            React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Division'),
-            React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Status'),
-            React.createElement('th', { className: 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase' }, 'Actions')
-          )
-        ),
-        React.createElement('tbody', { className: 'bg-white divide-y divide-gray-200' },
-          stations.map(st => 
-            React.createElement('tr', { key: st._id, className: 'hover:bg-gray-50' },
-              React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap font-medium text-gray-900' }, st.stationCode),
-              React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap text-gray-500' }, st.name),
-              React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap text-gray-500' }, st.zoneId ? st.zoneId.code : '-'),
-              React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap text-gray-500' }, st.divisionId ? st.divisionId.code : '-'),
-              React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
-                React.createElement('span', { className: `px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${st.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}` }, st.status || 'ACTIVE')
-              ),
-              React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
-                React.createElement('button', { 
-                  onClick: () => setSelectedStation(st),
-                  className: 'text-blue-600 hover:text-blue-900'
-                }, 'View Details')
-              )
-            )
-          )
-        )
-      )
-    );
-  };
+      {/* Division Badges & Quick Filter */}
+      <div className="flex flex-wrap gap-2">
+        <button
+          onClick={() => { setFilterDivisionCode('ALL'); setPage(1); }}
+          className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
+            filterDivisionCode === 'ALL'
+              ? 'bg-blue-600 text-white'
+              : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+          }`}
+        >
+          All Divisions ({srStationCatalog.length})
+        </button>
+        {Object.entries(SR_DIVISIONS_MAP).map(([code, div]) => {
+          const count = srStationCatalog.filter(s => s.divisionCode === code).length;
+          return (
+            <button
+              key={code}
+              onClick={() => { setFilterDivisionCode(code); setPage(1); }}
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
+                filterDivisionCode === code
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              {div.name} ({code}) - {count}
+            </button>
+          );
+        })}
+      </div>
 
-  return React.createElement('div', { className: 'p-4 md:p-8 max-w-7xl mx-auto' },
-    React.createElement('div', { className: 'flex justify-between items-center mb-6' },
-      React.createElement('h1', { className: 'text-2xl font-bold text-gray-900' }, 'Station Master')
-    ),
-    React.createElement('div', { className: 'bg-white p-4 rounded shadow mb-6 flex flex-wrap gap-4' },
-      React.createElement('input', {
-        type: 'text', placeholder: 'Code (e.g. MAS)', value: searchCode, onChange: (e) => setSearchCode(e.target.value),
-        className: 'px-4 py-2 border rounded-md shadow-sm flex-1 min-w-[150px]'
-      }),
-      React.createElement('input', {
-        type: 'text', placeholder: 'Station Name...', value: searchName, onChange: (e) => setSearchName(e.target.value),
-        className: 'px-4 py-2 border rounded-md shadow-sm flex-1 min-w-[150px]'
-      }),
-      React.createElement('select', { 
-        value: filterZone, onChange: (e) => { setFilterZone(e.target.value); setFilterDiv(''); },
-        className: 'px-4 py-2 border rounded-md shadow-sm flex-1 min-w-[150px]'
-      }, 
-        React.createElement('option', { value: '' }, 'All Zones'),
-        zones.map(z => React.createElement('option', { key: z._id, value: z._id }, z.code))
-      ),
-      React.createElement('select', { 
-        value: filterDiv, onChange: (e) => setFilterDiv(e.target.value),
-        className: 'px-4 py-2 border rounded-md shadow-sm flex-1 min-w-[150px]',
-        disabled: !filterZone
-      }, 
-        React.createElement('option', { value: '' }, 'All Divisions'),
-        divisions.filter(d => d.zoneId?._id === filterZone || d.zoneId === filterZone).map(d => React.createElement('option', { key: d._id, value: d._id }, d.code))
-      ),
-      React.createElement('select', { 
-        value: filterStatus, onChange: (e) => setFilterStatus(e.target.value),
-        className: 'px-4 py-2 border rounded-md shadow-sm flex-1 min-w-[150px]'
-      }, 
-        React.createElement('option', { value: '' }, 'All Statuses'),
-        ['ACTIVE', 'HISTORICAL', 'PROPOSED', 'REORGANIZED'].map(s => React.createElement('option', { key: s, value: s }, s))
-      )
-    ),
-    renderContent(),
-    renderDetailsModal()
+      {/* Search Filters */}
+      <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm flex flex-wrap gap-3">
+        <input
+          type="text"
+          placeholder="Code (e.g. MAS, PGT, DG)"
+          value={searchCode}
+          onChange={(e) => { setSearchCode(e.target.value); setPage(1); }}
+          className="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex-1 min-w-[140px]"
+        />
+        <input
+          type="text"
+          placeholder="Station Name (e.g. Arakkonam, Ernakulam)..."
+          value={searchName}
+          onChange={(e) => { setSearchName(e.target.value); setPage(1); }}
+          className="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex-1 min-w-[200px]"
+        />
+        <select
+          value={filterStatus}
+          onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}
+          className="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-[130px]"
+        >
+          <option value="">All Statuses</option>
+          <option value="ACTIVE">ACTIVE</option>
+          <option value="HISTORICAL">HISTORICAL</option>
+        </select>
+      </div>
+
+      {/* Stations Table */}
+      {loading ? (
+        <div className="p-8 text-center text-gray-500">Loading Station Directory...</div>
+      ) : error ? (
+        <ErrorState message={error} onRetry={fetchStations} />
+      ) : stations.length === 0 ? (
+        <div className="p-8 text-center text-gray-500 bg-white rounded-lg border border-gray-200">
+          No stations match the search query.
+        </div>
+      ) : (
+        <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 text-sm">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Station Code</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Station Name</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Division</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Zone</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {stations.map((st, i) => {
+                  const divCode = st.divisionId?.code || st.divisionCode || 'SR';
+                  return (
+                    <tr key={st._id || i} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-4 py-3 font-mono font-bold text-gray-900">{st.stationCode}</td>
+                      <td className="px-4 py-3 text-gray-800 font-medium">{st.officialName || st.name}</td>
+                      <td className="px-4 py-3">
+                        <span className="px-2 py-0.5 text-xs font-bold rounded bg-blue-50 text-blue-700">
+                          {divCode}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-gray-500">{st.zoneId?.code || 'SR'}</td>
+                      <td className="px-4 py-3">
+                        <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                          {st.status || 'ACTIVE'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <button
+                          onClick={() => setSelectedStation(st)}
+                          className="text-xs font-semibold text-blue-600 hover:text-blue-900"
+                        >
+                          View Details
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {renderDetailsModal()}
+    </div>
   );
 }

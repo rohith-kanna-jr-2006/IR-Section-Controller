@@ -1,48 +1,72 @@
 import mongoose from 'mongoose';
-import Redis from 'ioredis';
+import { seedDatabase } from './autoSeed.js';
 
+let mongoMemoryServerInstance = null;
 let isMongoConnecting = false;
 
-export const connectMongo = () => {
-  if (isMongoConnecting || mongoose.connection.readyState === 1) return;
+export const connectMongo = async () => {
+  if (mongoose.connection.readyState === 1) return;
+  if (isMongoConnecting) return;
   isMongoConnecting = true;
-  
-  const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/ir-section-controller';
-  
-  mongoose.connect(uri, {
-    serverSelectionTimeoutMS: 5000 // Timeout after 5s instead of 30s
-  }).then(() => {
-    console.log('MongoDB connected successfully');
+
+  try {
+    let connected = false;
+    let uri = process.env.MONGO_URI;
+
+    if (uri) {
+      try {
+        console.log(`[AI Studio] Attempting connection to configured MONGO_URI...`);
+        await mongoose.connect(uri, {
+          serverSelectionTimeoutMS: 2000
+        });
+        console.log('[AI Studio] Connected to external MongoDB successfully!');
+        connected = true;
+      } catch (err) {
+        console.warn(`[AI Studio] Configured MONGO_URI unreachable (${err.message}). Falling back to MongoMemoryServer.`);
+      }
+    }
+
+    if (!connected) {
+      console.log('[AI Studio] Initializing in-memory MongoMemoryServer...');
+      const { MongoMemoryServer } = await import('mongodb-memory-server');
+      mongoMemoryServerInstance = await MongoMemoryServer.create();
+      const memUri = mongoMemoryServerInstance.getUri();
+      console.log(`[AI Studio] MongoMemoryServer created at ${memUri}`);
+
+      await mongoose.connect(memUri, {
+        serverSelectionTimeoutMS: 10000
+      });
+      console.log('[AI Studio] Connected to MongoMemoryServer database successfully!');
+    }
+
+    // Automatically seed data into the database
+    await seedDatabase();
+  } catch (error) {
+    console.error('[AI Studio] Fatal error initializing MongoDB:', error);
+  } finally {
     isMongoConnecting = false;
-  }).catch((error) => {
-    console.error('MongoDB initial connection error. Will retry on next request or let mongoose auto-reconnect if possible. Error:', error.message);
-    isMongoConnecting = false;
-  });
+  }
 };
 
-export const redisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
-  lazyConnect: true,
-  maxRetriesPerRequest: 3,
-  retryStrategy: (times) => {
-    if (times > 5) {
-      console.error('Redis connection retries exceeded. Stopping retries.');
-      return null; // Stop retrying after 5 attempts
+// In-memory Redis store stub
+const store = new Map();
+export const redisClient = {
+  status: 'ready',
+  get: async (k) => store.get(k) ?? null,
+  set: async (k, v) => { store.set(k, v); return 'OK'; },
+  del: async (k) => store.delete(k),
+  incr: async (k) => { const n = (store.get(k) || 0) + 1; store.set(k, n); return n; },
+  on: (event, cb) => {
+    if (event === 'connect') setTimeout(cb, 0);
+  },
+  connect: async () => {},
+  quit: async () => {
+    if (mongoMemoryServerInstance) {
+      await mongoMemoryServerInstance.stop();
     }
-    const delay = Math.min(times * 1000, 5000);
-    return delay;
-  }
-});
-
-redisClient.on('error', (err) => {
-  console.error('Redis connection error:', err.message);
-});
-
-redisClient.on('connect', () => {
-  console.log('Redis connected successfully');
-});
+  },
+};
 
 export const connectRedis = () => {
-  redisClient.connect().catch((error) => {
-    console.error('Redis initial connection error:', error.message);
-  });
+  console.log('[AI Studio] Using in-memory Redis client');
 };

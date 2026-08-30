@@ -1,15 +1,49 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { ControlChart } from '../../components/control-chart/ControlChart';
 import { DISTANCE_MODE } from '../../components/control-chart/ChartCoordinateModel';
 import { useSimulationSocket } from '../../hooks/useSimulationSocket';
 
 export default function SimulationControlRoom() {
-  const { scenarioId } = useParams();
+  const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // 1. Controller Scope State
+  const [selectedZoneId, setSelectedZoneId] = useState(searchParams.get('zone') || 'SR');
+  const [selectedDivisionId, setSelectedDivisionId] = useState(searchParams.get('division') || 'MAS');
+  const [selectedSectionId, setSelectedSectionId] = useState(searchParams.get('section') || '');
+  const [selectedRouteId, setSelectedRouteId] = useState(searchParams.get('route') || 'West Line (MAS-JTJ)');
+  const [serviceDate, setServiceDate] = useState(searchParams.get('date') || '2026-08-30');
+  const [activeScenarioId, setActiveScenarioId] = useState(params.scenarioId || searchParams.get('scenario') || 'SCEN_PEAK_001');
+  const [isChartLoaded, setIsChartLoaded] = useState(
+    Boolean(searchParams.get('loaded') === 'true' || (searchParams.get('zone') && searchParams.get('division')))
+  );
+
+  // Lists of territorial entities
+  const [zones, setZones] = useState([]);
+  const [allDivisions, setAllDivisions] = useState([]);
+  const [srNetworkData, setSrNetworkData] = useState([]);
+  const [scenarios, setScenarios] = useState([]);
+  const [loadingScope, setLoadingScope] = useState(true);
+
+  // Static snapshot state
+  const [topologySnapshot, setTopologySnapshot] = useState(null);
+  const [timetableSnapshot, setTimetableSnapshot] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [loadingData, setLoadingData] = useState(false);
+  const [error, setError] = useState('');
   
-  // Real-time state from Socket
+  // UI & Playback Controls
+  const [distanceMode, setDistanceMode] = useState(DISTANCE_MODE.SCHEMATIC);
+  const [isLiveRunning, setIsLiveRunning] = useState(true);
+  const [isReplaying, setIsReplaying] = useState(false);
+  const [replayIndex, setReplayIndex] = useState(0);
+  const [speedMultiplier, setSpeedMultiplier] = useState(1);
+  const [simClock, setSimClock] = useState(Date.now());
+
+  // Socket Hook
   const {
     status: socketStatus,
     simulationTime,
@@ -20,188 +54,448 @@ export default function SimulationControlRoom() {
     setTrainRuns,
     setSectionOccupancies,
     setConflicts
-  } = useSimulationSocket(scenarioId);
+  } = useSimulationSocket(activeScenarioId);
 
-  // Static snapshot state
-  const [topologySnapshot, setTopologySnapshot] = useState(null);
-  const [timetableSnapshot, setTimetableSnapshot] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  
-  // UI Controls
-  const [distanceMode, setDistanceMode] = useState(DISTANCE_MODE.SCHEMATIC);
-  const [whatIfOverlay, setWhatIfOverlay] = useState(null);
-  
-  // Replay
-  const [isReplaying, setIsReplaying] = useState(false);
-  const [replayTime, setReplayTime] = useState(Date.now());
-
+  // 2. Fetch Master Railway Topology Reference Data (Zones, Divisions, SR network, Scenarios)
   useEffect(() => {
-    async function fetchSnapshots() {
-      if (!scenarioId) return;
+    async function initMasterData() {
       try {
-        setLoading(true);
-        // We'll fetch the scenario details to get the snapshots and initial train runs
-        const { data } = await axios.get(`/api/operations/scenarios/${scenarioId}`);
-        setTopologySnapshot(data.topologySnapshot);
-        setTimetableSnapshot(data.timetableSnapshot);
-        
-        // Load initial train runs if any
-        if (data.trainRuns) setTrainRuns(data.trainRuns);
-        
-        // Fetch initial occupancies and conflicts
-        const occRes = await axios.get(`/api/operations/sections?scenarioId=${scenarioId}`);
-        if (occRes.data && occRes.data.data) {
-          setSectionOccupancies(occRes.data.data);
+        setLoadingScope(true);
+        const [zonesRes, divsRes, srNetRes, scenRes] = await Promise.all([
+          axios.get('/api/zones').catch(() => ({ data: { data: [{ _id: 'SR', code: 'SR', name: 'Southern Railway', headquarters: 'Chennai' }] } })),
+          axios.get('/api/divisions').catch(() => ({ data: { data: [] } })),
+          axios.get('/api/sections/sr-network').catch(() => ({ data: { data: [] } })),
+          axios.get('/api/simulation/scenarios').catch(() => ({ data: { data: [] } }))
+        ]);
+
+        const loadedZones = zonesRes.data?.data || [];
+        // Ensure SR exists if not in DB
+        if (!loadedZones.some(z => z.code === 'SR' || z._id === 'SR')) {
+          loadedZones.unshift({ _id: 'SR', code: 'SR', name: 'Southern Railway', headquarters: 'Chennai' });
         }
-        
-        const conflictRes = await axios.get(`/api/operations/conflicts?scenarioId=${scenarioId}`);
-        if (conflictRes.data && conflictRes.data.data) {
-          setConflicts(conflictRes.data.data);
+        setZones(loadedZones);
+
+        const loadedDivs = divsRes.data?.data || [];
+        // Ensure default Southern Railway divisions exist
+        const defaultSRDivs = [
+          { _id: 'MAS', code: 'MAS', name: 'Chennai', zoneCode: 'SR' },
+          { _id: 'SA', code: 'SA', name: 'Salem', zoneCode: 'SR' },
+          { _id: 'PGT', code: 'PGT', name: 'Palakkad', zoneCode: 'SR' },
+          { _id: 'TVC', code: 'TVC', name: 'Thiruvananthapuram', zoneCode: 'SR' },
+          { _id: 'MDU', code: 'MDU', name: 'Madurai', zoneCode: 'SR' },
+          { _id: 'TPJ', code: 'TPJ', name: 'Tiruchirappalli', zoneCode: 'SR' }
+        ];
+        const combinedDivs = [...loadedDivs];
+        defaultSRDivs.forEach(d => {
+          if (!combinedDivs.some(x => x.code === d.code)) {
+            combinedDivs.push(d);
+          }
+        });
+        setAllDivisions(combinedDivs);
+
+        const networkSections = srNetRes.data?.data || [];
+        setSrNetworkData(networkSections);
+
+        const loadedScenarios = scenRes.data?.data || [];
+        if (loadedScenarios.length > 0) {
+          setScenarios(loadedScenarios);
+          if (!activeScenarioId) {
+            setActiveScenarioId(loadedScenarios[0].scenarioId || loadedScenarios[0]._id);
+          }
+        } else {
+          setScenarios([
+            { scenarioId: 'SCEN_PEAK_001', name: 'Peak Morning Commute & Vande Bharat Corridor', status: 'RUNNING' },
+            { scenarioId: 'SCEN_FREIGHT_002', name: 'Mixed Corridor Precedence & Freight Optimization', status: 'READY' }
+          ]);
         }
       } catch (err) {
-        console.error(err);
-        setError('Failed to load scenario data.');
+        console.error('Error loading master scope data:', err);
       } finally {
-        setLoading(false);
+        setLoadingScope(false);
       }
     }
-    fetchSnapshots();
-  }, [scenarioId, setTrainRuns, setSectionOccupancies, setConflicts]);
 
-  if (loading) {
-    return <div className="p-8 text-white">LOADING...</div>;
-  }
+    initMasterData();
+  }, []);
 
-  if (error) {
-    return <div className="p-8 text-red-500">ERROR: {error}</div>;
-  }
-
-  const handleContextMenuAction = async (actionType, data) => {
-    try {
-      const payload = { sessionId: 'mock-session', actionId: Date.now().toString() };
-      let endpoint = '';
-      if (actionType === 'HOLD_TRAIN') endpoint = `/api/operations/trains/${data._id || data.id}/hold`;
-      if (actionType === 'RELEASE_TRAIN') endpoint = `/api/operations/trains/${data._id || data.id}/release`;
-      if (actionType === 'ACKNOWLEDGE_CONFLICT') endpoint = `/api/operations/conflicts/${data._id || data.id}/acknowledge`;
-      if (actionType === 'RESOLVE_CONFLICT') endpoint = `/api/operations/conflicts/${data._id || data.id}/resolve`;
-      
-      if (endpoint) {
-        await axios.post(endpoint, payload);
-        alert(`Action ${actionType} sent successfully.`);
-      }
-    } catch (err) {
-      alert(`Failed to execute ${actionType}: ` + (err.response?.data?.error || err.message));
+  // 3. Dependent Divisions based on Selected Zone
+  const filteredDivisions = useMemo(() => {
+    if (!selectedZoneId || selectedZoneId === 'ALL_INDIA') {
+      return allDivisions;
     }
+    return allDivisions.filter(d => {
+      const zId = d.zoneId?._id || d.zoneId || d.zoneCode;
+      return zId === selectedZoneId || d.zoneCode === 'SR';
+    });
+  }, [allDivisions, selectedZoneId]);
+
+  // 4. Dependent Sections & Routes based on Selected Division
+  const { filteredSections, filteredRoutes } = useMemo(() => {
+    let divCode = selectedDivisionId;
+    if (divCode && divCode !== 'ALL_DIVISION') {
+      const foundDiv = allDivisions.find(d => (d._id || d.code) === divCode);
+      if (foundDiv) divCode = foundDiv.code;
+    }
+
+    const divisionSections = srNetworkData.filter(s => !divCode || divCode === 'ALL_DIVISION' || s.divisionCode === divCode);
+    const routesList = divisionSections.map(s => ({
+      id: s.routeName,
+      routeName: s.routeName,
+      divisionCode: s.divisionCode,
+      fromStation: s.fromStationName,
+      toStation: s.toStationName,
+      stations: s.stations
+    }));
+
+    return {
+      filteredSections: divisionSections,
+      filteredRoutes: routesList
+    };
+  }, [srNetworkData, selectedDivisionId, allDivisions]);
+
+  // 5. Sync state to URL Query Params
+  const syncQueryParams = useCallback((newScope) => {
+    const nextParams = new URLSearchParams();
+    if (newScope.zone) nextParams.set('zone', newScope.zone);
+    if (newScope.division) nextParams.set('division', newScope.division);
+    if (newScope.section) nextParams.set('section', newScope.section);
+    if (newScope.route) nextParams.set('route', newScope.route);
+    if (newScope.date) nextParams.set('date', newScope.date);
+    if (newScope.scenario) nextParams.set('scenario', newScope.scenario);
+    if (newScope.loaded) nextParams.set('loaded', 'true');
+    setSearchParams(nextParams, { replace: true });
+  }, [setSearchParams]);
+
+  // 6. Handle Territory Changes (Hierarchy propagation)
+  const handleZoneChange = (zoneId) => {
+    setSelectedZoneId(zoneId);
+    setSelectedDivisionId('');
+    setSelectedSectionId('');
+    setSelectedRouteId('');
+    setIsChartLoaded(false);
   };
 
-  const handleRecommendationClick = async (rec) => {
+  const handleDivisionChange = (divId) => {
+    setSelectedDivisionId(divId);
+    setSelectedSectionId('');
+    setSelectedRouteId('');
+    setIsChartLoaded(false);
+  };
+
+  const handleSectionChange = (secId) => {
+    setSelectedSectionId(secId);
+  };
+
+  const handleRouteChange = (routeId) => {
+    setSelectedRouteId(routeId);
+  };
+
+  const handleServiceDateChange = (dateStr) => {
+    setServiceDate(dateStr);
+  };
+
+  const handleScenarioChange = (scenId) => {
+    setActiveScenarioId(scenId);
+  };
+
+  // 7. Load Master Chart Action
+  const handleLoadMasterChart = useCallback(async () => {
+    if (!activeScenarioId) return;
     try {
-      const res = await axios.post(`/api/operations/recommendations/${rec._id || rec.id}/what-if`);
-      setWhatIfOverlay({
-        trainRun: rec.affectedTrains?.[0], // Simplification
-        projectedKpi: res.data.data.projectedKpi,
-        recommendation: rec
+      setLoadingData(true);
+      setError('');
+
+      const res = await axios.get(`/api/operations/scenarios/${activeScenarioId}/graph-state`, {
+        params: {
+          divisionId: selectedDivisionId,
+          routeId: selectedRouteId,
+          sectionId: selectedSectionId
+        }
+      });
+      const payload = res.data?.data;
+
+      if (payload) {
+        setTopologySnapshot(payload.topologySnapshot);
+        setTimetableSnapshot(payload.timetableSnapshot);
+        if (payload.trainRuns?.length) setTrainRuns(payload.trainRuns);
+        if (payload.sectionOccupancies?.length) setSectionOccupancies(payload.sectionOccupancies);
+        if (payload.conflicts?.length) setConflicts(payload.conflicts);
+        if (payload.events?.length) setEvents(payload.events);
+      }
+
+      setIsChartLoaded(true);
+      syncQueryParams({
+        zone: selectedZoneId,
+        division: selectedDivisionId,
+        section: selectedSectionId,
+        route: selectedRouteId,
+        date: serviceDate,
+        scenario: activeScenarioId,
+        loaded: true
       });
     } catch (err) {
-      alert('What-If evaluation failed: ' + (err.response?.data?.error || err.message));
+      console.warn('Failed to load graph-state, falling back to cached scenario...', err.message);
+      try {
+        const { data } = await axios.get(`/api/operations/scenarios/${activeScenarioId}`);
+        setTopologySnapshot(data.topologySnapshot);
+        setTimetableSnapshot(data.timetableSnapshot);
+        if (data.trainRuns) setTrainRuns(data.trainRuns);
+        setIsChartLoaded(true);
+      } catch (fallbackErr) {
+        console.error('All fetches failed:', fallbackErr);
+        setError('Failed to load scenario data.');
+      }
+    } finally {
+      setLoadingData(false);
+    }
+  }, [activeScenarioId, selectedZoneId, selectedDivisionId, selectedSectionId, selectedRouteId, serviceDate, setTrainRuns, setSectionOccupancies, setConflicts, syncQueryParams]);
+
+  // Initial auto-load if query params specify loaded=true
+  useEffect(() => {
+    if (isChartLoaded && !topologySnapshot && activeScenarioId) {
+      handleLoadMasterChart();
+    }
+  }, [isChartLoaded, topologySnapshot, activeScenarioId, handleLoadMasterChart]);
+
+  // 8. Reset Scope Action
+  const handleResetScope = () => {
+    setSelectedZoneId('');
+    setSelectedDivisionId('');
+    setSelectedSectionId('');
+    setSelectedRouteId('');
+    setIsChartLoaded(false);
+    setTopologySnapshot(null);
+    setTimetableSnapshot(null);
+    setTrainRuns([]);
+    setSectionOccupancies([]);
+    setConflicts([]);
+    syncQueryParams({
+      zone: '',
+      division: '',
+      section: '',
+      route: '',
+      date: serviceDate,
+      scenario: activeScenarioId,
+      loaded: false
+    });
+  };
+
+  // Clock progression
+  useEffect(() => {
+    if (simulationTime && !isReplaying) {
+      setSimClock(simulationTime);
+    }
+  }, [simulationTime, isReplaying]);
+
+  useEffect(() => {
+    if (!isLiveRunning || isReplaying || !isChartLoaded) return;
+    const interval = setInterval(() => {
+      setSimClock((prev) => prev + (1000 * speedMultiplier));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isLiveRunning, isReplaying, isChartLoaded, speedMultiplier]);
+
+  // Play / Pause Simulation
+  const handlePlayPause = async () => {
+    try {
+      const nextRunning = !isLiveRunning;
+      setIsLiveRunning(nextRunning);
+      await axios.post(`/api/scenarios/${activeScenarioId}/${nextRunning ? 'start' : 'stop'}`).catch(() => {});
+    } catch (e) {
+      console.warn('Simulation start/stop error:', e);
     }
   };
 
-  return (
-    <div className="flex flex-col h-screen bg-gray-950 text-white">
-      {/* Header Panel */}
-      <div className="flex justify-between items-center p-4 bg-gray-900 border-b border-gray-700">
-        <div>
-          <h1 className="text-xl font-bold">Simulation Control Chart</h1>
-          <div className="text-sm text-gray-400">Scenario: {scenarioId}</div>
-        </div>
-        
-        {/* Status Indicators */}
-        <div className="flex items-center space-x-6">
-          <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-400">Status:</span>
-            <span className={`px-2 py-1 rounded text-xs font-bold ${
-              socketStatus === 'READY' ? 'bg-green-900 text-green-300' :
-              socketStatus === 'STALE' ? 'bg-yellow-900 text-yellow-300' :
-              'bg-red-900 text-red-300'
-            }`}>
-              {socketStatus}
-            </span>
-          </div>
-          
-          <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-400">Mode:</span>
-            <select
-              className="bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-white"
-              value={distanceMode}
-              onChange={(e) => setDistanceMode(e.target.value)}
-            >
-              <option value={DISTANCE_MODE.SCHEMATIC}>Schematic</option>
-              <option value={DISTANCE_MODE.PHYSICAL}>Physical Distance</option>
-            </select>
-          </div>
-          
-          <div className="flex items-center space-x-2 bg-gray-800 px-3 py-1 rounded border border-gray-700">
-            <span className="text-sm text-gray-400">Replay:</span>
-            <button 
-              className="text-white hover:text-green-400 px-2"
-              onClick={async () => {
-                try {
-                  const url = `/api/scenarios/${scenarioId}/replay/${isReplaying ? 'stop' : 'play'}`;
-                  await axios.post(url, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }});
-                  setIsReplaying(!isReplaying);
-                } catch (err) {
-                  console.error(err);
-                }
-              }}
-            >
-              {isReplaying ? 'Pause' : 'Play'}
-            </button>
-            {isReplaying && (
-              <input type="range" className="w-24" />
-            )}
-          </div>
-        </div>
-      </div>
+  const handleStep = async () => {
+    setSimClock((prev) => prev + 60000);
+    try {
+      await axios.post(`/api/scenarios/${activeScenarioId}/step`).catch(() => {});
+    } catch (e) {}
+  };
 
-      {/* Main Chart Area */}
-      <div className="flex-1 overflow-hidden relative">
-        {whatIfOverlay && (
-          <div className="absolute top-2 right-2 bg-gray-800 border border-gray-600 p-4 rounded shadow-xl z-40 w-64 text-sm">
-            <div className="font-bold text-green-400 border-b border-gray-700 pb-2 mb-2">What-If Projection</div>
-            <div className="text-gray-300">Throughput Delta: {whatIfOverlay.projectedKpi?.throughputDelta}</div>
-            <div className="text-gray-300">Delay Delta: {whatIfOverlay.projectedKpi?.delayDelta}</div>
-            <button 
-              className="mt-3 w-full bg-red-600 hover:bg-red-700 text-white py-1 rounded"
-              onClick={() => setWhatIfOverlay(null)}
-            >
-              Close Projection
-            </button>
-          </div>
-        )}
-        {(socketStatus === 'STALE' || socketStatus === 'ERROR') && (
-          <div className="absolute top-0 left-0 right-0 z-50 bg-red-900 text-white text-center py-1">
-            WARNING: Connection {socketStatus}. Displayed state may be stale.
-          </div>
-        )}
-        
-        <ControlChart
-          topologySnapshot={topologySnapshot}
-          timetableSnapshot={timetableSnapshot}
-          trainRuns={trainRuns}
-          sectionOccupancies={sectionOccupancies}
-          conflicts={conflicts}
-          recommendations={recommendations}
-          simulationTime={isReplaying ? replayTime : simulationTime}
-          distanceMode={distanceMode}
-          width={window.innerWidth}
-          height={window.innerHeight - 80}
-          onContextMenuAction={handleContextMenuAction}
-          onRecommendationClick={handleRecommendationClick}
-          whatIfOverlay={whatIfOverlay}
-        />
+  const handleReset = async () => {
+    try {
+      await axios.post(`/api/scenarios/${activeScenarioId}/reset`).catch(() => {});
+      handleLoadMasterChart();
+    } catch (e) {
+      handleLoadMasterChart();
+    }
+  };
+
+  const handleSpeedChange = (speed) => {
+    setSpeedMultiplier(speed);
+  };
+
+  const handleReplayScrub = (index) => {
+    setReplayIndex(index);
+    if (events[index]) {
+      setSimClock(new Date(events[index].timestamp).getTime());
+    }
+  };
+
+  // Controller Actions
+  const handleHoldTrain = async (train) => {
+    try {
+      const trainId = train._id || train.id || train.trainRunId;
+      await axios.post(`/api/operations/trains/${trainId}/hold`, {
+        sessionId: 'sim-session',
+        actionId: `act-${Date.now()}`
+      });
+      setEvents((prev) => [
+        { eventType: 'HOLD_TRAIN', message: `Train ${train.trainNumber || trainId} held at signal loop.`, timestamp: new Date() },
+        ...prev
+      ]);
+    } catch (err) {
+      console.error('Hold train error:', err);
+    }
+  };
+
+  const handleReleaseTrain = async (train) => {
+    try {
+      const trainId = train._id || train.id || train.trainRunId;
+      await axios.post(`/api/operations/trains/${trainId}/release`, {
+        sessionId: 'sim-session',
+        actionId: `act-${Date.now()}`
+      });
+      setEvents((prev) => [
+        { eventType: 'RELEASE_TRAIN', message: `Train ${train.trainNumber || trainId} cleared for mainline dispatch.`, timestamp: new Date() },
+        ...prev
+      ]);
+    } catch (err) {
+      console.error('Release train error:', err);
+    }
+  };
+
+  const handleAcknowledgeConflict = async (conflict) => {
+    try {
+      const conflictId = conflict._id || conflict.id || conflict.conflictId;
+      await axios.post(`/api/operations/conflicts/${conflictId}/acknowledge`, {
+        sessionId: 'sim-session',
+        actionId: `act-${Date.now()}`
+      });
+      setConflicts((prev) =>
+        prev.map((c) => (c._id === conflictId || c.conflictId === conflictId ? { ...c, status: 'ACKNOWLEDGED' } : c))
+      );
+    } catch (err) {
+      console.error('Acknowledge conflict error:', err);
+    }
+  };
+
+  const handleResolveConflict = async (conflict) => {
+    try {
+      const conflictId = conflict._id || conflict.id || conflict.conflictId;
+      await axios.post(`/api/operations/conflicts/${conflictId}/resolve`, {
+        sessionId: 'sim-session',
+        actionId: `act-${Date.now()}`
+      });
+      setConflicts((prev) =>
+        prev.map((c) => (c._id === conflictId || c.conflictId === conflictId ? { ...c, status: 'RESOLVED' } : c))
+      );
+    } catch (err) {
+      console.error('Resolve conflict error:', err);
+    }
+  };
+
+  const handleApproveRecommendation = async (rec) => {
+    try {
+      const recId = rec._id || rec.id || rec.recommendationId;
+      await axios.post(`/api/intelligence/recommendations/${recId}/approve`);
+      setEvents((prev) => [
+        { eventType: 'RECOMMENDATION_APPROVED', message: `Approved recommendation: ${rec.type}`, timestamp: new Date() },
+        ...prev
+      ]);
+    } catch (err) {
+      console.error('Approve recommendation error:', err);
+    }
+  };
+
+  const handlePublishTimetable = (parsedData) => {
+    if (!parsedData || !parsedData.schedules) return;
+    const newRuns = parsedData.schedules.map((sch, i) => ({
+      _id: `run_imported_${sch.trainNumber}_${i}`,
+      trainRunId: `TR_${sch.trainNumber}`,
+      trainNumber: sch.trainNumber,
+      trainName: sch.trainName,
+      trainType: 'EXPRESS',
+      runStatus: 'RUNNING',
+      delayMinutes: 0,
+      stops: [
+        { stationCode: 'MAS', arrival: '06:00', departure: '06:05', haltMinutes: 5, absoluteMinutesArrival: 360, absoluteMinutesDeparture: 365 },
+        { stationCode: 'AJJ', arrival: '06:45', departure: '06:47', haltMinutes: 2, absoluteMinutesArrival: 405, absoluteMinutesDeparture: 407 },
+        { stationCode: 'KPD', arrival: '07:38', departure: '07:40', haltMinutes: 2, absoluteMinutesArrival: 458, absoluteMinutesDeparture: 460 },
+        { stationCode: 'JTJ', arrival: '08:48', departure: '08:50', haltMinutes: 2, absoluteMinutesArrival: 528, absoluteMinutesDeparture: 530 }
+      ]
+    }));
+    setTrainRuns((prev) => [...prev, ...newRuns]);
+  };
+
+  if (loadingScope) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-slate-950 text-cyan-400 font-mono space-x-3">
+        <div className="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+        <span className="text-sm font-bold tracking-wider">INITIALIZING INDIAN RAILWAYS CONTROL SCOPE...</span>
       </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-mono select-none">
+      {/* Telemetry Status Bar if offline/stale */}
+      {(socketStatus === 'STALE' || socketStatus === 'ERROR') && (
+        <div className="bg-amber-950 text-amber-300 border-b border-amber-800 px-4 py-1 text-xs text-center font-bold">
+          ⚠ SIMULATION TELEMETRY: {socketStatus} — Using local authoritative snapshot
+        </div>
+      )}
+
+      {/* Main Master Chart with Controller Scope Bar */}
+      <ControlChart
+        zones={zones}
+        divisions={filteredDivisions}
+        sections={filteredSections}
+        routes={filteredRoutes}
+        scenarios={scenarios}
+        selectedZoneId={selectedZoneId}
+        selectedDivisionId={selectedDivisionId}
+        selectedSectionId={selectedSectionId}
+        selectedRouteId={selectedRouteId}
+        serviceDate={serviceDate}
+        selectedScenarioId={activeScenarioId}
+        isChartLoaded={isChartLoaded}
+        isLoading={loadingData}
+        onZoneChange={handleZoneChange}
+        onDivisionChange={handleDivisionChange}
+        onSectionChange={handleSectionChange}
+        onRouteChange={handleRouteChange}
+        onServiceDateChange={handleServiceDateChange}
+        onScenarioChange={handleScenarioChange}
+        onLoadMasterChart={handleLoadMasterChart}
+        onResetScope={handleResetScope}
+        topologySnapshot={topologySnapshot}
+        timetableSnapshot={timetableSnapshot}
+        trainRuns={trainRuns}
+        sectionOccupancies={sectionOccupancies}
+        conflicts={conflicts}
+        recommendations={recommendations}
+        events={events}
+        simulationTime={simClock}
+        isLiveRunning={isLiveRunning}
+        isReplaying={isReplaying}
+        replayIndex={replayIndex}
+        totalEvents={events.length || 100}
+        speedMultiplier={speedMultiplier}
+        initialDistanceMode={distanceMode}
+        onPlayPause={handlePlayPause}
+        onStep={handleStep}
+        onReset={handleReset}
+        onSpeedChange={handleSpeedChange}
+        onReplayScrub={handleReplayScrub}
+        onHoldTrain={handleHoldTrain}
+        onReleaseTrain={handleReleaseTrain}
+        onAcknowledgeConflict={handleAcknowledgeConflict}
+        onResolveConflict={handleResolveConflict}
+        onApproveRecommendation={handleApproveRecommendation}
+        onPublishTimetable={handlePublishTimetable}
+      />
     </div>
   );
 }

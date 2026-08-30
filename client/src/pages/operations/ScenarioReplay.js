@@ -19,8 +19,8 @@ export default function ScenarioReplay() {
   const handlePlay = () => {
     if (socketRef.current) socketRef.current.disconnect();
     
-    const backendUrl = window.location.origin.replace('3000', '5000');
-    const socket = io(backendUrl, { transports: ['websocket'] });
+    const backendUrl = process.env.REACT_APP_API_URL || undefined;
+    const socket = io(backendUrl, { transports: ['websocket', 'polling'] });
     
     socket.on('connect', () => {
       socket.emit('join_scenario', selectedScenario);

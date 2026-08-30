@@ -4,10 +4,29 @@ import { Section } from '../models/Section.js';
 import { rbac, ROLES } from '../middleware/rbac.js';
 import { logAudit } from '../services/AuditLogger.js';
 import { HierarchyValidator } from '../services/validation/HierarchyValidator.js';
+import { getAllSRSections, getAllSRStations, SR_DIVISIONS_MAP } from '../config/srSectionsData.js';
 import fs from 'fs';
 import path from 'path';
 
 const router = Router();
+
+router.get('/sr-network', (req, res) => {
+  try {
+    const { division } = req.query;
+    let sections = getAllSRSections();
+    if (division) {
+      sections = sections.filter(s => s.divisionCode.toUpperCase() === division.toUpperCase() || s.divisionName.toUpperCase() === division.toUpperCase());
+    }
+    res.json({
+      success: true,
+      divisions: SR_DIVISIONS_MAP,
+      totalSections: sections.length,
+      data: sections
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 const createSchema = z.object({
   sectionCode: z.string().optional(),

@@ -108,9 +108,95 @@ describe('ChartCoordinateModel', () => {
     expect(traj[2].y).toBe(200);
   });
 
-  // Tests 6-14 are more integration level or UI component tests, 
-  // but we can add placeholders to show we intend to fulfill them as requested.
-  
+  it('6. Section occupancy bounding box calculation', () => {
+    const baseTime = new Date('2023-10-10T10:00:00Z').getTime();
+    const model = new ChartCoordinateModel({
+      topologySnapshot: {
+        stations: [{ id: 'S1' }, { id: 'S2' }],
+        sections: [{ id: 'SEC1', fromStationId: 'S1', toStationId: 'S2' }]
+      },
+      config: { timeWindowStart: baseTime, timeScale: 60000, stationSpacing: 100 }
+    });
+
+    const occupancy = {
+      sectionId: 'SEC1',
+      entryTime: new Date('2023-10-10T10:05:00Z'),
+      expectedExitTime: new Date('2023-10-10T10:25:00Z'),
+      occupancyStatus: 'OCCUPIED'
+    };
+
+    const rect = model.getSectionOccupancyRect(occupancy);
+    expect(rect).not.toBeNull();
+    expect(rect.x).toBe(5); // 5 mins from baseTime
+    expect(rect.width).toBe(20); // 20 mins duration
+    expect(rect.yTop).toBe(0);
+    expect(rect.yBottom).toBe(100);
+    expect(rect.height).toBe(100);
+  });
+
+  it('7. Conflict coordinate positioning for station and section', () => {
+    const baseTime = new Date('2023-10-10T10:00:00Z').getTime();
+    const model = new ChartCoordinateModel({
+      topologySnapshot: {
+        stations: [{ id: 'S1' }, { id: 'S2' }],
+        sections: [{ id: 'SEC1', fromStationId: 'S1', toStationId: 'S2' }]
+      },
+      config: { timeWindowStart: baseTime, timeScale: 60000, stationSpacing: 100 }
+    });
+
+    // Station conflict at S2
+    const stnConflict = {
+      conflictId: 'CONF1',
+      locationType: 'STATION',
+      stationId: 'S2',
+      estimatedTime: new Date('2023-10-10T10:30:00Z')
+    };
+    const stnCoords = model.getConflictCoordinates(stnConflict);
+    expect(stnCoords.x).toBe(30);
+    expect(stnCoords.y).toBe(100);
+
+    // Section conflict on SEC1 (midpoint of S1 and S2)
+    const secConflict = {
+      conflictId: 'CONF2',
+      locationType: 'SECTION',
+      sectionId: 'SEC1',
+      estimatedTime: new Date('2023-10-10T10:45:00Z')
+    };
+    const secCoords = model.getConflictCoordinates(secConflict);
+    expect(secCoords.x).toBe(45);
+    expect(secCoords.y).toBe(50); // midpoint (0 + 100) / 2
+  });
+
+  it('8. What-If hold offset shifts arrival and departure times', () => {
+    const baseTime = new Date('2023-10-10T10:00:00Z').getTime();
+    const model = new ChartCoordinateModel({
+      topologySnapshot: {
+        stations: [{ id: 'S1' }, { id: 'S2' }]
+      },
+      config: { timeWindowStart: baseTime, timeScale: 60000, stationSpacing: 100 }
+    });
+
+    const trainRun = {
+      id: 'TR1',
+      serviceDate: '2023-10-10',
+      delayMinutes: 0,
+      stops: [
+        { stationId: 'S1', absoluteMinutesArrival: 600, absoluteMinutesDeparture: 600 },
+        { stationId: 'S2', absoluteMinutesArrival: 630, absoluteMinutesDeparture: 630 }
+      ]
+    };
+
+    // Standard trajectory (0 hold)
+    const trajBaseline = model.getTrainTrajectory(trainRun, false, 0);
+    expect(trajBaseline[0].x).toBe(0);
+    expect(trajBaseline[1].x).toBe(30);
+
+    // What-If trajectory with +15 min hold
+    const trajWhatIf = model.getTrainTrajectory(trainRun, true, 15);
+    expect(trajWhatIf[0].x).toBe(15);
+    expect(trajWhatIf[1].x).toBe(45);
+  });
+
   it('10. What-If immutability (Coordinate generation does not mutate state)', () => {
     const cloneTopology = JSON.parse(JSON.stringify(mockTopology));
     const model = new ChartCoordinateModel({ topologySnapshot: cloneTopology });

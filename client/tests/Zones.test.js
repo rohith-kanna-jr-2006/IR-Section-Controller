@@ -1,7 +1,8 @@
+// @vitest-environment jsdom
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { vi } from 'vitest';
+import '@testing-library/jest-dom/vitest';
+import { vi, describe, it, expect } from 'vitest';
 import Zones from '../src/pages/Zones.js';
 import api from '../src/services/api.js';
 

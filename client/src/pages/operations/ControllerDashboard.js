@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import api from '../../services/api.js';
 import ErrorState from '../../components/ErrorState.js';
@@ -13,6 +14,7 @@ export default function ControllerDashboard() {
   const [clock, setClock] = useState(null);
   const [trains, setTrains] = useState([]);
   const [conflicts, setConflicts] = useState([]);
+  const [sections, setSections] = useState([]);
   const [events, setEvents] = useState([]);
   
   const socketRef = useRef(null);
@@ -70,9 +72,9 @@ export default function ControllerDashboard() {
     if (socketRef.current) {
       socketRef.current.disconnect();
     }
-    const backendUrl = window.location.origin.replace('3000', '5000');
+    const backendUrl = process.env.REACT_APP_API_URL || undefined;
     const socket = io(backendUrl, {
-      transports: ['websocket'],
+      transports: ['websocket', 'polling'],
     });
 
     socket.on('connect', () => {
@@ -113,18 +115,22 @@ export default function ControllerDashboard() {
   };
 
   const renderScenarioSelector = () => {
-    return React.createElement('div', { className: 'mb-4 flex items-center space-x-4' },
-      React.createElement('label', { className: 'font-semibold' }, 'Active Scenario:'),
+    return React.createElement('div', { className: 'mb-4 flex flex-wrap items-center gap-4 bg-white p-4 rounded shadow border border-slate-200' },
+      React.createElement('label', { className: 'font-bold text-slate-800' }, 'Active Scenario:'),
       React.createElement('select', { 
-        className: 'border p-2 rounded',
+        className: 'border border-slate-300 p-2 rounded bg-slate-50 font-medium text-sm flex-1 min-w-[240px]',
         value: selectedScenario,
         onChange: (e) => setSelectedScenario(e.target.value)
       }, 
         scenarios.map(s => React.createElement('option', { key: s._id, value: s._id }, s.name || s.scenarioId))
       ),
-      React.createElement('div', { className: 'text-lg font-mono bg-black text-green-400 px-4 py-2 rounded' },
+      React.createElement('div', { className: 'text-base font-mono bg-black text-green-400 px-3 py-1.5 rounded font-bold' },
         clock || '00:00:00'
-      )
+      ),
+      React.createElement(Link, {
+        to: selectedScenario ? `/operations/scenarios/${selectedScenario}/chart` : '/chart',
+        className: 'px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded font-bold text-sm shadow flex items-center gap-2'
+      }, '⚡ Launch Master Chart')
     );
   };
 
@@ -135,6 +141,32 @@ export default function ControllerDashboard() {
       React.createElement('button', { onClick: handleStep, className: 'bg-blue-600 text-white px-4 py-2 rounded' }, 'Step (1 Tick)'),
       React.createElement('button', { className: 'bg-red-600 text-white px-4 py-2 rounded ml-auto' }, 'Reset Simulation')
     );
+  };
+
+  const handleAcknowledgeConflict = async (conflict) => {
+    try {
+      const conflictId = conflict._id || conflict.id || conflict.conflictId;
+      await api.post(`/operations/conflicts/${conflictId}/acknowledge`, {
+        sessionId: 'sim-session',
+        actionId: `act-${Date.now()}`
+      });
+      setConflicts(prev => prev.map(c => (c._id === conflictId || c.conflictId === conflictId ? { ...c, status: 'ACKNOWLEDGED' } : c)));
+    } catch (err) {
+      console.error('Acknowledge error:', err);
+    }
+  };
+
+  const handleResolveConflict = async (conflict) => {
+    try {
+      const conflictId = conflict._id || conflict.id || conflict.conflictId;
+      await api.post(`/operations/conflicts/${conflictId}/resolve`, {
+        sessionId: 'sim-session',
+        actionId: `act-${Date.now()}`
+      });
+      setConflicts(prev => prev.map(c => (c._id === conflictId || c.conflictId === conflictId ? { ...c, status: 'RESOLVED' } : c)));
+    } catch (err) {
+      console.error('Resolve error:', err);
+    }
   };
 
   const renderConflicts = () => {
@@ -154,15 +186,22 @@ export default function ControllerDashboard() {
             ),
             React.createElement('tbody', null,
               conflicts.map(c => 
-                React.createElement('tr', { key: c._id, className: 'border-b' },
+                React.createElement('tr', { key: c._id || c.conflictId, className: 'border-b' },
                   React.createElement('td', { className: 'py-2 font-mono text-xs' }, c.conflictId),
                   React.createElement('td', { className: 'py-2' }, c.type),
                   React.createElement('td', { className: 'py-2' },
                     React.createElement('span', { className: `px-2 rounded text-white ${c.severity==='CRITICAL'?'bg-red-600':'bg-orange-500'}`}, c.severity)
                   ),
                   React.createElement('td', { className: 'py-2' }, c.status),
-                  React.createElement('td', { className: 'py-2' },
-                    React.createElement('button', { className: 'text-blue-600 hover:underline' }, 'Acknowledge')
+                  React.createElement('td', { className: 'py-2 flex items-center space-x-2' },
+                    c.status !== 'ACKNOWLEDGED' && c.status !== 'RESOLVED' && React.createElement('button', {
+                      onClick: () => handleAcknowledgeConflict(c),
+                      className: 'text-amber-600 hover:underline font-semibold text-xs'
+                    }, 'Acknowledge'),
+                    c.status !== 'RESOLVED' && React.createElement('button', {
+                      onClick: () => handleResolveConflict(c),
+                      className: 'text-emerald-600 hover:underline font-semibold text-xs'
+                    }, 'Resolve')
                   )
                 )
               )

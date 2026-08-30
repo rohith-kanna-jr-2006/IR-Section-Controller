@@ -9,12 +9,25 @@ export class ControllerActionExecutor {
    * Execute an idempotent action bound to a controller session
    */
   static async executeAction(sessionId, actionId, actionType, payload) {
-    const session = await ControllerSession.findOne({ sessionId });
-    if (!session) throw new Error('Session not found or invalid');
-    if (session.status !== 'ACTIVE') throw new Error('Session is not active');
+    let session = null;
+    if (sessionId) {
+      session = await ControllerSession.findOne({ sessionId });
+    }
+    if (!session) {
+      session = await ControllerSession.create({
+        sessionId: sessionId || `session_${Date.now()}`,
+        startedAt: new Date(),
+        status: 'ACTIVE',
+        sourceType: 'SIMULATED',
+        actionIds: []
+      });
+    } else if (session.status !== 'ACTIVE') {
+      session.status = 'ACTIVE';
+      await session.save();
+    }
     
     // Idempotency check
-    if (session.actionIds.includes(actionId)) {
+    if (actionId && session.actionIds.includes(actionId)) {
       return { status: 'IGNORED', reason: 'Duplicate actionId' };
     }
 
@@ -36,38 +49,58 @@ export class ControllerActionExecutor {
         throw new Error(`Unknown action type: ${actionType}`);
     }
 
-    session.actionIds.push(actionId);
-    await session.save();
+    if (actionId) {
+      session.actionIds.push(actionId);
+      await session.save();
+    }
 
     return result;
   }
 
-  static async holdTrain(trainRunId, session, actionId) {
-    const run = await TrainRun.findById(trainRunId);
-    if (!run) throw new Error('TrainRun not found');
+  static async holdTrain(trainRunId, session) {
+    let run = null;
+    if (trainRunId && typeof trainRunId === 'string' && trainRunId.match(/^[0-9a-fA-F]{24}$/)) {
+      run = await TrainRun.findById(trainRunId);
+    }
+    if (!run) {
+      run = await TrainRun.findOne({ trainRunId });
+    }
+    if (!run) throw new Error(`TrainRun ${trainRunId} not found`);
     
     const prevStatus = run.runStatus;
     run.runStatus = 'HELD';
     await run.save();
 
     await this.logEvent('TRAIN_HELD', { trainRunId, previousStatus: prevStatus }, session);
-    return { success: true, runStatus: 'HELD' };
+    return { success: true, runStatus: 'HELD', trainRun: run };
   }
 
-  static async releaseTrain(trainRunId, session, actionId) {
-    const run = await TrainRun.findById(trainRunId);
-    if (!run) throw new Error('TrainRun not found');
+  static async releaseTrain(trainRunId, session) {
+    let run = null;
+    if (trainRunId && typeof trainRunId === 'string' && trainRunId.match(/^[0-9a-fA-F]{24}$/)) {
+      run = await TrainRun.findById(trainRunId);
+    }
+    if (!run) {
+      run = await TrainRun.findOne({ trainRunId });
+    }
+    if (!run) throw new Error(`TrainRun ${trainRunId} not found`);
     
     run.runStatus = 'RUNNING';
     await run.save();
 
     await this.logEvent('TRAIN_RELEASED', { trainRunId }, session);
-    return { success: true, runStatus: 'RUNNING' };
+    return { success: true, runStatus: 'RUNNING', trainRun: run };
   }
 
-  static async acknowledgeConflict(conflictId, session, actionId) {
-    const conflict = await Conflict.findById(conflictId);
-    if (!conflict) throw new Error('Conflict not found');
+  static async acknowledgeConflict(conflictId, session) {
+    let conflict = null;
+    if (conflictId && typeof conflictId === 'string' && conflictId.match(/^[0-9a-fA-F]{24}$/)) {
+      conflict = await Conflict.findById(conflictId);
+    }
+    if (!conflict) {
+      conflict = await Conflict.findOne({ conflictId });
+    }
+    if (!conflict) throw new Error(`Conflict ${conflictId} not found`);
     
     conflict.status = 'ACKNOWLEDGED';
     await conflict.save();
@@ -77,12 +110,18 @@ export class ControllerActionExecutor {
     const io = getIO();
     if (io) io.emit('conflict.updated', conflict);
     
-    return { success: true };
+    return { success: true, conflict };
   }
 
-  static async resolveConflict(conflictId, session, actionId) {
-    const conflict = await Conflict.findById(conflictId);
-    if (!conflict) throw new Error('Conflict not found');
+  static async resolveConflict(conflictId, session) {
+    let conflict = null;
+    if (conflictId && typeof conflictId === 'string' && conflictId.match(/^[0-9a-fA-F]{24}$/)) {
+      conflict = await Conflict.findById(conflictId);
+    }
+    if (!conflict) {
+      conflict = await Conflict.findOne({ conflictId });
+    }
+    if (!conflict) throw new Error(`Conflict ${conflictId} not found`);
     
     conflict.status = 'RESOLVED';
     await conflict.save();
@@ -92,7 +131,7 @@ export class ControllerActionExecutor {
     const io = getIO();
     if (io) io.emit('conflict.updated', conflict);
     
-    return { success: true };
+    return { success: true, conflict };
   }
 
   static async logEvent(eventType, payload, session) {

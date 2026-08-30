@@ -5,8 +5,30 @@ import { rbac, ROLES } from '../middleware/rbac.js';
 import { logAudit } from '../services/AuditLogger.js';
 import { HierarchyValidator } from '../services/validation/HierarchyValidator.js';
 import { StationValidator } from '../services/validation/StationValidator.js';
+import { getAllSRStations, SR_DIVISIONS_MAP } from '../config/srSectionsData.js';
 
 const router = Router();
+
+router.get('/sr-stations', (req, res) => {
+  try {
+    const { division, search } = req.query;
+    let list = getAllSRStations();
+    if (division) {
+      list = list.filter(s => s.divisionCode.toUpperCase() === division.toUpperCase() || s.divisionName.toUpperCase() === division.toUpperCase());
+    }
+    if (search) {
+      const q = search.toLowerCase();
+      list = list.filter(s => s.stationCode.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
+    }
+    res.json({
+      success: true,
+      total: list.length,
+      data: list
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 const createSchema = z.object({
   divisionId: z.string().min(1),

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const SOCKET_URL = process.env.REACT_APP_API_URL || undefined;
 
 export function useSimulationSocket(scenarioId) {
   const [socket, setSocket] = useState(null);
@@ -16,7 +16,9 @@ export function useSimulationSocket(scenarioId) {
   useEffect(() => {
     if (!scenarioId) return;
     
-    const newSocket = io(SOCKET_URL);
+    const newSocket = io(SOCKET_URL, {
+      transports: ['websocket', 'polling']
+    });
     setSocket(newSocket);
     
     newSocket.on('connect', () => {
