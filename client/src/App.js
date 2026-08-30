@@ -12,7 +12,7 @@ import ControllerDashboard from './pages/operations/ControllerDashboard.js';
 import ScenarioBuilder from './pages/operations/ScenarioBuilder.js';
 import ScenarioReplay from './pages/operations/ScenarioReplay.js';
 import ScenarioComparison from './pages/operations/ScenarioComparison.js';
-import SimulationControlRoom from './pages/operations/SimulationControlRoom.js';
+import SimulationControlRoom from './pages/operations/SimulationControlRoom.jsx';
 
 export default function App() {
   return React.createElement(BrowserRouter, null,
