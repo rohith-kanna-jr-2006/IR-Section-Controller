@@ -4,6 +4,7 @@ import { SectionOccupancy } from '../models/operations/SectionOccupancy.js';
 import { Conflict } from '../models/operations/Conflict.js';
 import { ControlEvent } from '../models/operations/ControlEvent.js';
 import { SimulationScenario } from '../models/operations/SimulationScenario.js';
+import { TimetableSnapshot } from '../models/operations/TimetableSnapshot.js';
 import { ControllerActionExecutor } from '../services/operations/ControllerActionExecutor.js';
 import { CorridorGraphProvider } from '../services/operations/CorridorGraphProvider.js';
 import { rbac, ROLES } from '../middleware/rbac.js';
@@ -45,8 +46,83 @@ router.get('/scenarios/:id/graph-state', async (req, res) => {
     const corridorData = CorridorGraphProvider.generateCorridorTimetable(
       corridorStations,
       serviceDate,
-      scenario.scenarioId || id
+      scenario.scenarioId || id,
+      targetDivision,
+      targetRoute
     );
+
+    let activeTimetableSnapshot = {
+      timetableSnapshotId: `TT_${targetDivision}_${serviceDate}`,
+      sourceType: 'OFFICIAL_PRIMARY',
+      schedules: corridorData.schedules
+    };
+
+    let allTrainRuns = [...corridorData.trainRuns];
+
+    // If scenario has an attached custom timetable snapshot (e.g. from an import)
+    if (scenario.timetableSnapshotId) {
+      try {
+        const customSnapshot = await TimetableSnapshot.findById(scenario.timetableSnapshotId).lean();
+        if (customSnapshot && customSnapshot.trains && customSnapshot.trains.length > 0) {
+          activeTimetableSnapshot = {
+            ...customSnapshot,
+            schedules: [...(customSnapshot.schedules || []), ...corridorData.schedules]
+          };
+
+          // Generate trainRuns for imported trains
+          const stationLookup = new Map(corridorStations.map(s => [s.stationCode, s]));
+          customSnapshot.trains.forEach((impTrain, impIdx) => {
+            const stops = (impTrain.stops || []).map(st => {
+              const matchedStn = stationLookup.get(st.normalizedStationCode || st.originalStationCode);
+              return {
+                sequence: st.sequence,
+                stationId: matchedStn?._id || `stn_${st.normalizedStationCode || st.originalStationCode}`,
+                stationCode: st.normalizedStationCode || st.originalStationCode,
+                stationName: st.normalizedStationName || st.originalStationName,
+                arrival: st.arrival,
+                departure: st.departure,
+                dayOffset: st.dayOffset || 0,
+                absoluteMinutesArrival: st.absoluteMinutesArrival,
+                absoluteMinutesDeparture: st.absoluteMinutesDeparture,
+                haltMinutes: st.haltMinutes || 0,
+                isJunction: matchedStn?.isJunction || false,
+                isHalt: Boolean(st.haltMinutes && st.haltMinutes > 0)
+              };
+            });
+
+            const firstStop = stops[0];
+            const lastStop = stops[stops.length - 1];
+            const startMin = firstStop?.absoluteMinutesDeparture || firstStop?.absoluteMinutesArrival || 360;
+            const endMin = lastStop?.absoluteMinutesArrival || lastStop?.absoluteMinutesDeparture || (startMin + 180);
+
+            allTrainRuns.unshift({
+              _id: `tr_imp_${impTrain.trainNumber}_${impIdx}`,
+              trainId: {
+                _id: `train_imp_${impTrain.trainNumber}`,
+                trainNumber: impTrain.trainNumber,
+                name: impTrain.trainName,
+                trainType: 'EXPRESS',
+                priority: 'HIGH'
+              },
+              scheduleId: `sched_imp_${impTrain.trainNumber}`,
+              scenarioId: scenario.scenarioId || id,
+              currentStationId: stops[0]?.stationId,
+              nextStationId: stops[1]?.stationId || stops[0]?.stationId,
+              currentSectionId: null,
+              status: 'SCHEDULED',
+              direction: 'DOWN',
+              delayMinutes: 0,
+              stops,
+              startMinute: startMin,
+              endMinute: endMin,
+              isImported: true
+            });
+          });
+        }
+      } catch (snapshotErr) {
+        console.warn('Failed to load custom timetable snapshot:', snapshotErr.message);
+      }
+    }
 
     const topologySnapshot = {
       snapshotId: `TOPO_${targetDivision}_${targetRoute.replace(/\s+/g, '_')}`,
@@ -57,25 +133,19 @@ router.get('/scenarios/:id/graph-state', async (req, res) => {
       sections: corridorSections
     };
 
-    const timetableSnapshot = {
-      timetableSnapshotId: `TT_${targetDivision}_${serviceDate}`,
-      sourceType: 'OFFICIAL_PRIMARY',
-      schedules: corridorData.schedules
-    };
-
     res.json({
       data: {
         scenario,
         topologySnapshot,
-        timetableSnapshot,
-        trainRuns: corridorData.trainRuns,
+        timetableSnapshot: activeTimetableSnapshot,
+        trainRuns: allTrainRuns,
         sectionOccupancies: corridorData.sectionOccupancies,
         conflicts: corridorData.conflicts,
         recommendations: corridorData.recommendations,
         events: [
           {
             eventType: 'CORRIDOR_INITIALIZED',
-            message: `Loaded ${corridorStations.length} stations and ${corridorData.trainRuns.length} train stringlines for ${targetRoute}.`,
+            message: `Loaded ${corridorStations.length} stations and ${allTrainRuns.length} train stringlines for ${targetRoute}.`,
             timestamp: new Date()
           }
         ]

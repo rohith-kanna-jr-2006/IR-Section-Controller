@@ -36,7 +36,8 @@ export default function ControllerScopeBar({
   onScenarioChange,
   onLoadMasterChart,
   onResetScope,
-  onResetView
+  onResetView,
+  onOpenImportModal
 }) {
   const [announcement, setAnnouncement] = useState('');
   const [isExpanded, setIsExpanded] = useState(true);
@@ -199,6 +200,16 @@ export default function ControllerScopeBar({
           />
 
           <div className="flex items-center space-x-2">
+            <button
+              id="import-timetable-btn"
+              onClick={onOpenImportModal}
+              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-700/60 rounded text-xs font-bold tracking-wide flex items-center space-x-1.5 shadow-sm transition-all hover:border-cyan-400"
+              title="Import timetable from Text, JSON, PDF, or Image/OCR"
+            >
+              <span>📥</span>
+              <span>IMPORT TIMETABLE</span>
+            </button>
+
             <button
               id="load-master-chart-btn"
               onClick={onLoadMasterChart}

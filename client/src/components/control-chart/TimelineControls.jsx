@@ -3,11 +3,16 @@ import React from 'react';
 /**
  * TimelineControls
  * 
- * Provides an operational control-room toolbar for live simulation clock,
- * replay scrub bar, play/pause/step controls, speed multipliers, and zoom/pan tools.
+ * Provides an authentic Indian Railways control-room bottom toolbar:
+ * - Playback: Reset, Play/Pause, Step (+60s), Speed Multipliers (1x, 2x, 5x, 10x)
+ * - 24-Hour Time Scrubber: 00:00 to 24:00 slider with live timestamp badge
+ * - Time Window Presets: 24H (Full Day), 12H, 6H, 3H, CUSTOM
+ * - Quick Zoom Multipliers: 0.5x, 1x, 2x, 4x, FIT
+ * - Accessible Tabular View trigger
  */
 export default function TimelineControls({
   simulationTime,
+  timeWindowStart,
   isReplaying = false,
   isLiveRunning = false,
   replayIndex = 0,
@@ -20,164 +25,197 @@ export default function TimelineControls({
   onReset,
   onSpeedChange,
   onReplayScrub,
+  onTimeScrub,
   onZoomChange,
   onTimeWindowChange,
-  onResetPan
+  onResetPan,
+  onOpenTableView
 }) {
-  const formattedSimTime = new Date(simulationTime).toLocaleTimeString([], {
+  const currentSimDate = new Date(simulationTime);
+  const formattedSimTime = currentSimDate.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit'
+    second: '2-digit',
+    hour12: false
   });
 
-  const formattedDate = new Date(simulationTime).toLocaleDateString([], {
+  const formattedDate = currentSimDate.toLocaleDateString([], {
     weekday: 'short',
     day: '2-digit',
-    month: 'short',
-    year: 'numeric'
+    month: 'short'
   });
 
-  return (
-    <div className="bg-slate-900 border-t border-slate-700 px-4 py-2 flex flex-wrap items-center justify-between text-xs font-mono text-slate-200 select-none shadow-lg gap-2">
-      {/* Left: Clock Display & Scenario Time */}
-      <div className="flex items-center space-x-3">
-        <div className="flex items-center space-x-2 bg-slate-950 px-3 py-1.5 rounded border border-slate-800">
-          <div className={`w-2.5 h-2.5 rounded-full ${isReplaying ? 'bg-purple-500 animate-pulse' : isLiveRunning ? 'bg-emerald-500 animate-ping' : 'bg-amber-500'}`} />
-          <span className="text-slate-400 text-[10px] uppercase font-semibold">
-            {isReplaying ? 'REPLAY' : isLiveRunning ? 'LIVE CLOCK' : 'PAUSED'}
-          </span>
-          <span className="text-cyan-400 font-bold text-sm tracking-wider font-mono">
-            {formattedSimTime}
-          </span>
-          <span className="text-slate-500 text-[10px]">
-            {formattedDate}
-          </span>
-        </div>
+  // Calculate current scrubber minutes from base day
+  const baseStartMs = new Date(timeWindowStart || simulationTime).getTime();
+  const currentMs = currentSimDate.getTime();
+  const elapsedMinutes = Math.max(0, Math.min(1440, Math.floor((currentMs - baseStartMs) / 60000)));
 
-        {/* Speed Selector */}
-        <div className="flex items-center space-x-1 bg-slate-800 p-0.5 rounded border border-slate-700">
+  return (
+    <div className="bg-slate-950 border-t border-slate-700/90 px-3 py-2 flex flex-wrap items-center justify-between text-xs font-mono text-slate-200 select-none shadow-2xl gap-2 z-30">
+      {/* 1. Left: Playback & Speed */}
+      <div className="flex items-center space-x-2">
+        {/* Reset / Rewind */}
+        <button
+          onClick={onReset}
+          title="Reset Simulation Clock to Start"
+          className="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-700 transition-colors"
+        >
+          <span className="font-bold text-xs">⏮</span>
+        </button>
+
+        {/* Play / Pause */}
+        <button
+          onClick={onPlayPause}
+          className={`px-3 py-1.5 rounded font-bold flex items-center space-x-1.5 transition-all shadow-md ${
+            (isLiveRunning || isReplaying)
+              ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-900/30'
+              : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-900/30'
+          }`}
+        >
+          {(isLiveRunning || isReplaying) ? (
+            <>
+              <span>⏸</span>
+              <span className="text-[11px] tracking-wider">PAUSE</span>
+            </>
+          ) : (
+            <>
+              <span>▶</span>
+              <span className="text-[11px] tracking-wider">PLAY</span>
+            </>
+          )}
+        </button>
+
+        {/* Single Step (+60s) */}
+        <button
+          onClick={onStep}
+          title="Advance 1 Minute (+60s)"
+          className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 rounded border border-slate-700 font-bold text-[11px] transition-colors"
+        >
+          STEP ⏭
+        </button>
+
+        {/* Speed Multiplier Segment */}
+        <div className="flex items-center space-x-0.5 bg-slate-900 p-0.5 rounded border border-slate-800">
           {[1, 2, 5, 10].map((spd) => (
             <button
               key={`spd-${spd}`}
               onClick={() => onSpeedChange && onSpeedChange(spd)}
-              className={`px-2 py-1 rounded text-[11px] font-bold transition-colors ${
+              className={`px-1.5 py-1 rounded text-[10px] font-bold transition-colors ${
                 speedMultiplier === spd
                   ? 'bg-cyan-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
               }`}
             >
-              {`${spd}x`}
+              {`${spd}×`}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Middle: Playback Actions & Replay Scrubber */}
-      <div className="flex items-center space-x-3 flex-1 max-w-xl mx-4">
-        {/* Step / Play / Pause Controls */}
-        <div className="flex items-center space-x-1">
-          <button
-            onClick={onReset}
-            title="Reset Simulation/Replay"
-            className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-          </button>
+      {/* 2. Middle: Continuous Time Scrubber & Digital Clock */}
+      <div className="flex items-center space-x-2 flex-1 max-w-2xl mx-2 bg-slate-900/80 px-3 py-1 rounded border border-slate-800">
+        <span className="text-[10px] font-bold text-slate-500">00:00</span>
+        
+        {/* Scrubber Range Input */}
+        <input
+          type="range"
+          min="0"
+          max="1440"
+          step="1"
+          value={elapsedMinutes}
+          onChange={(e) => {
+            if (onTimeScrub) {
+              const mins = Number(e.target.value);
+              const targetTime = new Date(baseStartMs + mins * 60000);
+              onTimeScrub(targetTime);
+            }
+          }}
+          className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400 hover:accent-cyan-300"
+          title="Drag to scrub simulation time"
+        />
 
-          <button
-            onClick={onPlayPause}
-            className={`px-3 py-1.5 rounded font-bold flex items-center space-x-1 transition-colors ${
-              (isLiveRunning || isReplaying)
-                ? 'bg-amber-600 hover:bg-amber-500 text-white'
-                : 'bg-emerald-600 hover:bg-emerald-500 text-white'
-            }`}
-          >
-            {(isLiveRunning || isReplaying) ? (
-              <>
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                <span>PAUSE</span>
-              </>
-            ) : (
-              <>
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-                <span>PLAY</span>
-              </>
-            )}
-          </button>
+        <span className="text-[10px] font-bold text-slate-500">24:00</span>
 
-          <button
-            onClick={onStep}
-            title="Step 1 Tick (+60s)"
-            className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded border border-slate-700 font-semibold"
-          >
-            STEP ⏭
-          </button>
+        {/* Simulation Clock Display */}
+        <div className="flex items-center space-x-1.5 bg-slate-950 px-2 py-0.5 rounded border border-slate-800 text-nowrap flex-shrink-0">
+          <div className={`w-2 h-2 rounded-full ${isReplaying ? 'bg-purple-400 animate-pulse' : isLiveRunning ? 'bg-emerald-400 animate-ping' : 'bg-cyan-400'}`} />
+          <span className="text-cyan-300 font-bold text-xs font-mono">
+            {formattedSimTime}
+          </span>
+          <span className="text-slate-500 text-[9px]">
+            {formattedDate}
+          </span>
         </div>
-
-        {/* Replay Scrub Slider */}
-        {isReplaying && (
-          <div className="flex items-center space-x-2 flex-1">
-            <span className="text-[10px] text-purple-400 font-semibold">TAPE:</span>
-            <input
-              type="range"
-              min="0"
-              max={Math.max(totalEvents - 1, 1)}
-              value={replayIndex}
-              onChange={(e) => onReplayScrub && onReplayScrub(Number(e.target.value))}
-              className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-500"
-            />
-            <span className="text-[10px] text-slate-400 font-mono">
-              {`${replayIndex}/${totalEvents}`}
-            </span>
-          </div>
-        )}
       </div>
 
-      {/* Right: Zoom & Time Window Controls */}
+      {/* 3. Right: Time Windows, Zoom & Accessible View */}
       <div className="flex items-center space-x-2">
-        <span className="text-[10px] text-slate-500 font-semibold">WINDOW:</span>
-        <select
-          value={timeWindowHours}
-          onChange={(e) => onTimeWindowChange && onTimeWindowChange(Number(e.target.value))}
-          className="bg-slate-800 text-slate-200 border border-slate-700 rounded px-2 py-1 text-xs focus:outline-none focus:border-cyan-500"
-        >
-          <option value={4}>4 Hours</option>
-          <option value={8}>8 Hours</option>
-          <option value={12}>12 Hours</option>
-          <option value={24}>24 Hours (Full Day)</option>
-        </select>
-
-        {/* Zoom In / Out / Reset */}
-        <div className="flex items-center space-x-1 bg-slate-800 p-0.5 rounded border border-slate-700">
-          <button
-            onClick={() => onZoomChange && onZoomChange(Math.max(0.25, zoom - 0.2))}
-            title="Zoom Out"
-            className="px-2 py-1 text-slate-400 hover:text-white"
-          >
-            -
-          </button>
-          <span className="px-1 text-[10px] text-cyan-400 font-bold">
-            {`${(zoom * 100).toFixed(0)}%`}
-          </span>
-          <button
-            onClick={() => onZoomChange && onZoomChange(Math.min(4, zoom + 0.2))}
-            title="Zoom In"
-            className="px-2 py-1 text-slate-400 hover:text-white"
-          >
-            +
-          </button>
+        {/* Time Window Presets */}
+        <div className="flex items-center space-x-0.5 bg-slate-900 p-0.5 rounded border border-slate-800">
+          {[
+            { hours: 24, label: '24H' },
+            { hours: 12, label: '12H' },
+            { hours: 6, label: '6H' },
+            { hours: 3, label: '3H' }
+          ].map((w) => (
+            <button
+              key={`win-${w.hours}`}
+              onClick={() => onTimeWindowChange && onTimeWindowChange(w.hours)}
+              className={`px-1.5 py-1 rounded text-[10px] font-bold transition-colors ${
+                timeWindowHours === w.hours
+                  ? 'bg-slate-700 text-cyan-300 border border-slate-600'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+              }`}
+            >
+              {w.label}
+            </button>
+          ))}
         </div>
 
+        {/* Zoom Multipliers */}
+        <div className="flex items-center space-x-0.5 bg-slate-900 p-0.5 rounded border border-slate-800">
+          {[
+            { scale: 0.5, label: '0.5×' },
+            { scale: 1.0, label: '1×' },
+            { scale: 2.0, label: '2×' },
+            { scale: 4.0, label: '4×' }
+          ].map((z) => (
+            <button
+              key={`zoom-${z.scale}`}
+              onClick={() => onZoomChange && onZoomChange(z.scale)}
+              className={`px-1.5 py-1 rounded text-[10px] font-bold transition-colors ${
+                Math.abs(zoom - z.scale) < 0.1
+                  ? 'bg-cyan-600 text-white'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+              }`}
+            >
+              {z.label}
+            </button>
+          ))}
+        </div>
+
+        {/* FIT View */}
         <button
           onClick={onResetPan}
-          title="Reset Pan & View"
-          className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 text-[11px]"
+          title="Fit Master Chart to Screen"
+          className="px-2 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 text-[11px] font-bold transition-colors"
         >
           FIT
         </button>
+
+        {/* Accessible Table View Toggle */}
+        {onOpenTableView && (
+          <button
+            onClick={onOpenTableView}
+            title="Open High-Contrast Accessible Tabular View"
+            className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 text-cyan-300 rounded border border-cyan-800 text-[10px] font-bold transition-colors flex items-center space-x-1"
+          >
+            <span>📊</span>
+            <span>TABLE</span>
+          </button>
+        )}
       </div>
     </div>
   );
 }
+

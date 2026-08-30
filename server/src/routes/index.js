@@ -10,6 +10,7 @@ import scenarioRoutes from './scenarios.js';
 import operationRoutes from './operations.js';
 import simulationRoutes from './simulation.js';
 import intelligenceRoutes from './intelligence.js';
+import importRoutes from './imports.js';
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use('/scenarios', scenarioRoutes);
 router.use('/operations', operationRoutes);
 router.use('/simulation', simulationRoutes);
 router.use('/intelligence', intelligenceRoutes);
+router.use('/imports', importRoutes);
 
 export default router;

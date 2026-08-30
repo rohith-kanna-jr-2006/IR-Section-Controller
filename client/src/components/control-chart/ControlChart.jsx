@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useMemo, useState, useRef, useEffect } from 'react';
+import React, { useMemo, useState, useRef, useEffect, useCallback } from 'react';
 import { ChartCoordinateModel, DISTANCE_MODE } from './ChartCoordinateModel';
 import TimeAxis from './TimeAxis';
 import StationAxis from './StationAxis';
@@ -18,6 +18,9 @@ import TabularViewModal from './TabularViewModal';
 import ChartContextMenu from './ChartContextMenu';
 import ChartTooltip from './ChartTooltip';
 import ChartLegend from './ChartLegend';
+import TimeNavigatorScrollbar from './TimeNavigatorScrollbar';
+import StationCorridorScrollbar from './StationCorridorScrollbar';
+import MasterChartNavHUD from './MasterChartNavHUD';
 
 export const ControlChart = ({
   // Scope properties & lists
@@ -111,6 +114,34 @@ export const ControlChart = ({
   const [whatIfOverlay, setWhatIfOverlay] = useState(null);
 
   const containerRef = useRef(null);
+  const chartViewportRef = useRef(null);
+  const [viewportSize, setViewportSize] = useState({ width: 1000, height: 600 });
+  const [isDraggingCanvas, setIsDraggingCanvas] = useState(false);
+  const dragRef = useRef({
+    isDown: false,
+    startX: 0,
+    startY: 0,
+    initPanX: 0,
+    initPanY: 0,
+    isDragging: false
+  });
+
+  // Track viewport dimensions dynamically
+  useEffect(() => {
+    if (!chartViewportRef.current) return;
+    const updateSize = () => {
+      if (chartViewportRef.current) {
+        setViewportSize({
+          width: chartViewportRef.current.clientWidth || 1000,
+          height: chartViewportRef.current.clientHeight || 600
+        });
+      }
+    };
+    updateSize();
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(chartViewportRef.current);
+    return () => observer.disconnect();
+  }, [isChartLoaded]);
 
   // Initialize start of the 24-hour service day
   const baseTimeStart = useMemo(() => {
@@ -157,33 +188,175 @@ export const ControlChart = ({
     });
   }, [trainRuns, searchTerm, selectedCategory, delayedOnly]);
 
-  // Zoom & Pan Handlers
-  const handleMouseDown = (e) => {
-    if (e.button !== 0) return; // Left click only for canvas dragging
-    setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+  // Dimensions
+  const pixelsPerHour = 120;
+  const chartWidth = activeTimeWindow * pixelsPerHour;
+  const chartHeight = Math.max(coordinateModel.maxStationY + 120, (stations.length + 1) * 65, 800);
+  const liveClockX = coordinateModel.getTimeX(simulationTime);
+
+  // Jump Handlers for End-to-End Navigation
+  const handleJumpTime = useCallback((type) => {
+    if (type === 'START') {
+      setPan(prev => ({ ...prev, x: 20 }));
+    } else if (type === 'END') {
+      const maxPanX = Math.max(0, chartWidth * zoom - viewportSize.width + 40);
+      setPan(prev => ({ ...prev, x: -maxPanX }));
+    } else if (type === 'LIVE') {
+      const targetX = -(liveClockX * zoom - viewportSize.width / 2);
+      setPan(prev => ({ ...prev, x: targetX }));
+    }
+  }, [chartWidth, zoom, viewportSize, liveClockX]);
+
+  const handleJumpStation = useCallback((type) => {
+    if (type === 'ORIGIN') {
+      setPan(prev => ({ ...prev, y: 10 }));
+    } else if (type === 'TERMINUS') {
+      const maxPanY = Math.max(0, chartHeight * zoom - viewportSize.height + 40);
+      setPan(prev => ({ ...prev, y: -maxPanY }));
+    }
+  }, [chartHeight, zoom, viewportSize]);
+
+  const handleStepPan = useCallback((dirX, dirY) => {
+    setPan(prev => ({
+      x: prev.x + dirX * 220,
+      y: prev.y + dirY * 220
+    }));
+  }, []);
+
+  const handleFitAll = useCallback(() => {
+    const fitZoomX = (viewportSize.width - 40) / Math.max(chartWidth, 1);
+    const fitZoomY = (viewportSize.height - 40) / Math.max(chartHeight, 1);
+    const fitZoom = Math.min(Math.max(Math.min(fitZoomX, fitZoomY), 0.3), 1.2);
+    setZoom(fitZoom);
+    setPan({ x: 20, y: 10 });
+  }, [viewportSize, chartWidth, chartHeight]);
+
+  const handleResetPan = useCallback(() => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  }, []);
+
+  // Robust Window-Level Pointer Dragging
+  const handlePointerDown = (e) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    if (e.target.closest && e.target.closest('button, input, select, textarea, [data-interactive="true"]')) return;
+
+    dragRef.current = {
+      isDown: true,
+      startX: e.clientX,
+      startY: e.clientY,
+      initPanX: pan.x,
+      initPanY: pan.y,
+      isDragging: false
+    };
+
+    const onGlobalPointerMove = (moveEvent) => {
+      if (!dragRef.current.isDown) return;
+      const dx = moveEvent.clientX - dragRef.current.startX;
+      const dy = moveEvent.clientY - dragRef.current.startY;
+
+      if (!dragRef.current.isDragging && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+        dragRef.current.isDragging = true;
+        setIsDraggingCanvas(true);
+      }
+
+      if (dragRef.current.isDragging) {
+        setPan({
+          x: dragRef.current.initPanX + dx,
+          y: dragRef.current.initPanY + dy
+        });
+      }
+    };
+
+    const onGlobalPointerUp = () => {
+      dragRef.current.isDown = false;
+      setTimeout(() => setIsDraggingCanvas(false), 50);
+      window.removeEventListener('pointermove', onGlobalPointerMove);
+      window.removeEventListener('pointerup', onGlobalPointerUp);
+      window.removeEventListener('pointercancel', onGlobalPointerUp);
+    };
+
+    window.addEventListener('pointermove', onGlobalPointerMove);
+    window.addEventListener('pointerup', onGlobalPointerUp);
+    window.addEventListener('pointercancel', onGlobalPointerUp);
   };
 
-  const handleMouseMove = (e) => {
-    if (dragStart) {
+  // Enhanced Mouse Wheel & Trackpad Navigation (2D pan, Shift+wheel horiz, Ctrl+wheel zoom)
+  const handleWheel = (e) => {
+    e.preventDefault();
+    if (e.ctrlKey || e.metaKey) {
+      const rect = chartViewportRef.current ? chartViewportRef.current.getBoundingClientRect() : { left: 0, top: 0 };
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      const factor = e.deltaY < 0 ? 1.12 : 0.89;
+      const newZoom = Math.max(0.25, Math.min(3.5, zoom * factor));
+
       setPan({
-        x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y
+        x: mouseX - (mouseX - pan.x) * (newZoom / zoom),
+        y: mouseY - (mouseY - pan.y) * (newZoom / zoom)
       });
+      setZoom(newZoom);
+    } else if (e.shiftKey) {
+      setPan(prev => ({
+        ...prev,
+        x: prev.x - (e.deltaY || e.deltaX) * 1.2
+      }));
+    } else {
+      setPan(prev => ({
+        x: prev.x - (e.deltaX || 0),
+        y: prev.y - (e.deltaY || 0)
+      }));
     }
   };
 
-  const handleMouseUp = () => setDragStart(null);
+  // Global Keyboard Shortcuts Navigation
+  useEffect(() => {
+    if (!isChartLoaded) return;
+    const onKeyDown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
 
-  const handleWheel = (e) => {
-    e.preventDefault();
-    const zoomFactor = e.deltaY > 0 ? 0.92 : 1.08;
-    setZoom((prev) => Math.max(0.3, Math.min(prev * zoomFactor, 3.5)));
-  };
+      const step = e.shiftKey ? 300 : 100;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setPan(p => ({ ...p, x: p.x + step }));
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setPan(p => ({ ...p, x: p.x - step }));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setPan(p => ({ ...p, y: p.y + step }));
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setPan(p => ({ ...p, y: p.y - step }));
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        handleJumpTime('START');
+        handleJumpStation('ORIGIN');
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        handleJumpTime('END');
+        handleJumpStation('TERMINUS');
+      } else if (e.key === 'PageUp') {
+        e.preventDefault();
+        setPan(p => ({ ...p, y: p.y + viewportSize.height * 0.75 }));
+      } else if (e.key === 'PageDown') {
+        e.preventDefault();
+        setPan(p => ({ ...p, y: p.y - viewportSize.height * 0.75 }));
+      } else if (e.key === '+' || e.key === '=') {
+        e.preventDefault();
+        setZoom(z => Math.min(3.5, z + 0.15));
+      } else if (e.key === '-' || e.key === '_') {
+        e.preventDefault();
+        setZoom(z => Math.max(0.25, z - 0.15));
+      } else if (e.key === '0' || e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        handleFitAll();
+      }
+    };
 
-  const handleResetPan = () => {
-    setZoom(1);
-    setPan({ x: 0, y: 0 });
-  };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isChartLoaded, chartWidth, chartHeight, zoom, viewportSize, liveClockX, handleJumpTime, handleJumpStation, handleFitAll]);
 
   // Context Menu trigger
   const handleOpenContextMenu = (e, targetType, targetData) => {
@@ -247,12 +420,6 @@ export const ControlChart = ({
   const currentRouteObj = routes.find(r => (r.id || r.routeName || r.routeCode) === selectedRouteId);
   const currentSecObj = sections.find(s => (s._id || s.id || s.sectionCode || s.routeName) === selectedSectionId);
 
-  // Compute total dimensions
-  const pixelsPerHour = 120;
-  const chartWidth = activeTimeWindow * pixelsPerHour;
-  const chartHeight = Math.max((stations.length + 1) * 65, 800);
-  const liveClockX = coordinateModel.getTimeX(simulationTime);
-
   return (
     <div
       ref={containerRef}
@@ -283,6 +450,7 @@ export const ControlChart = ({
         onLoadMasterChart={onLoadMasterChart}
         onResetScope={onResetScope}
         onResetView={handleResetPan}
+        onOpenImportModal={() => setIsImportModalOpen(true)}
       />
 
       {/* 2. OPERATIONAL PROVENANCE & STATUS STRIP */}
@@ -427,9 +595,10 @@ export const ControlChart = ({
             /* ACTIVE MASTER CHART WORKSPACE */
             <>
               {/* Top Time Axis Header */}
-              <div className="flex bg-slate-900 border-b border-slate-700 z-20">
-                <div className="w-56 bg-slate-950 border-r border-slate-700 flex items-center px-3 text-[10px] text-slate-400 font-bold tracking-wider uppercase">
-                  STATIONS / DISTANCE
+              <div className="flex bg-slate-900 border-b border-slate-700 z-20 flex-shrink-0">
+                <div className="w-[260px] bg-slate-950 border-r border-slate-700 flex items-center justify-between px-3 text-[10px] text-slate-400 font-bold tracking-wider uppercase flex-shrink-0">
+                  <span className="text-cyan-400">STATIONS / DISTANCE</span>
+                  <span className="text-[9px] bg-slate-800 text-slate-400 px-1 rounded">{stations.length}</span>
                 </div>
                 <div className="flex-1 overflow-hidden">
                   <div
@@ -447,39 +616,41 @@ export const ControlChart = ({
                     />
                   </div>
                 </div>
+                {/* Vertical scrollbar spacing placeholder on top header */}
+                <div className="w-9 bg-slate-950 border-l border-slate-800 flex-shrink-0" />
               </div>
 
-              {/* Interactive Chart Canvas with Station Axis on Left */}
+              {/* Interactive Chart Canvas with Station Axis on Left & Station Scrollbar on Right */}
               <div className="flex-1 flex overflow-hidden relative">
                 {/* Synchronized Vertical Station Axis */}
-                <div
-                  className="w-56 flex-shrink-0 z-20 overflow-hidden bg-slate-900 border-r border-slate-700"
-                  style={{
-                    transform: `translateY(${pan.y}px) scaleY(${zoom})`,
-                    transformOrigin: '0 0'
-                  }}
-                >
+                <div className="w-[260px] flex-shrink-0 z-20 overflow-hidden bg-slate-950 border-r border-slate-700">
                   <StationAxis
                     stations={stations}
                     coordinateModel={coordinateModel}
                     distanceMode={distanceMode}
+                    onDistanceModeToggle={() => setDistanceMode(distanceMode === DISTANCE_MODE.PHYSICAL ? DISTANCE_MODE.SCHEMATIC : DISTANCE_MODE.PHYSICAL)}
                     selectedStationId={selectedStation?._id || selectedStation?.stationCode}
                     onStationSelect={(stn) => {
+                      if (isDraggingCanvas) return;
                       setSelectedStation(stn);
                       setSelectedSection(null);
                       setSelectedTrain(null);
                     }}
                     onStationHover={handleStationHover}
+                    panY={pan.y}
+                    zoom={zoom}
+                    chartHeight={chartHeight}
                   />
                 </div>
 
-                {/* Main Interactive SVG Chart Container */}
+                {/* Main Interactive SVG Chart Viewport */}
                 <div
-                  className="flex-1 h-full overflow-hidden relative cursor-grab active:cursor-grabbing"
-                  onMouseDown={handleMouseDown}
-                  onMouseMove={handleMouseMove}
-                  onMouseUp={handleMouseUp}
-                  onMouseLeave={handleMouseUp}
+                  ref={chartViewportRef}
+                  tabIndex={0}
+                  className={`flex-1 h-full overflow-hidden relative select-none focus:outline-none ${
+                    isDraggingCanvas ? 'cursor-grabbing' : 'cursor-grab'
+                  }`}
+                  onPointerDown={handlePointerDown}
                   onWheel={handleWheel}
                 >
                   <svg
@@ -552,6 +723,7 @@ export const ControlChart = ({
                         chartWidth={chartWidth}
                         selectedSectionId={selectedSection?._id}
                         onSectionSelect={(sec) => {
+                          if (isDraggingCanvas) return;
                           setSelectedSection(sec);
                           setSelectedTrain(null);
                           setSelectedStation(null);
@@ -576,6 +748,7 @@ export const ControlChart = ({
                             isDimmed={isDim}
                             showLabels={showLabels}
                             onSelect={(t) => {
+                              if (isDraggingCanvas) return;
                               setSelectedTrain(t);
                               setSelectedSection(null);
                               setSelectedStation(null);
@@ -607,6 +780,7 @@ export const ControlChart = ({
                         coordinateModel={coordinateModel}
                         selectedConflictId={selectedConflict?._id || selectedConflict?.conflictId}
                         onConflictClick={(c) => {
+                          if (isDraggingCanvas) return;
                           setSelectedConflict(c);
                           setSelectedTrain(null);
                         }}
@@ -620,6 +794,7 @@ export const ControlChart = ({
                         recommendations={recommendations}
                         coordinateModel={coordinateModel}
                         onRecommendationClick={(rec) => {
+                          if (isDraggingCanvas) return;
                           onRecommendationClick && onRecommendationClick(rec);
                         }}
                       />
@@ -665,8 +840,52 @@ export const ControlChart = ({
                       </g>
                     )}
                   </svg>
+
+                  {/* Floating Master Navigation HUD (D-pad, jump buttons, zoom) */}
+                  <MasterChartNavHUD
+                    pan={pan}
+                    zoom={zoom}
+                    chartWidth={chartWidth}
+                    chartHeight={chartHeight}
+                    viewportWidth={viewportSize.width}
+                    viewportHeight={viewportSize.height}
+                    activeTimeWindow={activeTimeWindow}
+                    stationsCount={stations.length}
+                    onStepPan={handleStepPan}
+                    onJumpTime={handleJumpTime}
+                    onJumpStation={handleJumpStation}
+                    onFitAll={handleFitAll}
+                    onZoomIn={() => setZoom(z => Math.min(3.5, z + 0.2))}
+                    onZoomOut={() => setZoom(z => Math.max(0.25, z - 0.2))}
+                    onZoom100={() => setZoom(1)}
+                  />
                 </div>
+
+                {/* Vertical Corridor Scrollbar on Right Edge */}
+                <StationCorridorScrollbar
+                  stations={stations}
+                  coordinateModel={coordinateModel}
+                  zoom={zoom}
+                  panY={pan.y}
+                  viewportHeight={viewportSize.height}
+                  chartHeight={chartHeight}
+                  onPanChange={(newPanY) => setPan(prev => ({ ...prev, y: newPanY }))}
+                  onJumpStation={handleJumpStation}
+                />
               </div>
+
+              {/* Horizontal Time Navigator & Scrollbar along Bottom of Canvas */}
+              <TimeNavigatorScrollbar
+                activeTimeWindow={activeTimeWindow}
+                pixelsPerHour={pixelsPerHour}
+                zoom={zoom}
+                panX={pan.x}
+                viewportWidth={viewportSize.width}
+                liveClockX={liveClockX}
+                baseTimeStart={baseTimeStart}
+                onPanChange={(newPanX) => setPan(prev => ({ ...prev, x: newPanX }))}
+                onJumpTime={handleJumpTime}
+              />
 
               {/* Operational Legend at Bottom Right */}
               <ChartLegend />
@@ -746,6 +965,8 @@ export const ControlChart = ({
         isOpen={isImportModalOpen}
         onClose={() => setIsImportModalOpen(false)}
         onPublishToScenario={onPublishTimetable}
+        scenarios={scenarios}
+        activeScenarioId={selectedScenarioId}
       />
 
       {/* 9. ACCESSIBLE TABULAR TIMETABLE MODAL */}

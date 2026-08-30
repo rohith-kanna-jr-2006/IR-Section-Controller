@@ -11,3 +11,4 @@ export * from './Role.js';
 export * from './AuditLog.js';
 export * from './Source.js';
 export * from './DataVersion.js';
+export * from './ImportJob.js';

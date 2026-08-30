@@ -17,10 +17,12 @@ export default function RightControlPanel({
   recommendations = [],
   events = [],
   selectedTrain,
+  selectedStation,
   selectedSection,
   selectedConflict,
   onSelectConflict,
   onSelectTrain,
+  onSelectStation,
   onAcknowledgeConflict,
   onResolveConflict,
   onApproveRecommendation,
@@ -215,7 +217,7 @@ export default function RightControlPanel({
             </div>
           )}
 
-          {/* TAB 3: INSPECTOR */}
+          {/* TAB 3: INSPECTOR (TRAIN, STATION, SECTION) */}
           {activeTab === 'INSPECTOR' && (
             <div className="space-y-3">
               {selectedTrain ? (
@@ -286,6 +288,77 @@ export default function RightControlPanel({
                     </table>
                   </div>
                 </div>
+              ) : selectedStation ? (
+                /* STATION INSPECTOR */
+                <div>
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2">
+                    <div className="flex items-center space-x-1.5">
+                      <span className="text-amber-400 font-bold text-base">
+                        {selectedStation.isJunction ? '◆' : selectedStation.isTerminal ? '■' : '●'}
+                      </span>
+                      <div>
+                        <span className="font-bold text-cyan-400 text-sm">
+                          {selectedStation.stationCode || selectedStation.code}
+                        </span>
+                        <div className="text-slate-200 font-semibold text-[11px]">
+                          {selectedStation.name || selectedStation.stationName}
+                        </div>
+                      </div>
+                    </div>
+                    <span className="px-2 py-0.5 bg-slate-800 text-slate-300 rounded text-[10px] font-bold border border-slate-700">
+                      {selectedStation.division || 'SR'} DIV
+                    </span>
+                  </div>
+
+                  {/* Station Metrics */}
+                  <div className="grid grid-cols-2 gap-1.5 bg-slate-950 p-2.5 rounded border border-slate-800 mb-2 text-[10px] text-slate-400">
+                    <div>Type: <span className="text-slate-200 font-bold">{selectedStation.isJunction ? 'Junction' : selectedStation.isTerminal ? 'Terminal' : 'Regular Station'}</span></div>
+                    <div>Platforms: <span className="text-cyan-300 font-bold">{selectedStation.platforms?.length || selectedStation.platformsCount || 4}</span></div>
+                    <div>Signaling: <span className="text-slate-200">Route Relay (RRI)</span></div>
+                    <div>Loop Tracks: <span className="text-slate-200">2 Loops + 2 Main</span></div>
+                  </div>
+
+                  {/* Serving Trains at this station */}
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] font-bold text-slate-400 flex items-center justify-between">
+                      <span>SERVING TRAINS TODAY</span>
+                      <span className="text-cyan-400">4 Active</span>
+                    </div>
+
+                    <div className="border border-slate-800 rounded overflow-hidden">
+                      <table className="w-full text-left text-[10px]">
+                        <thead className="bg-slate-950 text-slate-400 border-b border-slate-800">
+                          <tr>
+                            <th className="p-1.5">TRAIN</th>
+                            <th className="p-1.5">ARR</th>
+                            <th className="p-1.5">DEP</th>
+                            <th className="p-1.5">STATUS</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800 bg-slate-900">
+                          <tr className="hover:bg-slate-800/50">
+                            <td className="p-1.5 font-bold text-cyan-300">20643 VB</td>
+                            <td className="p-1.5 text-slate-300">08:48</td>
+                            <td className="p-1.5 text-cyan-400 font-bold">08:50</td>
+                            <td className="p-1.5 text-emerald-400 font-bold">ON TIME</td>
+                          </tr>
+                          <tr className="hover:bg-slate-800/50">
+                            <td className="p-1.5 font-bold text-cyan-300">12675 Kovai</td>
+                            <td className="p-1.5 text-slate-300">09:12</td>
+                            <td className="p-1.5 text-cyan-400 font-bold">09:14</td>
+                            <td className="p-1.5 text-emerald-400 font-bold">ON TIME</td>
+                          </tr>
+                          <tr className="hover:bg-slate-800/50">
+                            <td className="p-1.5 font-bold text-amber-300">12601 Mail</td>
+                            <td className="p-1.5 text-slate-300">22:45</td>
+                            <td className="p-1.5 text-amber-400 font-bold">22:48</td>
+                            <td className="p-1.5 text-amber-400 font-bold">+8m LATE</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
               ) : selectedSection ? (
                 <div>
                   <div className="font-bold text-cyan-400 text-sm mb-1">
@@ -302,8 +375,8 @@ export default function RightControlPanel({
                   </div>
                 </div>
               ) : (
-                <div className="p-4 text-center text-slate-500 bg-slate-950 rounded border border-slate-800">
-                  Click any train line, station, or section to inspect detailed operational metrics.
+                <div className="p-4 text-center text-slate-500 bg-slate-950 rounded border border-slate-800 space-y-1">
+                  <div>👆 Select any station row, train line, or block section to inspect detailed metrics.</div>
                 </div>
               )}
             </div>
@@ -333,3 +406,4 @@ export default function RightControlPanel({
     </aside>
   );
 }
+

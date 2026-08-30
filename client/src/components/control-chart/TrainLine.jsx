@@ -41,31 +41,48 @@ export default function TrainLine({
     }
   });
 
-  // Color & Style Logic
+  // Color & Style Logic according to authentic Indian Railways standards
   const runStatus = isWhatIf ? 'WHAT_IF' : (trainRun.runStatus || trainRun.status || 'SCHEDULED');
   const delay = trainRun.delayMinutes || 0;
+  const trainType = (trainRun.trainType || trainRun.trainId?.trainType || '').toUpperCase();
+  const direction = (trainRun.direction || 'DOWN').toUpperCase();
+  const dirArrow = direction === 'UP' ? '▲' : '▼';
 
   let strokeColor = '#38BDF8'; // default cyan
   let strokeDash = 'none';
-  let strokeWidth = isSelected ? 3.5 : isHovered ? 2.5 : 1.8;
+  let strokeWidth = isSelected ? 3.8 : isHovered ? 2.8 : 1.9;
+
+  // Base classification color
+  if (trainType === 'VANDE_BHARAT') {
+    strokeColor = '#818CF8'; // Indigo/Purple
+  } else if (trainType === 'SHATABDI' || trainType === 'TEJAS' || trainType === 'RAJDHANI') {
+    strokeColor = '#F59E0B'; // Amber/Gold
+  } else if (trainType === 'SUPERFAST') {
+    strokeColor = '#38BDF8'; // Sky Blue
+  } else if (trainType === 'EXPRESS' || trainType === 'MAIL') {
+    strokeColor = '#60A5FA'; // Medium Blue
+  } else if (trainType === 'PASSENGER' || trainType === 'EMU' || trainType === 'MEMU') {
+    strokeColor = '#10B981'; // Emerald Green
+  } else if (trainType === 'FREIGHT' || trainType === 'GOODS') {
+    strokeColor = '#FB923C'; // Orange/Bronze
+  }
 
   if (isWhatIf) {
-    strokeColor = '#10B981'; // Emerald for What-If
+    strokeColor = '#34D399'; // Emerald for What-If
     strokeDash = '6 4';
-    strokeWidth = 2.5;
+    strokeWidth = 2.6;
   } else if (runStatus === 'CANCELLED') {
     strokeColor = '#EF4444';
     strokeDash = '2 4';
-    strokeWidth = 1.2;
+    strokeWidth = 1.4;
   } else if (runStatus === 'DELAYED' || delay > 15) {
-    strokeColor = delay > 30 ? '#EF4444' : '#F59E0B'; // Red if >30m, Orange if 15-30m
-    strokeWidth = isSelected ? 3.5 : 2.2;
+    strokeColor = delay > 30 ? '#EF4444' : '#F97316'; // Red if >30m, Orange if 15-30m
+    strokeWidth = isSelected ? 3.8 : 2.4;
   } else if (runStatus === 'RUNNING') {
-    strokeColor = delay > 5 ? '#FBBF24' : '#38BDF8';
-    strokeWidth = isSelected ? 3.5 : 2.0;
+    strokeWidth = isSelected ? 3.8 : 2.2;
   } else if (runStatus === 'COMPLETED' || runStatus === 'ARRIVED') {
-    strokeColor = '#94A3B8';
-    strokeWidth = 1.5;
+    strokeColor = '#64748B';
+    strokeWidth = 1.4;
   } else if (runStatus === 'SIMULATED') {
     strokeColor = '#60A5FA';
     strokeDash = '4 2';
@@ -74,8 +91,8 @@ export default function TrainLine({
   }
 
   const trainNumber = trainRun.trainId?.trainNumber || trainRun.trainNumber || trainRun.trainRunId?.split('_')?.[2] || 'TRAIN';
-  const trainName = trainRun.trainId?.name || trainRun.trainName || '';
   const firstPt = trajectory[0];
+  const midPt = trajectory[Math.floor(trajectory.length / 2)];
   const lastPt = trajectory[trajectory.length - 1];
 
   return (
@@ -100,17 +117,17 @@ export default function TrainLine({
         d={pathD}
         fill="none"
         stroke="transparent"
-        strokeWidth="16"
+        strokeWidth="18"
       />
 
-      {/* Halo for Selected / What-If state */}
-      {isSelected && (
+      {/* Halo for Selected / What-If / Hovered state */}
+      {(isSelected || isHovered) && (
         <path
           d={pathD}
           fill="none"
-          stroke={isWhatIf ? '#34D399' : '#38BDF8'}
-          strokeWidth="7"
-          strokeOpacity="0.35"
+          stroke={isWhatIf ? '#34D399' : strokeColor}
+          strokeWidth={isSelected ? 8 : 6}
+          strokeOpacity={isSelected ? 0.4 : 0.25}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -128,49 +145,80 @@ export default function TrainLine({
       />
 
       {/* Station Stop Nodes */}
-      {trajectory.map((pt, idx) => (
-        <g key={`stop-node-${idx}`}>
-          <circle
-            cx={pt.xDeparture || pt.x}
-            cy={pt.y}
-            r={isSelected ? 3.5 : 2.2}
-            fill={isSelected ? '#F8FAFC' : strokeColor}
-            stroke="#0F172A"
-            strokeWidth="0.8"
-          />
-          {/* Halt bar if dwelling */}
-          {pt.xDeparture && pt.xArrival && pt.xDeparture !== pt.xArrival && (
-            <line
-              x1={pt.xArrival}
-              y1={pt.y}
-              x2={pt.xDeparture}
-              y2={pt.y}
-              stroke="#F8FAFC"
-              strokeWidth="2.5"
+      {trajectory.map((pt, idx) => {
+        const isHalt = pt.haltMinutes && pt.haltMinutes > 0;
+        const isJct = pt.stop?.isJunction;
+        return (
+          <g key={`stop-node-${idx}`}>
+            {/* Halt bar if dwelling */}
+            {pt.xDeparture && pt.xArrival && pt.xDeparture !== pt.xArrival && (
+              <line
+                x1={pt.xArrival}
+                y1={pt.y}
+                x2={pt.xDeparture}
+                y2={pt.y}
+                stroke="#F8FAFC"
+                strokeWidth={isJct ? '3.5' : '2.5'}
+              />
+            )}
+            <circle
+              cx={pt.xDeparture || pt.x}
+              cy={pt.y}
+              r={isSelected ? 4 : isJct ? 3 : isHalt ? 2.5 : 1.8}
+              fill={isSelected ? '#F8FAFC' : isJct ? '#FCD34D' : strokeColor}
+              stroke="#0F172A"
+              strokeWidth="0.8"
             />
-          )}
-        </g>
-      ))}
+          </g>
+        );
+      })}
 
-      {/* Operational Train Labels */}
+      {/* Operational Train Origin Tag */}
       {showLabels && firstPt && (
         <g transform={`translate(${firstPt.xArrival || firstPt.x}, ${firstPt.y})`}>
           <rect
             x="-2"
-            y="-14"
-            width={trainNumber.length * 7 + 10}
-            height="14"
-            fill="#0F172A"
-            fillOpacity="0.85"
+            y="-15"
+            width={trainNumber.length * 6.5 + 24}
+            height="15"
+            fill="#090D16"
+            fillOpacity="0.92"
             stroke={strokeColor}
-            strokeWidth="0.8"
+            strokeWidth="0.9"
             rx="2"
           />
           <text
             x="3"
-            y="-3"
-            fill="#F8FAFC"
+            y="-4"
+            fill={strokeColor}
             fontSize="9"
+            fontWeight="bold"
+            fontFamily="monospace"
+          >
+            {dirArrow} {trainNumber}
+          </text>
+        </g>
+      )}
+
+      {/* Midpoint Trajectory Tag for Fast Visual Scanning */}
+      {showLabels && midPt && (
+        <g transform={`translate(${midPt.xArrival || midPt.x}, ${midPt.y})`}>
+          <rect
+            x="-2"
+            y="-7"
+            width={trainNumber.length * 6 + 8}
+            height="13"
+            fill="#090D16"
+            fillOpacity="0.88"
+            stroke={strokeColor}
+            strokeWidth="0.7"
+            rx="2"
+          />
+          <text
+            x="2"
+            y="3"
+            fill="#F1F5F9"
+            fontSize="8.5"
             fontWeight="bold"
             fontFamily="monospace"
           >
@@ -179,28 +227,29 @@ export default function TrainLine({
         </g>
       )}
 
+      {/* Operational Train Terminus Tag */}
       {showLabels && lastPt && (
         <g transform={`translate(${lastPt.xDeparture || lastPt.x}, ${lastPt.y})`}>
           <rect
             x="-2"
             y="2"
-            width={trainNumber.length * 7 + 10}
-            height="14"
-            fill="#0F172A"
-            fillOpacity="0.85"
+            width={trainNumber.length * 6.5 + 24}
+            height="15"
+            fill="#090D16"
+            fillOpacity="0.92"
             stroke={strokeColor}
-            strokeWidth="0.8"
+            strokeWidth="0.9"
             rx="2"
           />
           <text
             x="3"
             y="13"
-            fill="#F8FAFC"
+            fill={strokeColor}
             fontSize="9"
             fontWeight="bold"
             fontFamily="monospace"
           >
-            {trainNumber}
+            {dirArrow} {trainNumber}
           </text>
         </g>
       )}
